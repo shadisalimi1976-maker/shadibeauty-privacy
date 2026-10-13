@@ -28,3 +28,9 @@ User Data Deletion URL = لینک دوم
 
 نکته امنیتی:
 App Secret که در عکس دیده شد را بعد از پایان کار Reset کن.
+
+اپ شناسنامه پوستی (نسخه آزمایشی):
+- app/index.html = اپ کامل (شناسنامه، روتین، عادت‌ها، کلینیک)
+- app/skin-passport.body.html = همان اپ برای انتشار به‌صورت Artifact
+لینک بعد از فعال شدن Pages:
+https://USERNAME.github.io/shadibeauty-privacy/app/
