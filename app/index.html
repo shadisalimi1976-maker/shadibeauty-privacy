@@ -37,6 +37,7 @@
   body{color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.75;direction:rtl}
   button,input{font:inherit;color:inherit}
   button{cursor:pointer}
+  a{color:var(--accent)}
   :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
   .app{max-width:480px;margin:0 auto;padding-inline:16px;padding-block:12px 110px;min-height:100%}
 
@@ -53,8 +54,12 @@
   .stack{display:grid;gap:14px}
   .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
   .panel h2{font-family:var(--f-display);font-size:23px;font-weight:600;margin:0 0 2px;text-wrap:balance}
+  .panel h3{font-size:15px;font-weight:700;margin:14px 0 4px}
+  .panel h3:first-of-type{margin-top:6px}
   .sub{color:var(--muted);font-size:13.5px;margin:0 0 12px}
   .eyebrow{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);direction:ltr;text-align:right;display:block}
+  .lst{margin:0;padding:0 18px 0 0;display:grid;gap:6px;font-size:14px}
+  .lst li::marker{color:var(--accent)}
 
   /* Passport card */
   .passport{background:var(--card);color:var(--card-ink);border-radius:18px;padding:18px 18px 14px;position:relative;overflow:hidden}
@@ -67,30 +72,22 @@
   .tones{display:flex;gap:3px;margin-top:14px;direction:ltr}
   .tones i{flex:1;height:8px;border-radius:2px;opacity:.45}
   .tones i.on{opacity:1;outline:2px solid var(--card-ink);outline-offset:1px}
-  .mrz{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--card-muted);direction:ltr;text-align:left;margin-top:12px;white-space:nowrap;overflow:hidden;text-overflow:clip}
-  .stamp{width:78px;height:78px;flex:none;border-radius:50%;border:1.5px dashed var(--card-muted);display:grid;place-items:center;text-align:center;line-height:1.1;transform:rotate(-8deg)}
-  .stamp b{font-family:var(--f-display);font-size:28px;display:block}
+  .mrz{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--card-muted);direction:ltr;text-align:left;margin-top:12px;white-space:nowrap;overflow:hidden}
+  .stamp{width:84px;height:84px;flex:none;border-radius:50%;border:1.5px dashed var(--card-muted);display:grid;place-items:center;text-align:center;line-height:1.15;transform:rotate(-8deg);padding:6px}
+  .stamp b{font-family:var(--f-display);font-size:19px;display:block}
   .stamp span{font-size:10px;color:var(--card-muted)}
 
-  .ages{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .agebox{background:var(--sunk);border-radius:12px;padding:12px}
-  .agebox span{font-size:12.5px;color:var(--muted)}
-  .agebox b{display:block;font-family:var(--f-display);font-size:38px;line-height:1.1;font-variant-numeric:tabular-nums}
-  .delta{font-size:13px;font-weight:600}
-  .delta.up{color:var(--warn)} .delta.down{color:var(--ok)}
-
-  .score{display:flex;gap:16px;align-items:center}
-  .ring{flex:none;width:104px;height:104px}
-  .ring text{font-family:var(--f-display);font-weight:700}
-  .bars{display:grid;gap:7px;flex:1;min-width:0}
-  .bar{display:grid;grid-template-columns:72px 1fr 30px;gap:8px;align-items:center;font-size:12.5px}
+  .factor{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-block:8px;border-top:1px solid var(--line);font-size:14px}
+  .factor:first-of-type{border-top:0}
+  .bar{display:grid;grid-template-columns:84px 1fr 74px;gap:8px;align-items:center;font-size:12.5px}
+  .bars{display:grid;gap:8px}
   .bar .t{height:6px;background:var(--sunk);border-radius:99px;overflow:hidden}
   .bar .t i{display:block;height:100%;border-radius:99px;background:var(--ok)}
   .bar .t i.mid{background:var(--warn)} .bar .t i.low{background:var(--accent)}
-  .bar em{font-style:normal;font-variant-numeric:tabular-nums;color:var(--muted);text-align:left}
+  .bar em{font-style:normal;color:var(--muted);text-align:left;font-size:12px}
 
   .chips{display:flex;flex-wrap:wrap;gap:6px}
-  .chip{background:var(--accent-soft);color:var(--accent);border-radius:99px;padding:2px 10px;font-size:12.5px;font-weight:500}
+  .chip{background:var(--accent-soft);color:var(--accent);border-radius:99px;padding:2px 10px;font-size:12.5px;font-weight:500;white-space:nowrap}
   .chip.ok{background:var(--ok-soft);color:var(--ok)} .chip.warn{background:var(--warn-soft);color:var(--warn)}
 
   .tip{display:grid;grid-template-columns:28px 1fr;gap:10px;padding-block:10px;border-top:1px solid var(--line)}
@@ -103,7 +100,7 @@
   .seg{display:flex;background:var(--sunk);border-radius:99px;padding:3px;gap:3px}
   .seg button{flex:1;border:0;background:none;border-radius:99px;padding:7px;font-weight:600;font-size:14px;color:var(--muted)}
   .seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
-  .steps{list-style:none;margin:0;padding:0;display:grid;gap:0}
+  .steps{list-style:none;margin:0;padding:0;display:grid}
   .steps li{display:grid;grid-template-columns:34px 1fr;gap:10px;padding-block:12px;border-top:1px solid var(--line)}
   .steps li:first-child{border-top:0}
   .steps .k{font-family:var(--f-mono);font-size:12px;color:var(--accent);padding-top:3px}
@@ -117,6 +114,20 @@
   .day.rec{background:var(--ok-soft);color:var(--ok)}
   .legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px;color:var(--muted)}
   .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-left:5px;vertical-align:-1px}
+
+  /* Life stage */
+  .stage-head{background:var(--accent-soft);border-radius:var(--r);padding:16px}
+  .stage-head .eyebrow{color:var(--accent)}
+  .stage-head h2{font-family:var(--f-display);font-size:28px;font-weight:700;margin:2px 0 6px;line-height:1.2}
+  .stage-head p{margin:0;font-size:14.5px}
+  .timeline{display:flex;gap:4px;margin-top:12px}
+  .timeline span{flex:1;text-align:center;font-size:11px;padding:4px 0;border-radius:6px;background:var(--surface);color:var(--muted)}
+  .timeline span.on{background:var(--accent);color:var(--on-accent);font-weight:700}
+  .supp{display:grid;gap:2px;padding-block:10px;border-top:1px solid var(--line)}
+  .supp:first-of-type{border-top:0}
+  .supp .h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .supp b{font-weight:600}
+  .supp p{margin:0;color:var(--muted);font-size:13.5px}
 
   /* Habits */
   .habit{display:flex;align-items:center;gap:12px;padding-block:11px;border-top:1px solid var(--line)}
@@ -134,29 +145,32 @@
   .dot.l1{background:var(--warn-soft);color:var(--warn)} .dot.l2{background:var(--ok-soft);color:var(--ok)} .dot.l3{background:var(--ok);color:var(--surface)}
   .dot.today{outline:2px solid var(--accent);outline-offset:1px}
 
-  /* Clinic */
+  /* Expandable cards (clinic + hair) */
   .notice{background:var(--accent-soft);color:var(--ink);border-radius:12px;padding:12px 14px;font-size:13.5px}
   .notice b{color:var(--accent)}
-  details.tx{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:0}
+  .notice.warn{background:var(--warn-soft)} .notice.warn b{color:var(--warn)}
+  details.tx{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
   details.tx summary{list-style:none;padding:14px 16px;display:flex;gap:10px;align-items:center;justify-content:space-between;cursor:pointer}
   details.tx summary::-webkit-details-marker{display:none}
   details.tx summary b{font-family:var(--f-display);font-size:21px;font-weight:600;line-height:1.25}
   details.tx summary small{display:block;font-family:var(--f-mono);font-size:10.5px;color:var(--muted);direction:ltr;text-align:right;letter-spacing:.05em}
   details.tx .body{padding:0 16px 16px;display:grid;gap:10px;font-size:14px}
   details.tx .body p{margin:0}
-  .kv{display:grid;grid-template-columns:96px 1fr;gap:4px 10px;font-size:13.5px}
+  .kv{display:grid;grid-template-columns:96px 1fr;gap:4px 10px;font-size:13.5px;margin:0}
   .kv dt{color:var(--muted)} .kv dd{margin:0}
   .qs{margin:0;padding-right:18px;font-size:13.5px}
   .caret{transition:transform .2s;color:var(--muted);flex:none}
   details[open] .caret{transform:rotate(180deg)}
   .primary{background:var(--accent);color:var(--on-accent);border:0;border-radius:12px;padding:12px 16px;font-weight:700;font-size:15px;width:100%}
-  .primary:disabled{opacity:.45;cursor:not-allowed}
-  textarea.summary{width:100%;min-height:150px;border:1px solid var(--line);border-radius:10px;background:var(--sunk);color:var(--ink);font:13px/1.7 var(--f-body);padding:10px;resize:vertical}
+  textarea.summary{width:100%;min-height:170px;border:1px solid var(--line);border-radius:10px;background:var(--sunk);color:var(--ink);font:13px/1.7 var(--f-body);padding:10px;resize:vertical}
+  .shop{border:1.5px dashed var(--line);border-radius:12px;padding:12px 14px;font-size:13.5px;color:var(--muted)}
+  .shop b{color:var(--ink)}
+  .src{margin:0;padding:0 18px 0 0;font-size:12.5px;display:grid;gap:4px}
 
   /* Tabs */
-  .tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
-  .tabs .in{max-width:480px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
-  .tabs button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11.5px;color:var(--muted);padding:6px 0;border-radius:10px}
+  .tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
+  .tabs .in{max-width:480px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+  .tabs button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted);padding:6px 0;border-radius:10px}
   .tabs button[aria-current="page"]{color:var(--accent);font-weight:600}
   .tabs svg{width:22px;height:22px}
 
@@ -167,6 +181,7 @@
   .prog i{display:block;height:100%;background:var(--accent);transition:width .25s}
   .q h2{font-family:var(--f-display);font-size:30px;font-weight:700;line-height:1.2;margin:0 0 4px;text-wrap:balance}
   .q .sub{margin-bottom:16px}
+  .q h4{margin:6px 0 6px;font-size:14px}
   .opts{display:grid;gap:8px}
   .opts.two{grid-template-columns:1fr 1fr}
   .opt{text-align:right;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:11px 14px}
@@ -177,7 +192,7 @@
   .fitz button{border:2px solid transparent;border-radius:10px;height:54px;font-family:var(--f-mono);font-size:12px;font-weight:500}
   .fitz button[aria-pressed="true"]{border-color:var(--accent);outline:2px solid var(--surface);outline-offset:-4px}
   label.f{display:grid;gap:6px;font-weight:600}
-  label.f input[type=text],label.f input[type=number]{border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);font-weight:400}
+  label.f input{border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);font-weight:400}
   .range{display:grid;gap:4px}
   .range .h{display:flex;justify-content:space-between;font-weight:600}
   .range .h output{color:var(--accent);font-variant-numeric:tabular-nums}
@@ -210,19 +225,20 @@
 <nav class="tabs" aria-label="بخش‌ها">
   <div class="in">
     <button type="button" data-tab="passport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="3" width="16" height="18" rx="2.5"/><circle cx="12" cy="10" r="3"/><path d="M8 17h8"/></svg>شناسنامه</button>
-    <button type="button" data-tab="routine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 3h6v4l2 3v9a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-9l2-3z"/><path d="M7 13h10"/></svg>روتین</button>
-    <button type="button" data-tab="habits"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/></svg>عادت‌ها</button>
-    <button type="button" data-tab="clinic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v18M3 12h18"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>کلینیک</button>
+    <button type="button" data-tab="routine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 3h6v4l2 3v9a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-9l2-3z"/><path d="M7 13h10"/></svg>پوست</button>
+    <button type="button" data-tab="hair"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 21c0-8 1-14 6-17 5 3 6 9 6 17"/><path d="M9.5 21c0-6 .8-10 2.5-13 1.7 3 2.5 7 2.5 13"/></svg>مو</button>
+    <button type="button" data-tab="age"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>سن من</button>
+    <button type="button" data-tab="clinic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 7v10M7 12h10"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>کلینیک</button>
   </div>
 </nav>
 
 <div class="sheet" id="quiz" hidden role="dialog" aria-modal="true" aria-label="پرسش‌نامه شناسنامه پوستی">
   <div class="in">
     <div class="nav" style="justify-content:space-between;align-items:center">
-      <span class="eyebrow" id="qCount">STEP 1 / 7</span>
+      <span class="eyebrow" id="qCount">STEP 1 / 9</span>
       <button class="ghost" type="button" id="qClose">بستن</button>
     </div>
-    <div class="prog"><i id="qProg" style="width:14%"></i></div>
+    <div class="prog"><i id="qProg" style="width:11%"></i></div>
     <div class="q" id="qBody"></div>
     <p class="err" id="qErr"></p>
     <div class="nav">
@@ -237,91 +253,243 @@
 (function(){
   const fa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
   const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const ul = arr => `<ul class="lst">${arr.map(x=>`<li>${x}</li>`).join('')}</ul>`;
   const store = {
     get(k, d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
     set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
   };
 
+  /* Shadi Beauty catalogue. Fill from the shop's product export:
+     {name:'...', price:'۴۸۰٬۰۰۰ تومان', url:'https://www.shadibsc.ir/...', tags:['hair:dandruff','skin:oily','age:meno']} */
+  const SHOP = [];
+
   const SKIN = {oily:'چرب', dry:'خشک', combo:'مختلط', normal:'نرمال', sensitive:'حساس'};
+  const SKIN_EN = {oily:'OILY', dry:'DRY', combo:'COMBO', normal:'NORMAL', sensitive:'SENS'};
   const CONCERN = {acne:'جوش و آکنه', pigment:'لک و تیرگی', lines:'خطوط و چین‌وچروک', dull:'کدری پوست', pores:'منافذ باز', redness:'قرمزی', sagging:'افتادگی و کاهش حجم', darkcircles:'سیاهی و گودی زیر چشم'};
+  const SCALP = {oily:'چرب', normal:'نرمال', dry:'خشک'};
   const GOAL = {prevent:'پیشگیری', repair:'ترمیم و جوان‌سازی', glow:'درخشندگی'};
   const SUN = {low:'کم (بیشتر داخل خانه/دفتر)', mid:'متوسط (رفت‌وآمد روزانه)', high:'زیاد (بیرون، رانندگی، ساحل)'};
   const FITZ = ['#F6E1D3','#EBC8AE','#D7A887','#B98162','#8C5A3C','#5A3824'];
   const ROMAN = ['I','II','III','IV','V','VI'];
 
-  const SAMPLE = {name:'نمونه', age:34, skin:'combo', fitz:3, concerns:['lines','pigment','dull'], sleep:6, water:5, stress:4, sugar:3, exercise:2, sun:'mid', spf:false, smoke:false, pregnant:false, goal:'repair', sample:true};
-  let profile = store.get('sp.profile', SAMPLE);
+  const SAMPLE = {name:'نمونه', age:47, sex:'f', meno:'peri', skin:'combo', fitz:3, concerns:['lines','pigment','dull'],
+    hair:['thin','dry'], scalp:'normal', heat:'weekly', chem:true,
+    sleep:6, water:5, stress:4, sugar:3, exercise:2, sun:'mid', spf:false, smoke:false, pregnant:false, goal:'repair', sample:true};
+  const saved = store.get('sp.profile', null);
+  let profile = saved ? Object.assign({}, SAMPLE, {sample:false}, saved) : Object.assign({}, SAMPLE);
   let tab = store.get('sp.tab', 'passport');
+  if(!['passport','routine','hair','age','clinic'].includes(tab)) tab = 'passport';
   let routineMode = 'am';
 
-  /* ---------- scoring ---------- */
-  function scores(p){
-    const sleep = p.sleep>=7 && p.sleep<=9 ? 100 : p.sleep===6 ? 72 : p.sleep===10 ? 85 : p.sleep===5 ? 48 : 25;
-    const water = Math.min(100, Math.round(p.water/8*100));
-    const stress = Math.round((6-p.stress)/5*100);
-    const food = Math.round((6-p.sugar)/5*100);
-    const move = Math.min(100, Math.round(p.exercise/4*100));
-    const sun = p.spf ? (p.sun==='high' ? 85 : 100) : (p.sun==='low' ? 55 : p.sun==='mid' ? 35 : 15);
-    let total = Math.round(sleep*.22 + sun*.24 + stress*.16 + water*.12 + food*.13 + move*.13);
-    if(p.smoke) total -= 15;
-    total = Math.max(5, Math.min(100, total));
-    return {total, parts:[['خواب',sleep],['محافظت آفتاب',sun],['استرس',stress],['آب',water],['تغذیه',food],['تحرک',move]]};
+  /* ---------- habits as reported (no invented scores) ---------- */
+  function habitLevels(p){
+    const lv = (good, mid) => good ? ['خوب',100,''] : mid ? ['متوسط',60,'mid'] : ['نیاز به توجه',25,'low'];
+    return [
+      ['خواب', lv(p.sleep>=7 && p.sleep<=9, p.sleep===6 || p.sleep===10)],
+      ['محافظت آفتاب', lv(p.spf, p.sun==='low')],
+      ['استرس', lv(p.stress<=2, p.stress===3)],
+      ['آب', lv(p.water>=8, p.water>=5)],
+      ['قند و شیرینی', lv(p.sugar<=2, p.sugar===3)],
+      ['تحرک', lv(p.exercise>=3, p.exercise>=1)]
+    ];
   }
-  function skinAge(p){
-    let a = p.age;
-    if(!p.spf) a += p.sun==='high' ? 5 : p.sun==='mid' ? 3 : 1;
-    if(p.smoke) a += 4;
-    if(p.sleep<=5) a += 2; else if(p.sleep===6) a += 1;
-    if(p.stress>=4) a += 1;
-    if(p.sugar>=4) a += 1;
-    if(p.water<=3) a += 1;
-    if(p.exercise>=3) a -= 1;
-    if(p.spf && p.sun!=='high') a -= 1;
-    return Math.max(16, a);
+  function agingFactors(p){
+    return [
+      ['آفتاب بدون ضدآفتاب روزانه', !p.spf && p.sun!=='low'],
+      ['سیگار یا قلیان', p.smoke],
+      ['خواب کمتر از ۷ ساعت', p.sleep<7],
+      ['قند و شیرینی زیاد', p.sugar>=4],
+      ['استرس بالا', p.stress>=4]
+    ];
   }
   function priorities(p){
     const list = [];
-    if(!p.spf) list.push({w:10, t:'ضدآفتاب هر روز، حتی داخل خانه', d:'اشعه UVA از پنجره هم رد می‌شود. حدود ۸۰٪ پیری قابل‌مشاهده‌ی پوست به آفتاب برمی‌گردد. SPF 50 به اندازه‌ی دو بند انگشت بزن.'});
-    if(p.smoke) list.push({w:9, t:'کم‌کردن سیگار', d:'سیگار جریان خون پوست را کم و کلاژن را تخریب می‌کند. هر قدم کوچک اثر دارد.'});
-    if(p.sleep<7) list.push({w:8, t:`خواب را از ${fa(p.sleep)} به ۷ ساعت برسان`, d:'ترمیم پوست بیشتر در خواب عمیق اتفاق می‌افتد. یک ساعت مشخص برای خاموش‌کردن گوشی بگذار.'});
-    if(p.stress>=4) list.push({w:7, t:'۱۰ دقیقه آرام‌سازی در روز', d:'کورتیزول بالا هم جوش را بیشتر می‌کند هم سد دفاعی پوست را ضعیف. تنفس آرام یا پیاده‌روی کوتاه کافی است.'});
-    if(p.sugar>=4) list.push({w:6, t:'قند و شیرینی را کم کن', d:'قند اضافه با فرایند گلیکاسیون به کلاژن می‌چسبد و آن را خشک و شکننده می‌کند.'});
-    if(p.water<6) list.push({w:5, t:`آب را از ${fa(p.water)} به ۸ لیوان برسان`, d:'یک بطری کنار دستت بگذار و در تب «عادت‌ها» لیوان‌ها را بشمار.'});
-    if(p.exercise<3) list.push({w:5, t:'هفته‌ای ۳ روز تحرک', d:'۳۰ دقیقه پیاده‌روی تند گردش خون پوست را بالا می‌برد و برای طول‌عمر هم یکی از قوی‌ترین عادت‌هاست.'});
-    if(!list.length) list.push({w:1, t:'همین مسیر را ادامه بده', d:'عادت‌هایت در وضعیت خوبی است. حالا روتین شب و ثبت روزانه را جدی بگیر.'});
+    if(!p.spf) list.push({w:10, t:'ضدآفتاب هر روز، حتی داخل خانه', d:'آفتاب اصلی‌ترین عامل پیری زودرس پوست است و UVA از شیشه هم رد می‌شود. SPF 30 یا بالاتر با طیف گسترده، به اندازه‌ی دو بند انگشت.'});
+    if(p.smoke) list.push({w:9, t:'کم‌کردن سیگار یا قلیان', d:'جریان خون پوست را کم و کلاژن را تخریب می‌کند. روی مو و سفیدی زودرس هم اثر دارد.'});
+    if(p.sleep<7) list.push({w:8, t:`خواب را از ${fa(p.sleep)} به ۷ ساعت برسان`, d:'ترمیم پوست و مو بیشتر در خواب اتفاق می‌افتد. یک ساعت مشخص برای خاموش‌کردن گوشی بگذار.'});
+    if(p.stress>=4) list.push({w:7, t:'۱۰ دقیقه آرام‌سازی در روز', d:'استرس شدید می‌تواند ۲ تا ۳ ماه بعد ریزش مو بدهد و جوش را هم بیشتر می‌کند.'});
+    if(p.sugar>=4) list.push({w:6, t:'قند و شیرینی را کم کن', d:'قند اضافه به الیاف کلاژن می‌چسبد و آن‌ها را سفت و شکننده می‌کند.'});
+    if(p.exercise<3) list.push({w:5, t:'هفته‌ای ۳ روز تحرک، دو روزش ورزش قدرتی', d:'برای پوست، عضله و استخوان، به‌خصوص بعد از ۴۰ سالگی، یکی از مؤثرترین کارهاست.'});
+    if(p.water<6) list.push({w:4, t:`آب را از ${fa(p.water)} به ۸ لیوان برسان`, d:'یک بطری کنار دستت بگذار و پایین همین صفحه لیوان‌ها را بشمار.'});
+    if(!list.length) list.push({w:1, t:'همین مسیر را ادامه بده', d:'عادت‌هایت خوب است. حالا روتین شب و مراقبت سنی را جدی بگیر.'});
     return list.sort((a,b)=>b.w-a.w).slice(0,3);
   }
 
-  /* ---------- routine ---------- */
+  /* ---------- life stage ---------- */
+  function stageKey(p){
+    if(p.sex==='m'){ if(p.age<20) return 'teen'; if(p.age<30) return 's20'; if(p.age<40) return 's30'; return 'm40'; }
+    if(p.age<20) return 'teen';
+    if(p.age<30) return 's20';
+    if(p.age<40) return 's30';
+    if(p.age>=60) return 'senior';
+    if(p.age>=45 || p.meno==='peri' || p.meno==='post') return 'meno';
+    return 's40';
+  }
+  // Items starting with "♀" are shown to women only.
+  const STAGES = {
+    teen:{label:'نوجوانی', range:'زیر ۲۰ سال', tl:0,
+      hook:'پوستت الان در بهترین حالت است. مهم‌ترین کاری که برای ۲۰ سال بعدت می‌کنی، ضدآفتاب روزانه و درست‌کنار‌آمدن با جوش است.',
+      skin:['شستشوی ملایم صبح و شب، بدون اسکراب خشن.','برای جوش: بنزوئیل پراکسید یا سالیسیلیک ملایم. جوش را فشار نده تا جایش نماند.','ضدآفتاب هر روز. محصولات ضدپیری فعلاً لازم نیست.'],
+      hair:['کش و بافت سفت نبند؛ کشش مداوم ریشه را ضعیف می‌کند.','دکلره و اتوی زیاد در این سن ساقه‌ی مو را زود خراب می‌کند.'],
+      body:['خواب ۸ تا ۱۰ ساعت.','نوشابه و فست‌فود را کم کن؛ پروتئین و سبزی را زیاد.'],
+      supp:[{n:'بدون آزمایش مکمل نخور', d:'بیشتر نوجوان‌ها با غذای کامل به مکمل نیاز ندارند.', t:'test'},
+            {n:'♀آهن', d:'اگر قاعدگی سنگین، خستگی یا ریزش مو داری، آزمایش فریتین بده و طبق نتیجه مصرف کن.', t:'test'}],
+      checks:['جوش دردناک و عمقی را زود به پزشک نشان بده تا جای آن نماند.']},
+    s20:{label:'دهه ۲۰', range:'۲۰ تا ۲۹ سال', tl:1,
+      hook:'فکر نکن چون جوانی چیزی لازم نداری. بیشتر آسیب آفتابی که در ۴۰ سالگی دیده می‌شود، همین سال‌ها جمع می‌شود. الان پیشگیری ارزان است.',
+      skin:['ضدآفتاب SPF 30 یا بالاتر با طیف گسترده، هر روز.','صبح سرم آنتی‌اکسیدان مثل ویتامین C.','از اواخر دهه ۲۰، رتینوئید ملایم ۲ تا ۳ شب در هفته.','قبل از خواب حتماً آرایش را پاک کن.'],
+      hair:['بعد از هر شستشو نرم‌کننده بزن.','بین رنگ، دکلره یا کراتین ۸ تا ۱۰ هفته فاصله بگذار.','قبل از سشوار و اتو محافظ حرارت بزن.'],
+      body:['سیگار و ویپ را شروع نکن یا کنار بگذار.','ورزش قدرتی؛ ذخیره‌ی استخوان تا حدود ۳۰ سالگی ساخته می‌شود.','خواب منظم ۷ تا ۹ ساعت.'],
+      supp:[{n:'♀اسید فولیک ۴۰۰ میکروگرم', d:'اگر برنامه‌ی بارداری داری، از قبل از بارداری شروع کن.', t:'doctor'},
+            {n:'ویتامین D و فریتین', d:'با آزمایش؛ به‌خصوص اگر ریزش مو یا خستگی داری.', t:'test'},
+            {n:'امگا ۳', d:'اول از غذا: ماهی چرب هفته‌ای دو بار، گردو، بذر کتان.', t:'food'}],
+      checks:['سالی یک بار خال‌هایت را چک کن، اگر خال زیاد یا سابقه‌ی خانوادگی داری.']},
+    s30:{label:'دهه ۳۰', range:'۳۰ تا ۳۹ سال', tl:2,
+      hook:'از دهه‌ی ۳۰ تولید کلاژن کم‌کم کم می‌شود و خطوط حرکتی آرام‌آرام ثابت می‌شوند. پیشگیری الان از درمان بعداً ساده‌تر و ارزان‌تر است.',
+      skin:['رتینوئید شب را جدی بگیر و آرام بیشترش کن.','صبح ویتامین C و ضدآفتاب.','دور چشم را با کرم سبک مرطوب نگه دار.','♀در بارداری رتینوئید را قطع کن و به جایش آزلائیک اسید بزن.'],
+      hair:['♀ریزش بعد از زایمان طبیعی است؛ معمولاً حدود ۴ ماه بعد از زایمان اوج می‌گیرد و تا یک‌سالگی کودک برمی‌گردد.','استرس شدید، بیماری یا رژیم سخت می‌تواند ۲ تا ۳ ماه بعد ریزش ناگهانی بدهد.'],
+      body:['هفته‌ای دو بار ورزش قدرتی.','در هر وعده پروتئین داشته باش؛ مو از پروتئین ساخته می‌شود.','خواب و استرس را مدیریت کن.'],
+      supp:[{n:'♀اسید فولیک', d:'اگر برنامه‌ی بارداری داری.', t:'doctor'},
+            {n:'فریتین، ویتامین D و تیروئید', d:'اگر ریزش مو و خستگی هم‌زمان داری، این سه آزمایش را بده.', t:'test'},
+            {n:'کلاژن خوراکی', d:'شواهد مستقل هنوز قوی نیست؛ پیش از هزینه‌کردن، ضدآفتاب و رتینوئید اولویت دارند.', t:'food'}],
+      checks:['چکاپ سالانه‌ی فشار خون، قند و چربی.']},
+    s40:{label:'دهه ۴۰', range:'۴۰ تا ۴۴ سال', tl:3,
+      hook:'پیش‌یائسگی می‌تواند از اوایل دهه‌ی ۴۰ شروع شود. پوست خشک‌تر، لک‌ها پررنگ‌تر و موها نازک‌تر می‌شوند. هرچه زودتر شروع کنی، نتیجه بهتر است.',
+      skin:['مرطوب‌کننده‌ی غنی‌تر با سرامید.','رتینوئید شب به‌همراه پپتید.','برای لک: نیاسینامید یا آزلائیک اسید، همراه ضدآفتاب.','پاک‌کننده‌ی ملایم‌تر از قبل.'],
+      hair:['نازک‌شدن موی فرق سر را جدی بگیر؛ درمان زودهنگام نتیجه‌ی بهتری دارد.','ماینوکسیدیل موضعی را با نظر پزشک بررسی کن.'],
+      body:['ورزش قدرتی برای عضله و استخوان.','قند را کم کن؛ متابولیسم کندتر می‌شود.','خواب و مدیریت استرس.'],
+      supp:[{n:'ویتامین D', d:'با آزمایش و طبق نظر پزشک.', t:'test'},
+            {n:'کلسیم', d:'ترجیحاً از غذا: لبنیات، کنجد و ارده، سبزی برگ‌دار، ماهی با استخوان.', t:'food'},
+            {n:'امگا ۳', d:'از ماهی چرب، گردو و بذر کتان.', t:'food'}],
+      checks:['چکاپ سالانه‌ی فشار، قند و چربی.','ماموگرافی طبق برنامه‌ای که پزشکت تعیین می‌کند.']},
+    meno:{label:'یائسگی', range:'پیش‌یائسگی و یائسگی', tl:4,
+      hook:'در ۵ سال اول بعد از یائسگی، پوست حدود ۳۰٪ کلاژن خود را از دست می‌دهد و بعد سالانه حدود ۲٪. این طبیعی است، اما با مراقبت درست قابل‌مدیریت است.',
+      skin:['کرم غنی با سرامید و اسیدهای چرب؛ پوست خشک‌تر و حساس‌تر می‌شود.','رتینوئید و پپتید برای حمایت از کلاژن.','با آب ولرم بشوی، نه داغ.','گردن، سینه و پشت دست‌ها را هم کرم و ضدآفتاب بزن.'],
+      hair:['بیش از نیمی از زنان بعد از یائسگی کم‌پشتی جلو یا فرق سر را تجربه می‌کنند.','ماینوکسیدیل موضعی رایج‌ترین درمان تأییدشده است؛ با پزشک شروع کن.','شامپوی ملایم، نرم‌کننده، و حرارت کمتر.'],
+      body:['ورزش قدرتی و پیاده‌روی برای حفظ استخوان.','برای گرگرفتگی: لباس لایه‌لایه، کافئین و غذای تند کمتر.','خواب: اتاق خنک و ساعت ثابت.'],
+      supp:[{n:'کلسیم', d:'نیاز روزانه‌ی زنان بالای ۵۰ سال حدود ۱۲۰۰ میلی‌گرم است. اول از غذا؛ مکمل فقط اگر غذا کافی نیست، چون زیادی‌اش خطر سنگ کلیه دارد.', t:'food'},
+            {n:'ویتامین D', d:'حدود ۶۰۰ واحد در روز تا ۷۰ سالگی و ۸۰۰ واحد بعد از آن. با آزمایش تنظیم کن.', t:'test'},
+            {n:'هورمون‌درمانی', d:'درباره‌ی مزایا و خطراتش برای گرگرفتگی، خواب، پوست و استخوان با متخصص زنان صحبت کن.', t:'doctor'},
+            {n:'مکمل‌های گیاهی گرگرفتگی', d:'شواهدشان ضعیف یا ضدونقیض است؛ قبل از مصرف با پزشک هماهنگ کن.', t:'doctor'}],
+      checks:['تست تراکم استخوان طبق نظر پزشک.','ماموگرافی و چکاپ قلب و عروق.']},
+    senior:{label:'۶۰ به بالا', range:'۶۰ سال و بیشتر', tl:5,
+      hook:'پوست نازک‌تر و کم‌چرب‌تر شده و زودتر زخم می‌شود. مراقبت ملایم و منظم و چک سالانه‌ی پوست مهم‌ترین کارهاست.',
+      skin:['حمام کوتاه با آب ولرم و مرطوب‌کننده بلافاصله بعد از آن.','خارش پوست بیشتر از خشکی است؛ کرم غنی بدون عطر.','ضدآفتاب و کلاه.','سالی یک بار چک سرطان پوست.'],
+      hair:['دفعات شستن را کم کن و نرم‌کننده بزن.','اگر ریزش ناگهانی شد، آهن و تیروئید را بررسی کن.'],
+      body:['تمرین تعادل و قدرت برای پیشگیری از زمین‌خوردن.','پروتئین کافی در هر وعده.','آب بخور، حتی اگر تشنه نیستی؛ حس تشنگی کم می‌شود.'],
+      supp:[{n:'کلسیم', d:'حدود ۱۲۰۰ میلی‌گرم در روز، بیشترش از غذا.', t:'food'},
+            {n:'ویتامین D', d:'حدود ۸۰۰ واحد در روز بعد از ۷۰ سالگی؛ با آزمایش.', t:'test'},
+            {n:'ویتامین B12', d:'جذبش با افزایش سن کم می‌شود؛ آزمایش بده و طبق نظر پزشک مصرف کن.', t:'test'}],
+      checks:['تراکم استخوان، چشم، و معاینه‌ی پوست.']},
+    m40:{label:'آقایان ۴۰+', range:'۴۰ سال و بیشتر', tl:4,
+      hook:'پوست آقایان چرب‌تر است ولی معمولاً آفتاب بیشتری خورده. ریزش ارثی مو هم در این سن شایع‌تر است؛ هرچه زودتر شروع کنی، موی بیشتری حفظ می‌شود.',
+      skin:['ضدآفتاب روزانه، حتی با ریش.','رتینوئید شب برای خطوط و منافذ.','مرطوب‌کننده‌ی بدون الکل بعد از اصلاح.'],
+      hair:['ریزش از شقیقه یا فرق سر را زود به پزشک نشان بده.','ماینوکسیدیل و فیناستراید فقط با نظر پزشک.'],
+      body:['ورزش قدرتی و کنترل دور کمر.','خواب کافی و کاهش قند.'],
+      supp:[{n:'ویتامین D', d:'با آزمایش.', t:'test'},
+            {n:'ویتامین B12', d:'بعد از ۵۰ سالگی با آزمایش بررسی کن.', t:'test'}],
+      checks:['فشار خون، قند، چربی، و چکاپ پروستات طبق نظر پزشک.']}
+  };
+  const TL = ['<۲۰','۲۰','۳۰','۴۰','۴۵+','۶۰+'];
+  const SUPP_TAG = {test:['اول آزمایش','warn'], food:['اول از غذا','ok'], doctor:['با پزشک','']};
+  const forSex = (arr, p) => arr.filter(x => p.sex==='f' || !(typeof x==='string' ? x : x.n).startsWith('♀')).map(x => typeof x==='string' ? x.replace('♀','') : {...x, n:x.n.replace('♀','')});
+
+  /* ---------- hair ---------- */
+  const HAIR = {
+    loss:{n:'ریزش زیاد مو', en:'HAIR SHEDDING',
+      why:['استرس شدید، بیماری، تب یا رژیم سخت در ۲ تا ۳ ماه گذشته.','کمبود آهن (فریتین پایین) یا ویتامین D.','مشکلات تیروئید.','ریزش ارثی که آرام‌آرام پیش می‌رود.'],
+      home:['ریزش ۵۰ تا ۱۰۰ تار در روز طبیعی است.','مو را خیس شانه نکن؛ اول با انگشت گره‌ها را باز کن.','کش و مدل‌های سفت را کنار بگذار.','در هر وعده پروتئین داشته باش.'],
+      look:['شامپوی ملایم بدون سولفات قوی','نرم‌کننده برای کم‌کردن شکستگی'],
+      clinic:['آزمایش فریتین، ویتامین D، تیروئید (TSH) و شمارش خون','ماینوکسیدیل موضعی با نظر پزشک','PRP (تزریق پلاسمای غنی از پلاکت)'],
+      flag:'اگر بیش از ۶ ماه ادامه داشت، مو دسته‌دسته می‌ریزد، یا پوست سر درد و خارش دارد.'},
+    thin:{n:'کم‌پشتی و نازک‌شدن', en:'THINNING',
+      why:['ریزش الگوی زنانه یا مردانه (ارثی و هورمونی).','پیش‌یائسگی و یائسگی.','کمبود آهن یا پروتئین.'],
+      home:['زود شروع کن؛ این نوع ریزش اگر رها شود پیش می‌رود.','حرارت را کم کن و فرق را جابه‌جا کن.','نرم‌کننده را فقط به سرشاخه بزن تا مو سنگین نشود.'],
+      look:['شامپوی حجم‌دهنده‌ی ملایم','سرم پوست سر'],
+      clinic:['ماینوکسیدیل موضعی؛ تنها داروی تأییدشده‌ی FDA برای ریزش الگوی زنانه','PRP','لیزر کم‌توان (کلاه یا شانه‌ی لیزری تأییدشده)'],
+      flag:'اگر پوست سر از فرق پیداست یا خط رویش مو عقب رفته است.'},
+    dandruff:{n:'شوره و خارش پوست سر', en:'DANDRUFF · SEBORRHEIC',
+      why:['قارچ طبیعی پوست سر (مالاسزیا) و درماتیت سبورئیک.','استرس و هوای سرد بدترش می‌کنند.'],
+      home:['شامپوی درمانی ۲ تا ۳ بار در هفته؛ ۵ دقیقه روی پوست سر بماند و بعد آبکشی کن.','با ناخن نخراش.','بین روزهای درمانی شامپوی ملایم.'],
+      look:['کتوکونازول ۱ تا ۲٪','زینک پیریتیون','سلنیوم سولفید','پیروکتون اولامین'],
+      clinic:['در موارد شدید، پزشک داروی موضعی قوی‌تر می‌دهد'],
+      flag:'اگر قرمزی شدید، زخم، پوسته‌ی ضخیم یا گسترش به ابرو و کنار بینی داری.'},
+    oily:{n:'چربی سریع مو', en:'OILY SCALP',
+      why:['غدد چربی فعال و تغییرات هورمونی.','شستن خیلی کم یا مالیدن مداوم دست به مو.'],
+      home:['شستن روزانه یا یک روز درمیان برای پوست سر چرب اشکالی ندارد.','نرم‌کننده فقط روی سرشاخه.','شامپوی خشک فقط گاه‌به‌گاه.'],
+      look:['شامپوی شفاف‌کننده‌ی ملایم','سالیسیلیک اسید برای پوست سر'],
+      clinic:[], flag:''},
+    dry:{n:'خشکی و شکنندگی', en:'DRY · BRITTLE',
+      why:['سشوار و اتوی زیاد.','دکلره و رنگ.','آب داغ و آفتاب.'],
+      home:['اتو را روی موی کاملاً خشک، با دمای کم یا متوسط، حداکثر یک روز درمیان استفاده کن.','مو را با حوله‌ی میکروفایبر خشک کن یا بگذار خودش خشک شود.','دفعات شستن را کم کن.'],
+      look:['نرم‌کننده بعد از هر شستشو','ماسک هفتگی','روغن آرگان یا شی‌باتر برای سرشاخه','اسپری محافظ حرارت'],
+      clinic:[], flag:''},
+    split:{n:'موخوره و آسیب رنگ یا دکلره', en:'CHEMICAL DAMAGE',
+      why:['دکلره، رنگ، کراتین و صاف‌کننده‌ها.','اتوی داغ روی موی آسیب‌دیده.'],
+      home:['بین رنگ، دکلره یا کراتین ۸ تا ۱۰ هفته فاصله بگذار.','موخوره ترمیم نمی‌شود؛ سرشاخه را هر ۸ تا ۱۲ هفته کوتاه کن.','فقط ریشه را رنگ کن، نه همه‌ی طول مو.'],
+      look:['ماسک ترمیم‌کننده‌ی پیوند (باندبیلدر)','سرم سرشاخه','نرم‌کننده‌ی پروتئینی'],
+      clinic:[], flag:''},
+    grey:{n:'سفیدی زودرس مو', en:'PREMATURE GREYING',
+      why:['بیشتر ژنتیک است.','گاهی کمبود ویتامین B12، مشکلات تیروئید، یا سیگار.'],
+      home:['سیگار را کنار بگذار.','رنگ ملایم و فاصله‌دار.'],
+      look:['رنگ بدون آمونیاک یا رنگ گیاهی'],
+      clinic:['اگر قبل از ۳۰ سالگی و ناگهانی شروع شد: آزمایش B12 و تیروئید'],
+      flag:''},
+    postpartum:{n:'ریزش بعد از زایمان', en:'POSTPARTUM SHEDDING', f:true,
+      why:['افت ناگهانی استروژن بعد از زایمان.','معمولاً حدود ۴ ماه بعد از زایمان اوج می‌گیرد.'],
+      home:['این ریزش موقت است و معمولاً تا یک‌سالگی کودک مو برمی‌گردد.','شامپوی حجم‌دهنده و نرم‌کننده‌ی سبک.','مدل کوتاه‌تر کم‌پشتی را کمتر نشان می‌دهد.'],
+      look:['شامپوی حجم‌دهنده','نرم‌کننده‌ی سبک'],
+      clinic:['اگر بعد از یک سال ادامه داشت: آزمایش آهن و تیروئید','در شیردهی، ماینوکسیدیل فقط با نظر پزشک'],
+      flag:'اگر بعد از یک‌سالگی کودک هنوز ادامه دارد.'},
+    patch:{n:'ریزش سکه‌ای (جای خالی گرد)', en:'ALOPECIA AREATA',
+      why:['معمولاً آلوپسی آره‌آتا است؛ بدن به ریشه‌ی مو حمله می‌کند.'],
+      home:['با محصولات خانگی درمان نمی‌شود.'],
+      look:[],
+      clinic:['تشخیص و درمان دارویی یا تزریقی توسط متخصص پوست'],
+      flag:'حتماً و زود پیش متخصص پوست برو.'}
+  };
+  function hairRoutine(p){
+    const wash = p.scalp==='oily' ? 'روزانه یا یک روز درمیان' : p.scalp==='dry' ? 'هفته‌ای ۱ تا ۲ بار' : 'هفته‌ای ۲ تا ۳ بار';
+    const r = [{t:'شستشو: '+wash, d: p.hair.includes('dandruff') ? 'دو تا سه بارش با شامپوی ضدشوره، بقیه با شامپوی ملایم.' : 'شامپو را روی پوست سر بزن؛ کف‌اش برای طول مو کافی است.'},
+      {t:'نرم‌کننده بعد از هر شستشو', d:'فقط از وسط تا سرشاخه. ۲ دقیقه بماند.'}];
+    if(p.scalp==='dry' || p.chem || p.heat==='daily' || p.hair.includes('dry') || p.hair.includes('split')) r.push({t:'ماسک ترمیم‌کننده هفته‌ای یک بار', d:'۱۰ دقیقه روی موی نم‌دار، بعد آبکشی.'});
+    if(p.heat!=='rare') r.push({t:'محافظ حرارت قبل از سشوار و اتو', d: p.heat==='daily' ? 'اتوی روزانه زیاد است؛ دمای کم یا متوسط و حداکثر یک روز درمیان.' : 'دما را روی کم یا متوسط بگذار.'});
+    if(p.chem) r.push({t:'فاصله‌ی رنگ و دکلره ۸ تا ۱۰ هفته', d:'و فقط ریشه را رنگ کن.'});
+    r.push({t:'هفته‌ای یک روز بدون ابزار حرارتی', d:'و شب‌ها مو را شل ببند، نه سفت.'});
+    return r;
+  }
+
+  /* ---------- skin routine ---------- */
   function routine(p){
     const c = new Set(p.concerns), sens = p.skin==='sensitive' || c.has('redness');
     const oilyish = p.skin==='oily' || p.skin==='combo';
+    const st = stageKey(p), mature = ['meno','senior','m40','s40'].includes(st);
     const allowRet = !p.pregnant && (p.age>=25 || c.has('acne') || c.has('lines'));
-    const ret = sens ? 'رتینال یا رتینول ملایم (۰.۱–۰.۲۵٪)' : p.age>=35 ? 'رتینول ۰.۳–۰.۵٪ یا رتینال' : 'رتینول ۰.۲۵–۰.۳٪';
+    const ret = sens ? 'رتینال یا رتینول ملایم (۰.۱ تا ۰.۲۵٪)' : p.age>=35 ? 'رتینول ۰.۳ تا ۰.۵٪ یا رتینال' : 'رتینول ۰.۲۵ تا ۰.۳٪';
     let exf = null;
-    if(sens) exf = 'PHA یا لاکتیک ۵٪ (ملایم‌ترین لایه‌بردار)';
+    if(sens) exf = 'PHA یا لاکتیک ۵٪';
     else if((c.has('acne')||c.has('pores')) && oilyish && !p.pregnant) exf = 'BHA سالیسیلیک ۲٪';
-    else if(c.has('dull')||c.has('pigment')||c.has('pores')) exf = 'AHA لاکتیک یا مندلیک ۵–۱۰٪';
+    else if(c.has('dull')||c.has('pigment')||c.has('pores')) exf = 'AHA لاکتیک یا مندلیک ۵ تا ۱۰٪';
 
     const am = [];
-    am.push({t:'پاک‌کننده ملایم', d: oilyish ? 'ژل‌شوینده با pH حدود ۵.۵. صبح‌ها یک‌بار کافی است.' : 'شیر یا کرم‌شوینده‌ی بدون سولفات، یا فقط آب ولرم.'});
-    if((c.has('pigment')||c.has('dull')||c.has('lines')) && !sens) am.push({t:'سرم ویتامین C', d:'اسید اسکوربیک ۱۰–۱۵٪ روی پوست خشک. آنتی‌اکسیدان و روشن‌کننده است و اثر ضدآفتاب را تقویت می‌کند.'});
-    else if(c.has('pigment')||c.has('dull')) am.push({t:'مشتق ویتامین C', d:'SAP یا THD اسکوربات. کمتر تحریک می‌کند و برای پوست حساس مناسب‌تر است.'});
-    if(c.has('acne')||c.has('pores')||c.has('redness')||oilyish) am.push({t:'نیاسینامید ۴–۵٪', d:'چربی و منافذ را کنترل و قرمزی را آرام می‌کند. با بیشتر مواد فعال سازگار است.'});
-    if(c.has('darkcircles')) am.push({t:'دورچشم کافئین‌دار', d:'به اندازه‌ی یک دانه برنج با ضربه‌ی انگشت حلقه‌ای.'});
-    am.push({t: p.skin==='dry' ? 'مرطوب‌کننده سرامیدی غنی' : 'مرطوب‌کننده سبک', d: p.skin==='dry' ? 'سرامید، کلسترول و اسید چرب برای ترمیم سد پوست.' : 'ژل‌کرم با هیالورونیک اسید یا اسکوالان.'});
-    am.push({t:'ضدآفتاب SPF 50، PA++++', d: (p.sun==='high' ? 'هر ۲ ساعت تمدید کن. ' : '') + (p.fitz>=4 ? 'فرمول رنگی با آهن اکسید جلوی لک ناشی از نور مرئی را هم می‌گیرد.' : 'به اندازه‌ی دو بند انگشت برای صورت و گردن.')});
+    am.push({t:'پاک‌کننده ملایم', d: oilyish ? 'ژل‌شوینده با pH حدود ۵.۵.' : 'شیر یا کرم‌شوینده‌ی بدون سولفات، یا فقط آب ولرم.'});
+    if((c.has('pigment')||c.has('dull')||c.has('lines')) && !sens) am.push({t:'سرم ویتامین C', d:'اسید اسکوربیک ۱۰ تا ۱۵٪ روی پوست خشک. آنتی‌اکسیدان و روشن‌کننده.'});
+    else if(c.has('pigment')||c.has('dull')) am.push({t:'مشتق ویتامین C', d:'SAP یا THD اسکوربات؛ کمتر تحریک می‌کند.'});
+    if(c.has('acne')||c.has('pores')||c.has('redness')||oilyish) am.push({t:'نیاسینامید ۴ تا ۵٪', d:'چربی و منافذ را کنترل و قرمزی را آرام می‌کند.'});
+    if(c.has('darkcircles')) am.push({t:'دورچشم کافئین‌دار', d:'به اندازه‌ی یک دانه برنج.'});
+    am.push({t: (p.skin==='dry' || mature) ? 'مرطوب‌کننده سرامیدی غنی' : 'مرطوب‌کننده سبک', d: (p.skin==='dry' || mature) ? 'سرامید، کلسترول و اسید چرب برای سد پوست.' : 'ژل‌کرم با هیالورونیک اسید یا اسکوالان.'});
+    am.push({t:'ضدآفتاب SPF 50، PA++++', d:(p.sun==='high' ? 'هر ۲ ساعت تمدید کن. ' : '') + (p.fitz>=4 ? 'فرمول رنگی با آهن اکسید جلوی لک ناشی از نور مرئی را هم می‌گیرد.' : 'به اندازه‌ی دو بند انگشت برای صورت و گردن.')});
 
     const pm = [];
-    pm.push({t:'پاک‌سازی دومرحله‌ای', d:'اول روغن یا بالم پاک‌کننده برای ضدآفتاب و آرایش، بعد همان شوینده‌ی صبح.'});
-    if(allowRet) pm.push({t:'شب‌های رتینوئید: ' + ret, d:'به اندازه‌ی یک نخود روی پوست کاملاً خشک. هفته‌ی اول ۲ شب، بعد طبق جدول. دور چشم و لب نزن.'});
-    else if(p.pregnant) pm.push({t:'آزلائیک اسید ۱۰٪', d:'در بارداری و شیردهی جایگزین امن‌تر رتینوئید است و به جوش، لک و قرمزی کمک می‌کند. باز هم با پزشکت هماهنگ کن.'});
-    else pm.push({t:'سرم آب‌رسان', d:'هیالورونیک اسید روی پوست کمی مرطوب. در این سن پیشگیری از رتینوئید مهم‌تر است.'});
-    if(exf) pm.push({t:'شب‌های لایه‌بردار: ' + exf, d:'هیچ‌وقت در همان شب رتینوئید نزن. اگر سوزش ماند، یک هفته کنار بگذار.'});
-    if((c.has('lines')||c.has('sagging')) && p.age>=35) pm.push({t:'سرم پپتید', d:'در شب‌های استراحت، برای پشتیبانی از کلاژن.'});
-    pm.push({t:'کرم ترمیم‌کننده', d: sens ? 'سرامید + سنتلا آسیاتیکا. شب‌های استراحت فقط همین.' : 'سرامید یا پانتنول. در شب‌های استراحت فقط پاک‌کننده + همین.'});
+    pm.push({t:'پاک‌سازی دومرحله‌ای', d:'اول روغن یا بالم پاک‌کننده، بعد همان شوینده‌ی صبح.'});
+    if(allowRet) pm.push({t:'شب‌های رتینوئید: ' + ret, d:'به اندازه‌ی یک نخود روی پوست کاملاً خشک. هفته‌ی اول ۲ شب، بعد طبق جدول.'});
+    else if(p.pregnant) pm.push({t:'آزلائیک اسید ۱۰٪', d:'در بارداری و شیردهی جایگزین امن‌تر رتینوئید است. با پزشکت هماهنگ کن.'});
+    else pm.push({t:'سرم آب‌رسان', d:'هیالورونیک اسید روی پوست کمی مرطوب.'});
+    if(exf) pm.push({t:'شب‌های لایه‌بردار: ' + exf, d:'هیچ‌وقت در همان شب رتینوئید نزن.'});
+    if((c.has('lines')||c.has('sagging')) && p.age>=35) pm.push({t:'سرم پپتید', d:'در شب‌های استراحت، برای حمایت از کلاژن.'});
+    pm.push({t:'کرم ترمیم‌کننده', d: sens ? 'سرامید و سنتلا آسیاتیکا.' : 'سرامید یا پانتنول.'});
 
-    // Persian week starts on Saturday
     const days = ['ش','ی','د','س','چ','پ','ج'];
     let plan;
     if(allowRet) plan = sens ? ['ret','rec','rec','ret', exf?'exf':'rec','rec','rec'] : ['ret','rec','ret','rec','ret', exf?'exf':'rec','rec'];
@@ -333,30 +501,30 @@
 
   /* ---------- clinic ---------- */
   const TX = [
-    {id:'peel', name:'پیلینگ شیمیایی سطحی', en:'SUPERFICIAL CHEMICAL PEEL', min:18, c:['pigment','dull','acne','pores'], dark:true,
-      what:'لایه‌برداری کنترل‌شده با اسیدهایی مثل گلیکولیک، لاکتیک یا مندلیک برای یکنواخت‌شدن رنگ و بافت پوست.', freq:'۳ تا ۶ جلسه، هر ۲ تا ۴ هفته', down:'۲ تا ۵ روز پوسته‌ریزی خفیف',
+    {name:'پیلینگ شیمیایی سطحی', en:'SUPERFICIAL CHEMICAL PEEL', min:18, c:['pigment','dull','acne','pores'], dark:true,
+      what:'لایه‌برداری کنترل‌شده با اسیدهایی مثل گلیکولیک، لاکتیک یا مندلیک برای یکنواختی رنگ و بافت.', freq:'۳ تا ۶ جلسه، هر ۲ تا ۴ هفته', down:'۲ تا ۵ روز پوسته‌ریزی خفیف',
       ask:['کدام اسید برای تیپ پوست من مناسب‌تر است؟','از چند روز قبل رتینوئید را قطع کنم؟']},
-    {id:'micro', name:'میکرونیدلینگ', en:'MICRONEEDLING', min:20, c:['pores','acne','lines','dull'],
-      what:'ایجاد سوراخ‌های بسیار ریز و کنترل‌شده برای تحریک کلاژن. برای جای جوش، منافذ و بافت پوست استفاده می‌شود.', freq:'۳ تا ۴ جلسه، هر ۴ تا ۶ هفته', down:'۱ تا ۳ روز قرمزی',
+    {name:'میکرونیدلینگ', en:'MICRONEEDLING', min:20, c:['pores','acne','lines','dull'],
+      what:'سوراخ‌های بسیار ریز و کنترل‌شده برای تحریک کلاژن؛ برای جای جوش، منافذ و بافت پوست.', freq:'۳ تا ۴ جلسه، هر ۴ تا ۶ هفته', down:'۱ تا ۳ روز قرمزی',
       ask:['عمق سوزن برای مشکل من چقدر است؟','وقتی جوش فعال دارم انجامش درست است؟']},
-    {id:'booster', name:'اسکین بوستر هیالورونیک', en:'SKIN BOOSTER · NON-VOLUMISING HA', min:25, c:['dull','lines'],
-      what:'تزریق سطحی هیالورونیک اسید غیرحجم‌دهنده برای آب‌رسانی عمقی و کیفیت پوست. فرم صورت را عوض نمی‌کند.', freq:'۲ تا ۳ جلسه با فاصله یک ماه، بعد هر ۶ ماه', down:'برجستگی‌های ریز تا ۲۴ ساعت',
-      ask:['اسم برند و مجوز محصول چیست؟','نتیجه برای من حدوداً چقدر می‌ماند؟']},
-    {id:'pdrn', name:'پلی‌نوکلئوتید (PDRN)', en:'POLYNUCLEOTIDES', min:28, c:['lines','darkcircles','dull','redness'],
-      what:'تزریق مولکول‌های ترمیم‌کننده برای بهبود کیفیت و ضخامت پوست، به‌خصوص پوست نازک زیر چشم.', freq:'۳ تا ۴ جلسه، هر ۲ تا ۳ هفته', down:'کبودی خفیف احتمالی',
-      ask:['برای زیر چشم من مناسب است یا فیلر؟','بین جلسه‌ها چه چیزی را رعایت کنم؟']},
-    {id:'tox', name:'نوروتوکسین (بوتاکس) برای خطوط حرکتی', en:'NEUROMODULATOR', min:28, c:['lines'],
-      what:'عضلات پیشانی، بین ابرو یا دور چشم را موقتاً شل می‌کند تا خطوط حرکتی عمیق نشوند. روی خطوط ثابت و افتادگی اثر کمی دارد.', freq:'اثر حدود ۳ تا ۴ ماه', down:'بدون دوره نقاهت. تا ۴ ساعت دراز نکش',
-      ask:['چند واحد و در کدام نقاط تزریق می‌کنید؟','برند و تاریخ انقضای ویال را می‌توانم ببینم؟']},
-    {id:'filler', name:'فیلر هیالورونیک', en:'HA DERMAL FILLER', min:30, c:['sagging','darkcircles'],
-      what:'جایگزینی حجم ازدست‌رفته در گونه، شقیقه یا خط فک. گودی زیر چشم فقط در دست پزشک باتجربه.', freq:'اثر ۶ تا ۱۸ ماه بسته به ناحیه', down:'تورم و کبودی ۳ تا ۷ روز',
-      ask:['هیالورونیداز (حل‌کننده فیلر) در کلینیک دارید؟','چند سی‌سی و برای کدام ناحیه، و چرا؟']},
-    {id:'laser', name:'لیزر یا IPL', en:'LASER · IPL', min:20, c:['redness','pigment'], dark:true,
-      what:'نور با طول‌موج مشخص برای رگ‌های ریز، قرمزی و لک‌های سطحی.', freq:'۳ تا ۵ جلسه، هر ۳ تا ۴ هفته', down:'تیره‌شدن موقت لک‌ها برای چند روز',
-      ask:['کدام دستگاه و چه طول‌موجی برای تیپ پوست من؟','قبل از جلسه چقدر باید از آفتاب دور بمانم؟']},
-    {id:'tight', name:'RF میکرونیدلینگ یا هایفو', en:'RF MICRONEEDLING · HIFU', min:35, c:['sagging','lines','pores'],
-      what:'گرم‌کردن لایه‌های عمیق‌تر پوست برای سفت‌شدن تدریجی آن.', freq:'۱ تا ۳ جلسه. نتیجه طی ۳ ماه دیده می‌شود', down:'۱ تا ۳ روز قرمزی',
-      ask:['برای افتادگی من کدام بهتر است، RF یا هایفو؟','چه نتیجه‌ای واقع‌بینانه است؟']}
+    {name:'اسکین بوستر هیالورونیک', en:'SKIN BOOSTER', min:25, c:['dull','lines'],
+      what:'تزریق سطحی هیالورونیک اسید غیرحجم‌دهنده برای آب‌رسانی عمقی. فرم صورت را عوض نمی‌کند.', freq:'۲ تا ۳ جلسه با فاصله یک ماه', down:'برجستگی‌های ریز تا ۲۴ ساعت',
+      ask:['اسم برند و مجوز محصول چیست؟','نتیجه حدوداً چقدر می‌ماند؟']},
+    {name:'پلی‌نوکلئوتید (PDRN)', en:'POLYNUCLEOTIDES', min:28, c:['lines','darkcircles','dull','redness'],
+      what:'تزریق مولکول‌های ترمیم‌کننده برای کیفیت و ضخامت پوست، به‌خصوص زیر چشم.', freq:'۳ تا ۴ جلسه، هر ۲ تا ۳ هفته', down:'کبودی خفیف احتمالی',
+      ask:['برای زیر چشم من مناسب است یا فیلر؟']},
+    {name:'نوروتوکسین (بوتاکس) برای خطوط حرکتی', en:'NEUROMODULATOR', min:28, c:['lines'],
+      what:'عضلات پیشانی، بین ابرو یا دور چشم را موقتاً شل می‌کند. روی خطوط ثابت و افتادگی اثر کمی دارد.', freq:'اثر حدود ۳ تا ۴ ماه', down:'بدون دوره نقاهت',
+      ask:['چند واحد و در کدام نقاط؟','برند و تاریخ انقضای ویال را می‌توانم ببینم؟']},
+    {name:'فیلر هیالورونیک', en:'HA DERMAL FILLER', min:30, c:['sagging','darkcircles'],
+      what:'جایگزینی حجم ازدست‌رفته در گونه، شقیقه یا خط فک. زیر چشم فقط در دست پزشک باتجربه.', freq:'اثر ۶ تا ۱۸ ماه', down:'تورم و کبودی ۳ تا ۷ روز',
+      ask:['هیالورونیداز (حل‌کننده‌ی فیلر) در کلینیک دارید؟','چند سی‌سی و چرا؟']},
+    {name:'لیزر یا IPL', en:'LASER · IPL', min:20, c:['redness','pigment'], dark:true,
+      what:'نور با طول‌موج مشخص برای رگ‌های ریز، قرمزی و لک‌های سطحی.', freq:'۳ تا ۵ جلسه، هر ۳ تا ۴ هفته', down:'تیره‌شدن موقت لک‌ها',
+      ask:['کدام دستگاه برای تیپ پوست من؟']},
+    {name:'RF میکرونیدلینگ یا هایفو', en:'RF MICRONEEDLING · HIFU', min:35, c:['sagging','lines','pores'],
+      what:'گرم‌کردن لایه‌های عمیق‌تر برای سفت‌شدن تدریجی پوست.', freq:'۱ تا ۳ جلسه؛ نتیجه طی ۳ ماه', down:'۱ تا ۳ روز قرمزی',
+      ask:['برای افتادگی من RF بهتر است یا هایفو؟']}
   ];
   function matchTx(p){
     const c = new Set(p.concerns);
@@ -364,14 +532,21 @@
     return {now: hits.filter(t=>p.age>=t.min).sort((a,b)=>b.why.length-a.why.length), later: hits.filter(t=>p.age<t.min)};
   }
 
-  /* ---------- habits ---------- */
+  /* ---------- shop slot ---------- */
+  function shopBlock(tags, title){
+    const items = SHOP.filter(s => s.tags.some(t => tags.includes(t)));
+    if(!items.length) return `<div class="shop"><b>${title}</b><br>به‌زودی محصولات مناسب تو از فروشگاه شادی بیوتی اینجا نمایش داده می‌شود.</div>`;
+    return `<section class="panel"><h2>${title}</h2>${items.map(s=>`<div class="factor"><span>${esc(s.name)}</span><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.price||'مشاهده')}</a></div>`).join('')}</section>`;
+  }
+
+  /* ---------- habits log ---------- */
   const HABITS = [
-    {k:'spf', t:'ضدآفتاب زدم', s:'SPF 50 صبح'},
+    {k:'spf', t:'ضدآفتاب زدم', s:'SPF 30 یا بالاتر'},
     {k:'am', t:'روتین صبح', s:'پاک‌کننده، سرم، مرطوب‌کننده'},
     {k:'pm', t:'روتین شب', s:'طبق جدول هفته'},
     {k:'sleep', t:'۷ ساعت خواب', s:'شب گذشته'},
     {k:'move', t:'۳۰ دقیقه تحرک', s:'پیاده‌روی هم حساب است'},
-    {k:'sugar', t:'روز بدون شیرینی', s:'قند اضافه نخوردم'}
+    {k:'protein', t:'پروتئین در هر وعده', s:'برای پوست، مو و عضله'}
   ];
   const dkey = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
   let log = store.get('sp.log', {});
@@ -380,18 +555,13 @@
   const doneCount = e => HABITS.filter(h=>e[h.k]).length + (e.water>=8 ? 1 : 0);
 
   /* ---------- views ---------- */
-  function ring(v){
-    const C = 2*Math.PI*42, off = C*(1-v/100);
-    const col = v>=70 ? 'var(--ok)' : v>=45 ? 'var(--warn)' : 'var(--accent)';
-    return `<svg class="ring" viewBox="0 0 104 104" role="img" aria-label="امتیاز طول‌عمر ${fa(v)} از ۱۰۰">
-      <circle cx="52" cy="52" r="42" fill="none" stroke="var(--sunk)" stroke-width="9"/>
-      <circle cx="52" cy="52" r="42" fill="none" stroke="${col}" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 52 52)"/>
-      <text x="52" y="58" text-anchor="middle" font-size="30" fill="var(--ink)">${fa(v)}</text>
-      <text x="52" y="76" text-anchor="middle" font-size="12" fill="var(--muted)">از ۱۰۰</text></svg>`;
-  }
   function vPassport(){
-    const p = profile, s = scores(p), sa = skinAge(p), diff = sa - p.age;
-    const mrz = `SKN<SHADIMETHOD<<${SKIN_EN[p.skin]}<<FTZ${ROMAN[p.fitz-1]}<<A${p.age}<<SA${sa}<<LS${s.total}`.padEnd(46,'<');
+    const p = profile, st = STAGES[stageKey(p)];
+    const mrz = `SKN<SHADIMETHOD<<${SKIN_EN[p.skin]}<<FTZ${ROMAN[p.fitz-1]}<<A${p.age}<<${p.sex==='m'?'M':'F'}`.padEnd(46,'<');
+    const factors = agingFactors(p), present = factors.filter(f=>f[1]).length;
+    const e = dayLog(todayKey), n = doneCount(e), total = HABITS.length + 1;
+    const days = []; for(let i=6;i>=0;i--){ const d = new Date(); d.setDate(d.getDate()-i); days.push(d); }
+    let wd; try{ wd = new Intl.DateTimeFormat('fa-IR',{weekday:'narrow'}); }catch(err){ wd = null; }
     return `
     <section class="passport" aria-label="کارت شناسنامه پوستی">
       <div class="row">
@@ -399,51 +569,59 @@
           <span class="eyebrow">Skin Passport · No. ${String(1000+p.age*37+p.fitz).slice(-4)}</span>
           <div class="name">${esc(p.name||'بدون نام')}</div>
         </div>
-        <div class="stamp"><div><span>سن پوست</span><b>${fa(sa)}</b><span>تخمینی</span></div></div>
+        <div class="stamp"><div><span>دوره‌ی سنی</span><b>${st.label}</b><span>${fa(p.age)} سال</span></div></div>
       </div>
       <div class="fields">
         <div class="field"><span>نوع پوست</span><b>${SKIN[p.skin]}</b></div>
         <div class="field"><span>فیتزپاتریک</span><b style="font-family:var(--f-mono)">${ROMAN[p.fitz-1]}</b></div>
-        <div class="field"><span>هدف</span><b>${GOAL[p.goal]}</b></div>
+        <div class="field"><span>پوست سر</span><b>${SCALP[p.scalp]}</b></div>
       </div>
       <div class="tones" aria-hidden="true">${FITZ.map((c,i)=>`<i style="background:${c}" class="${i===p.fitz-1?'on':''}"></i>`).join('')}</div>
       <div class="mrz" aria-hidden="true">${esc(mrz)}</div>
     </section>
 
     <section class="panel">
-      <h2>سن پوست در برابر سن واقعی</h2>
-      <p class="sub">تخمینی بر اساس عادت‌ها، نه تشخیص پزشکی.</p>
-      <div class="ages">
-        <div class="agebox"><span>سن شناسنامه‌ای</span><b>${fa(p.age)}</b></div>
-        <div class="agebox"><span>سن تخمینی پوست</span><b>${fa(sa)}</b>
-          <span class="delta ${diff>0?'up':'down'}">${diff>0 ? fa(diff)+' سال بیشتر' : diff<0 ? fa(-diff)+' سال کمتر' : 'هم‌اندازه'}</span></div>
-      </div>
+      <h2>دغدغه‌های ثبت‌شده</h2>
+      <h3>پوست</h3>
+      <div class="chips">${p.concerns.map(c=>`<span class="chip">${CONCERN[c]}</span>`).join('') || '<span class="sub">موردی انتخاب نشده</span>'}${p.pregnant?'<span class="chip warn">بارداری / شیردهی</span>':''}</div>
+      <h3>مو</h3>
+      <div class="chips">${p.hair.map(h=>`<span class="chip">${HAIR[h].n}</span>`).join('') || '<span class="chip ok">مشکل خاصی ثبت نشده</span>'}</div>
     </section>
 
     <section class="panel">
-      <h2>امتیاز طول‌عمر</h2>
-      <p class="sub">شش عادتی که هم پوست و هم سلامت بلندمدت را می‌سازند.</p>
-      <div class="score">${ring(s.total)}
-        <div class="bars">${s.parts.map(([l,v])=>`<div class="bar"><span>${l}</span><div class="t"><i class="${v>=70?'':v>=45?'mid':'low'}" style="width:${v}%"></i></div><em>${fa(v)}</em></div>`).join('')}</div>
-      </div>
+      <h2>عوامل پیری زودرس در زندگی تو</h2>
+      <p class="sub">پژوهش‌ها این عوامل را با پیری زودرس پوست مرتبط می‌دانند. اپ برای سن پوستت عدد حدس نمی‌زند؛ ارزیابی واقعی پوست فقط با معاینه ممکن است.</p>
+      ${factors.map(([t,on])=>`<div class="factor"><span>${t}</span>${on?'<span class="chip">دارد</span>':'<span class="chip ok">ندارد</span>'}</div>`).join('')}
+      <p class="sub" style="margin:10px 0 0">${present ? `${fa(present)} عامل از ${fa(factors.length)} عامل در زندگی‌ات هست. هر کدام را کم کنی، به پوستت کمک کرده‌ای.` : 'هیچ‌کدام از این عوامل را نداری. عالی است.'}</p>
+    </section>
+
+    <section class="panel">
+      <h2>عادت‌هایت، طبق پاسخ‌های خودت</h2>
+      <div class="bars" style="margin-top:8px">${habitLevels(p).map(([l,[w,v,c]])=>`<div class="bar"><span>${l}</span><div class="t"><i class="${c}" style="width:${v}%"></i></div><em>${w}</em></div>`).join('')}</div>
     </section>
 
     <section class="panel">
       <h2>سه قدم با بیشترین اثر</h2>
-      <p class="sub">از اینجا شروع کن. بقیه بعداً.</p>
       ${priorities(p).map((t,i)=>`<div class="tip"><span class="n">${fa(i+1)}</span><div><b>${t.t}</b><p>${t.d}</p></div></div>`).join('')}
     </section>
 
     <section class="panel">
-      <h2>دغدغه‌های ثبت‌شده</h2>
-      <div class="chips" style="margin-top:8px">${p.concerns.map(c=>`<span class="chip">${CONCERN[c]}</span>`).join('') || '<span class="sub">موردی انتخاب نشده</span>'}
-        ${p.pregnant?'<span class="chip warn">بارداری / شیردهی</span>':''}</div>
+      <h2>امروز</h2>
+      <p class="sub">${fa(n)} از ${fa(total)} عادت انجام شده</p>
+      <div class="habit"><div class="txt"><b>آب</b><span>هدف: ۸ لیوان</span></div>
+        <div class="counter"><button type="button" data-water="-1" aria-label="یک لیوان کمتر">−</button><b>${fa(e.water)} / ۸</b><button type="button" data-water="1" aria-label="یک لیوان بیشتر">+</button></div></div>
+      ${HABITS.map(h=>`<div class="habit"><div class="txt"><b>${h.t}</b><span>${h.s}</span></div>
+        <button type="button" class="check" data-h="${h.k}" aria-pressed="${!!e[h.k]}" aria-label="${h.t}">${e[h.k]?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg>':''}</button></div>`).join('')}
+      <h3>هفت روز اخیر</h3>
+      <div class="dots">${days.map(d=>{ const k=dkey(d), c=doneCount(dayLog(k)); const l = c>=6?'l3':c>=4?'l2':c>=1?'l1':'';
+        return `<div><div class="dot ${l} ${k===todayKey?'today':''}">${fa(c)}</div>${wd?wd.format(d):''}</div>`; }).join('')}</div>
+      <p class="sub" style="margin:10px 0 0">ثبت‌ها فقط روی همین گوشی ذخیره می‌شوند.</p>
     </section>`;
   }
-  const SKIN_EN = {oily:'OILY', dry:'DRY', combo:'COMBO', normal:'NORMAL', sensitive:'SENS'};
 
   function vRoutine(){
     const r = routine(profile), list = routineMode==='am' ? r.am : r.pm;
+    const tags = ['skin:'+profile.skin, ...profile.concerns.map(c=>'skin:'+c)];
     return `
     <section class="panel">
       <div class="seg" role="group" aria-label="زمان روتین">
@@ -464,35 +642,80 @@
         <span><i style="background:var(--ok)"></i>ترمیم و استراحت</span>
       </div>
     </section>
+    ${shopBlock(tags, 'محصولات شادی بیوتی برای پوست تو')}
     <section class="panel">
       <h2>قانون‌های طلایی</h2>
       <div class="tip"><span class="n">۱</span><div><b>هر محصول جدید را تست کن</b><p>۴۸ ساعت پشت گوش یا زیر فک، بعد صورت.</p></div></div>
-      <div class="tip"><span class="n">۲</span><div><b>یکی‌یکی اضافه کن</b><p>هر دو هفته فقط یک محصول جدید تا بفهمی کدام اثر دارد.</p></div></div>
+      <div class="tip"><span class="n">۲</span><div><b>یکی‌یکی اضافه کن</b><p>هر دو هفته فقط یک محصول جدید.</p></div></div>
       <div class="tip"><span class="n">۳</span><div><b>صبور باش</b><p>رتینوئید و ویتامین C حدود ۸ تا ۱۲ هفته طول می‌کشد تا نتیجه بدهند.</p></div></div>
     </section>`;
   }
 
-  function vHabits(){
-    const e = dayLog(todayKey), n = doneCount(e), total = HABITS.length + 1;
-    const days = [];
-    for(let i=6;i>=0;i--){ const d = new Date(); d.setDate(d.getDate()-i); days.push(d); }
-    let wd; try{ wd = new Intl.DateTimeFormat('fa-IR',{weekday:'narrow'}); }catch(err){ wd = null; }
+  function vHair(){
+    const p = profile, list = p.hair.filter(h=>HAIR[h]);
     return `
     <section class="panel">
-      <h2>امروز</h2>
-      <p class="sub">${fa(n)} از ${fa(total)} عادت انجام شده</p>
-      <div class="habit"><div class="txt"><b>آب</b><span>هدف: ۸ لیوان</span></div>
-        <div class="counter"><button type="button" data-water="-1" aria-label="یک لیوان کمتر">−</button><b>${fa(e.water)} / ۸</b><button type="button" data-water="1" aria-label="یک لیوان بیشتر">+</button></div></div>
-      ${HABITS.map(h=>`<div class="habit"><div class="txt"><b>${h.t}</b><span>${h.s}</span></div>
-        <button type="button" class="check" data-h="${h.k}" aria-pressed="${!!e[h.k]}" aria-label="${h.t}">${e[h.k]?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg>':''}</button></div>`).join('')}
+      <h2>روتین موی تو</h2>
+      <p class="sub">پوست سر ${SCALP[p.scalp]}، ابزار حرارتی ${p.heat==='daily'?'هر روز':p.heat==='weekly'?'چند بار در هفته':'به‌ندرت'}${p.chem?'، با رنگ یا دکلره':''}.</p>
+      <ol class="steps">${hairRoutine(p).map((s,i)=>`<li><span class="k">${String(i+1).padStart(2,'0')}</span><div><b>${s.t}</b><p>${s.d}</p></div></li>`).join('')}</ol>
     </section>
+    ${list.length ? list.map(k=>{ const h = HAIR[k]; return `
+      <details class="tx" ${list.length===1?'open':''}>
+        <summary><div><small>${h.en}</small><b>${h.n}</b></div>
+          <svg class="caret" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="body">
+          <div><b>چرا اتفاق می‌افتد؟</b>${ul(h.why)}</div>
+          <div><b>در خانه چه کنی؟</b>${ul(h.home)}</div>
+          ${h.look.length?`<div><b>در محصول دنبال این‌ها بگرد</b><div class="chips" style="margin-top:6px">${h.look.map(x=>`<span class="chip ok">${x}</span>`).join('')}</div></div>`:''}
+          ${h.clinic.length?`<div><b>آزمایش و درمان با پزشک</b>${ul(h.clinic)}</div>`:''}
+          ${h.flag?`<div class="notice warn"><b>کی پیش پزشک بروی:</b> ${h.flag}</div>`:''}
+        </div>
+      </details>`; }).join('') : `<section class="panel"><p class="sub" style="margin:0">مشکل خاصی برای مو ثبت نکردی. همین روتین را ادامه بده.</p></section>`}
+    ${shopBlock([...list.map(h=>'hair:'+h), 'hair:scalp-'+p.scalp], 'محصولات شادی بیوتی برای موی تو')}
     <section class="panel">
-      <h2>هفت روز اخیر</h2>
-      <p class="sub">تعداد عادت‌های انجام‌شده در هر روز.</p>
-      <div class="dots">${days.map(d=>{ const k=dkey(d), c=doneCount(dayLog(k)); const l = c>=6?'l3':c>=4?'l2':c>=1?'l1':'';
-        return `<div><div class="dot ${l} ${k===todayKey?'today':''}">${fa(c)}</div>${wd?wd.format(d):''}</div>`; }).join('')}</div>
+      <h2>درباره‌ی مکمل‌های مو</h2>
+      ${ul(['بیوتین فقط برای کسی که کمبود دارد مفید است و کمبودش نادر است. مصرف زیاد آن می‌تواند جواب آزمایش‌های تیروئید و قلب را اشتباه کند؛ اگر بیوتین می‌خوری، قبل از آزمایش به پزشک بگو.',
+        'آهن و ویتامین D فقط وقتی کمک می‌کنند که کمبود داشته باشی. اول آزمایش بده.',
+        'پروتئین کافی در غذا از هر مکملی مهم‌تر است.'])}
     </section>
-    <p class="sub" style="text-align:center">ثبت‌ها فقط روی همین مرورگر ذخیره می‌شوند.</p>`;
+    <section class="panel"><h2>منابع</h2>
+      <ul class="src">
+        <li><a href="https://www.aad.org/public/skin-hair-nails/hair-care/hair-styling-without-damage" target="_blank" rel="noopener">AAD — Hair styling without damage</a></li>
+        <li><a href="https://www.aad.org/public/diseases/hair-loss/insider/new-moms" target="_blank" rel="noopener">AAD — Hair loss in new moms</a></li>
+        <li><a href="https://www.dermatologytimes.com/view/addressing-causes-of-female-hair-loss-and-exploring-preventative-measures" target="_blank" rel="noopener">Dermatology Times — Causes of female hair loss</a></li>
+        <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7394174/" target="_blank" rel="noopener">PMC — Vitamin D and female pattern hair loss</a></li>
+        <li><a href="https://nutritionsource.hsph.harvard.edu/biotin/" target="_blank" rel="noopener">Harvard Nutrition Source — Biotin</a></li>
+      </ul></section>`;
+  }
+
+  function vAge(){
+    const p = profile, key = stageKey(p), st = STAGES[key];
+    return `
+    <section class="stage-head">
+      <span class="eyebrow">${p.sex==='m'?'MEN':'WOMEN'} · AGE ${p.age}</span>
+      <h2>${st.label}</h2>
+      <p>${st.hook}</p>
+      <div class="timeline" aria-hidden="true">${TL.map((t,i)=>`<span class="${i===st.tl?'on':''}">${t}</span>`).join('')}</div>
+    </section>
+    <section class="panel"><h2>پوست در این سن</h2>${ul(forSex(st.skin,p))}</section>
+    <section class="panel"><h2>مو در این سن</h2>${ul(forSex(st.hair,p))}</section>
+    <section class="panel"><h2>بدن و سبک زندگی</h2>${ul(forSex(st.body,p))}</section>
+    <section class="panel">
+      <h2>مکمل‌ها</h2>
+      <p class="sub">قبل از هر مکمل با پزشک یا داروساز هماهنگ کن، به‌خصوص اگر دارو مصرف می‌کنی.</p>
+      ${forSex(st.supp,p).map(s=>`<div class="supp"><div class="h"><b>${s.n}</b><span class="chip ${SUPP_TAG[s.t][1]}">${SUPP_TAG[s.t][0]}</span></div><p>${s.d}</p></div>`).join('')}
+    </section>
+    <section class="panel"><h2>چکاپ‌ها</h2>${ul(st.checks)}</section>
+    ${shopBlock(['age:'+key], 'محصولات شادی بیوتی برای این دوره')}
+    <section class="panel"><h2>منابع</h2>
+      <ul class="src">
+        <li><a href="https://ods.od.nih.gov/factsheets/Calcium-Consumer/" target="_blank" rel="noopener">NIH ODS — Calcium</a></li>
+        <li><a href="https://ods.od.nih.gov/factsheets/VitaminD-Consumer/" target="_blank" rel="noopener">NIH ODS — Vitamin D</a></li>
+        <li><a href="https://www.health.harvard.edu/blog/proposed-recommendations-question-the-value-of-calcium-vitamin-d-supplements-201206274921" target="_blank" rel="noopener">Harvard Health — Calcium and vitamin D supplements</a></li>
+        <li><a href="https://www.healthline.com/health/beauty-skin-care/dermatologists-share-skin-care-tips-for-menopause-and-beyond" target="_blank" rel="noopener">Healthline — Skin care for menopause</a></li>
+        <li><a href="https://www.cosmeticsdesign.com/Article/2025/08/26/industry-reacts-to-meta-analysis-concluding-collagen-supplements-show-no-proven-benefit-for-skin-aging" target="_blank" rel="noopener">Collagen supplements meta-analysis, 2025</a></li>
+        <li><a href="https://usdermatologypartners.com/press-media/the-best-skin-care-routine-by-age-according-to-dermatologists" target="_blank" rel="noopener">US Dermatology Partners — Routine by age</a></li>
+      </ul></section>`;
   }
 
   function vClinic(){
@@ -500,7 +723,7 @@
     if(p.pregnant) return `<div class="notice"><b>در دوران بارداری و شیردهی</b> بیشتر تزریق‌ها و لیزرها توصیه نمی‌شوند. فعلاً روی روتین ملایم و ضدآفتاب تمرکز کن و هر اقدامی را با پزشکت هماهنگ کن.</div>${vSummary()}`;
     const m = matchTx(p);
     return `
-    <div class="notice"><b>این بخش نسخه‌ی پزشکی نیست.</b> گزینه‌هایی است که بر اساس سن و دغدغه‌هایت ارزش دارد با پزشک دارای مجوز مطرح کنی. تصمیم نهایی بعد از معاینه است.</div>
+    <div class="notice"><b>این بخش نسخه‌ی پزشکی نیست.</b> گزینه‌هایی است که بر اساس سن و دغدغه‌هایت ارزش دارد با پزشک دارای مجوز مطرح کنی. تصمیم نهایی بعد از معاینه است. درمان‌های مو در تب «مو» آمده است.</div>
     ${m.now.length ? m.now.map(t=>`
       <details class="tx">
         <summary><div><small>${t.en}</small><b>${t.name}</b>
@@ -509,7 +732,7 @@
         <div class="body">
           <p>${t.what}</p>
           <dl class="kv"><dt>دفعات</dt><dd>${t.freq}</dd><dt>دوره نقاهت</dt><dd>${t.down}</dd></dl>
-          ${t.dark && p.fitz>=4 ? `<p class="chip warn" style="border-radius:10px;padding:8px 10px">برای تیپ پوست ${ROMAN[p.fitz-1]} خطر لک بعد از درمان بیشتر است. حتماً درباره‌ی تنظیمات مناسب پوست تیره بپرس.</p>`:''}
+          ${t.dark && p.fitz>=4 ? `<div class="notice warn">برای تیپ پوست ${ROMAN[p.fitz-1]} خطر لک بعد از درمان بیشتر است. درباره‌ی تنظیمات مناسب پوست تیره بپرس.</div>`:''}
           <div><b>از پزشک بپرس:</b><ul class="qs">${t.ask.map(q=>`<li>${q}</li>`).join('')}</ul></div>
         </div>
       </details>`).join('') : `<section class="panel"><p class="sub" style="margin:0">با دغدغه‌ها و سنی که ثبت کردی، فعلاً روتین خانگی کافی است.</p></section>`}
@@ -520,11 +743,13 @@
     const p = profile, r = routine(p), m = p.pregnant ? {now:[]} : matchTx(p);
     return [
       'شناسنامه پوستی | Shadi Method',
-      `نام: ${p.name||'-'} | سن: ${fa(p.age)} | نوع پوست: ${SKIN[p.skin]} | فیتزپاتریک: ${ROMAN[p.fitz-1]}`,
-      `دغدغه‌ها: ${p.concerns.map(c=>CONCERN[c]).join('، ')||'-'}`,
+      `نام: ${p.name||'-'} | سن: ${fa(p.age)} | دوره: ${STAGES[stageKey(p)].label}`,
+      `نوع پوست: ${SKIN[p.skin]} | فیتزپاتریک: ${ROMAN[p.fitz-1]} | پوست سر: ${SCALP[p.scalp]}`,
+      `دغدغه‌های پوست: ${p.concerns.map(c=>CONCERN[c]).join('، ')||'-'}`,
+      `دغدغه‌های مو: ${p.hair.map(h=>HAIR[h].n).join('، ')||'-'}`,
       `بارداری یا شیردهی: ${p.pregnant?'بله':'خیر'} | سیگار: ${p.smoke?'بله':'خیر'} | ضدآفتاب روزانه: ${p.spf?'بله':'خیر'}`,
       `روتین شب: ${r.pm.map(s=>s.t).join(' ← ')}`,
-      m.now.length ? `گزینه‌هایی که می‌خواهم درباره‌شان بپرسم: ${m.now.map(t=>t.name).join('، ')}` : '',
+      m.now.length ? `می‌خواهم درباره‌ی این‌ها بپرسم: ${m.now.map(t=>t.name).join('، ')}` : ''
     ].filter(Boolean).join('\n');
   }
   function vSummary(){
@@ -535,13 +760,12 @@
       <button class="primary" type="button" id="copyBtn" style="margin-top:10px">کپی خلاصه</button>
     </section>`;
   }
-  function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
-  const TITLES = {passport:'شناسنامه', routine:'روتین من', habits:'عادت‌ها', clinic:'کلینیک'};
+  const TITLES = {passport:'شناسنامه', routine:'روتین پوست', hair:'مو', age:'مراقبت سن من', clinic:'کلینیک'};
   function render(){
     $('#pageTitle').textContent = TITLES[tab];
     $('#sampleBanner').hidden = !profile.sample;
-    $('#view').innerHTML = tab==='passport' ? vPassport() : tab==='routine' ? vRoutine() : tab==='habits' ? vHabits() : vClinic();
+    $('#view').innerHTML = tab==='passport' ? vPassport() : tab==='routine' ? vRoutine() : tab==='hair' ? vHair() : tab==='age' ? vAge() : vClinic();
     document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-current', b.dataset.tab===tab ? 'page' : 'false'));
   }
   function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast.h); toast.h=setTimeout(()=>t.classList.remove('show'),1800); }
@@ -549,8 +773,7 @@
   document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{ tab=b.dataset.tab; store.set('sp.tab',tab); render(); window.scrollTo(0,0); }));
   $('#view').addEventListener('click', ev=>{
     const m = ev.target.closest('[data-mode]'); if(m){ routineMode=m.dataset.mode; render(); return; }
-    const w = ev.target.closest('[data-water]');
-    const h = ev.target.closest('[data-h]');
+    const w = ev.target.closest('[data-water]'), h = ev.target.closest('[data-h]');
     if(w || h){
       const e = {...dayLog(todayKey)};
       if(w) e.water = Math.max(0, Math.min(12, (e.water||0) + Number(w.dataset.water)));
@@ -573,30 +796,42 @@
   const opt = (key,val,b,s,multi) => { const on = multi ? draft[key].includes(val) : draft[key]===val;
     return `<button type="button" class="opt" data-k="${key}" data-v="${val}" ${multi?'data-multi="1"':''} aria-pressed="${on}"><b>${b}</b>${s?`<span>${s}</span>`:''}</button>`; };
   const STEPS = [
-    {t:'بیا شناسنامه‌ی پوستت را بسازیم', s:'۷ سؤال کوتاه، حدود ۲ دقیقه.', r:()=>`
-      <div class="stack"><label class="f">اسم (اختیاری)<input type="text" id="qName" value="${esc(draft.sample?'':draft.name)}" placeholder="مثلاً مریم" autocomplete="given-name"></label>
-      <label class="f">سن<input type="number" id="qAge" inputmode="numeric" min="16" max="80" value="${draft.age}"></label></div>`,
-      ok:()=>{ draft.name = $('#qName').value.trim(); const a = Number($('#qAge').value); if(!(a>=16 && a<=80)) return 'سن را بین ۱۶ تا ۸۰ وارد کن.'; draft.age = Math.round(a); }},
+    {t:'بیا شناسنامه‌ات را بسازیم', s:'۹ سؤال کوتاه، حدود ۳ دقیقه.', r:()=>`
+      <div class="stack"><label class="f">اسم (اختیاری)<input type="text" id="qName" value="${esc(draft.name)}" placeholder="مثلاً مریم" autocomplete="given-name"></label>
+      <label class="f">سن<input type="number" id="qAge" inputmode="numeric" min="13" max="90" value="${draft.age}"></label>
+      <div class="opts two">${opt('sex','f','خانم','')}${opt('sex','m','آقا','')}</div></div>`,
+      save:()=>{ draft.name = $('#qName').value.trim(); draft.age = Math.round(Number($('#qAge').value)); },
+      ok:()=>{ if(!(draft.age>=13 && draft.age<=90)) return 'سن را بین ۱۳ تا ۹۰ وارد کن.'; }},
     {t:'پوستت چه نوعی است؟', s:'دو ساعت بعد از شستن صورت، بدون هیچ محصولی، پوستت چه حسی دارد؟', r:()=>`<div class="opts">
       ${opt('skin','oily','چرب','همه‌جا براق، منافذ واضح')}${opt('skin','combo','مختلط','پیشانی و بینی براق، گونه‌ها نرمال یا خشک')}
       ${opt('skin','normal','نرمال','نه کشیده، نه براق')}${opt('skin','dry','خشک','کشیده، گاهی پوسته‌پوسته')}${opt('skin','sensitive','حساس','زود قرمز می‌شود یا می‌سوزد')}</div>`},
     {t:'رنگ پوستت کدام است؟', s:'مقیاس فیتزپاتریک: هرچه تیره‌تر، کمتر می‌سوزد ولی زودتر لک می‌شود.', r:()=>`<div class="fitz">${FITZ.map((c,i)=>`<button type="button" data-fitz="${i+1}" aria-pressed="${draft.fitz===i+1}" style="background:${c};color:${i>=3?'#fff':'#2B1820'}" aria-label="تیپ ${ROMAN[i]}">${ROMAN[i]}</button>`).join('')}</div>
       <p class="sub" style="margin-top:10px">I: همیشه می‌سوزد، برنزه نمی‌شود · VI: هیچ‌وقت نمی‌سوزد</p>`},
-    {t:'مهم‌ترین دغدغه‌هایت؟', s:'حداکثر ۳ مورد.', r:()=>`<div class="opts two">${Object.entries(CONCERN).map(([k,v])=>opt('concerns',k,v,'',true)).join('')}</div>`,
+    {t:'مهم‌ترین دغدغه‌های پوستت؟', s:'حداکثر ۳ مورد.', r:()=>`<div class="opts two">${Object.entries(CONCERN).map(([k,v])=>opt('concerns',k,v,'',true)).join('')}</div>`,
       ok:()=>{ if(!draft.concerns.length) return 'دست‌کم یک مورد انتخاب کن.'; }},
+    {t:'موهایت چه مشکلی دارند؟', s:'حداکثر ۳ مورد. اگر مشکلی نداری، رد شو.', r:()=>`<div class="opts two">${Object.entries(HAIR).filter(([k,h])=>!h.f || draft.sex==='f').map(([k,h])=>opt('hair',k,h.n,'',true)).join('')}</div>`},
+    {t:'پوست سر و عادت‌های مو', s:'این‌ها روتین موی تو را می‌سازند.', r:()=>`<div class="stack">
+      <h4>پوست سرت</h4><div class="opts">${opt('scalp','oily','چرب','یک روز بعد از شستن چرب می‌شود')}${opt('scalp','normal','نرمال','۲ تا ۳ روز تمیز می‌ماند')}${opt('scalp','dry','خشک','کشیده یا پوسته‌ی ریز')}</div>
+      <h4>سشوار، اتو یا بابلیس</h4><div class="opts">${opt('heat','rare','به‌ندرت','')}${opt('heat','weekly','چند بار در هفته','')}${opt('heat','daily','هر روز','')}</div>
+      <h4>رنگ، دکلره یا کراتین</h4><div class="opts two">${opt('chem',true,'انجام می‌دهم','')}${opt('chem',false,'انجام نمی‌دهم','')}</div></div>`},
     {t:'خواب و آب', s:'میانگین یک هفته‌ی معمولی.', r:()=>`<div class="stack">${rangeEl('qSleep','خواب شبانه',4,10,draft.sleep,'ساعت','۴','۱۰')}${rangeEl('qWater','آب روزانه',0,12,draft.water,'لیوان','۰','۱۲')}</div>`,
-      ok:()=>{ draft.sleep=+$('#qSleep').value; draft.water=+$('#qWater').value; }},
+      save:()=>{ draft.sleep=+$('#qSleep').value; draft.water=+$('#qWater').value; }},
     {t:'سبک زندگی', s:'صادق باش، کسی نمی‌بیند.', r:()=>`<div class="stack">${rangeEl('qStress','سطح استرس',1,5,draft.stress,'از ۵','آرام','خیلی زیاد')}
       ${rangeEl('qSugar','قند و شیرینی',1,5,draft.sugar,'از ۵','تقریباً هیچ','هر روز زیاد')}${rangeEl('qEx','ورزش در هفته',0,7,draft.exercise,'روز','۰','۷')}</div>`,
-      ok:()=>{ draft.stress=+$('#qStress').value; draft.sugar=+$('#qSugar').value; draft.exercise=+$('#qEx').value; }},
-    {t:'آفتاب و چند سؤال آخر', s:'این‌ها روی سن پوست و پیشنهادهای کلینیک اثر دارند.', r:()=>`<div class="stack">
+      save:()=>{ draft.stress=+$('#qStress').value; draft.sugar=+$('#qSugar').value; draft.exercise=+$('#qEx').value; }},
+    {t:'آفتاب و چند سؤال آخر', s:'این‌ها روی مراقبت سنی و پیشنهادهای کلینیک اثر دارند.', r:()=>`<div class="stack">
       <div class="opts">${Object.entries(SUN).map(([k,v])=>opt('sun',k,v)).join('')}</div>
       <div class="opts two">${opt('spf',true,'ضدآفتاب هر روز','')}${opt('spf',false,'گاهی یا هرگز','')}</div>
-      <div class="opts two">${opt('smoke',false,'سیگار نمی‌کشم','')}${opt('smoke',true,'سیگار می‌کشم','')}</div>
-      <div class="opts two">${opt('pregnant',false,'باردار/شیرده نیستم','')}${opt('pregnant',true,'باردار یا شیرده‌ام','')}</div>
+      <div class="opts two">${opt('smoke',false,'سیگار و قلیان نه','')}${opt('smoke',true,'سیگار یا قلیان','')}</div>
+      ${draft.sex==='f' ? `<div class="opts two">${opt('pregnant',false,'باردار/شیرده نیستم','')}${opt('pregnant',true,'باردار یا شیرده‌ام','')}</div>` : ''}
+      ${draft.sex==='f' && draft.age>=38 ? `<h4>قاعدگی</h4><div class="opts">${opt('meno','regular','منظم است','')}${opt('meno','peri','نامنظم شده یا گرگرفتگی دارم','')}${opt('meno','post','بیش از یک سال است قطع شده','')}</div>` : ''}
       <div class="opts">${Object.entries(GOAL).map(([k,v])=>opt('goal',k,v)).join('')}</div></div>`}
   ];
-  function openQuiz(){ draft = JSON.parse(JSON.stringify(profile)); if(draft.sample){ draft.name=''; } step=0; $('#quiz').hidden=false; document.body.style.overflow='hidden'; drawStep(); }
+  function openQuiz(){
+    draft = JSON.parse(JSON.stringify(profile));
+    if(draft.sample){ Object.assign(draft, {name:'', age:30, concerns:[], hair:[], meno:'regular'}); }
+    step=0; $('#quiz').hidden=false; document.body.style.overflow='hidden'; drawStep();
+  }
   function closeQuiz(){ $('#quiz').hidden=true; document.body.style.overflow=''; }
   function drawStep(){
     const S = STEPS[step];
@@ -612,19 +847,22 @@
   $('#qBody').addEventListener('click', ev=>{
     const f = ev.target.closest('[data-fitz]'); if(f){ draft.fitz=+f.dataset.fitz; drawStep(); return; }
     const o = ev.target.closest('.opt'); if(!o) return;
+    const S = STEPS[step]; if(S.save) S.save();
     const k = o.dataset.k; let v = o.dataset.v; v = v==='true' ? true : v==='false' ? false : v;
     if(o.dataset.multi){ const a = draft[k]; const i = a.indexOf(v); if(i>=0) a.splice(i,1); else if(a.length<3) a.push(v); else { $('#qErr').textContent='حداکثر ۳ مورد. یکی را بردار.'; return; } }
     else draft[k] = v;
-    const keepName = $('#qName') ? $('#qName').value : null;
-    drawStep(); if(keepName!==null && $('#qName')) $('#qName').value = keepName;
+    drawStep();
   });
   $('#qNext').addEventListener('click', ()=>{
-    const S = STEPS[step]; const e = S.ok && S.ok(); if(e){ $('#qErr').textContent = e; return; }
+    const S = STEPS[step]; if(S.save) S.save();
+    const e = S.ok && S.ok(); if(e){ $('#qErr').textContent = e; return; }
     if(step < STEPS.length-1){ step++; drawStep(); return; }
+    if(draft.sex==='m'){ draft.pregnant=false; draft.meno='na'; draft.hair = draft.hair.filter(h=>!HAIR[h].f); }
+    else if(draft.age<38) draft.meno='regular';
     delete draft.sample; profile = draft; store.set('sp.profile', profile); tab='passport'; store.set('sp.tab',tab);
     closeQuiz(); render(); window.scrollTo(0,0); toast('شناسنامه‌ات ساخته شد');
   });
-  $('#qBack').addEventListener('click', ()=>{ const S=STEPS[step]; if(S.ok) S.ok(); if(step>0){ step--; drawStep(); } });
+  $('#qBack').addEventListener('click', ()=>{ const S=STEPS[step]; if(S.save) S.save(); if(step>0){ step--; drawStep(); } });
   $('#qClose').addEventListener('click', closeQuiz);
   document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !$('#quiz').hidden) closeQuiz(); });
   $('#editBtn').addEventListener('click', openQuiz);
