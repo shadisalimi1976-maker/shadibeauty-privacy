@@ -139,6 +139,84 @@
       "skillPath": "skills/free-tools/SKILL.md",
       "computedHash": "8ac6a6881df107a32d1ed74dc0d9ae52232c7416fe4acc37ae1f281f9668e49b"
     },
+    "ig-audit": {
+      "source": "Jakeschincariol/instagram-agent-skill",
+      "sourceType": "github",
+      "skillPath": "skills/ig-audit/SKILL.md",
+      "computedHash": "73a2ed8c0a6563bf98995c19f179669580813189f8fc44c51b964cf86bf8f9fb"
+    },
+    "ig-caption": {
+      "source": "Jakeschincariol/instagram-agent-skill",
+      "sourceType": "github",
+      "skillPath": "skills/ig-caption/SKILL.md",
+      "computedHash": "d1b6eb532690657cfb7a47228d486b6e8deda047ae03c017278860eeffc9fbbd"
+    },
+    "ig-carousel": {
+      "source": "Jakeschincariol/instagram-agent-skill",
+      "sourceType": "github",
+      "skillPath": "skills/ig-carousel/SKILL.md",
+      "computedHash": "38cb1a4a9a92b649c8c031217c0a82cc766aa888ae7e84e6b42fb651cd54d382"
+    },
+    "ig-comment": {
+      "source": "Jakeschincariol/instagram-agent-skill",
+      "sourceType": "github",
+      "skillPath": "skills/ig-comment/SKILL.md",
+      "computedHash": "8fa4c7dbea13fb86a41134b419b90c979247760039cab4148c4e8713f04bfc9b"
+    },
+    "ig-dm": {
+      "source": "Jakeschincariol/instagram-agent-skill",
+      "sourceType": "github",
+      "skillPath": "skills/ig-dm/SKILL.md",
+      "computedHash": "5eb376096bee31e1fb94eee39cc80558e47a00b826b5c0fbf377f80f393056fc"
+    },
+    "ig-human": {
+      "source": "Jakeschincariol/instagram-agent-skill",
+      "sourceType": "github",
+      "skillPath": "skills/ig-human/SKILL.md",
+      "computedHash": "c3970397e0a189ac1726cd4cd29163802b40dc99d304c438a945fd5a0d5f6ec8"
+    },
+    "ig-plan": {
+      "source": "Jakeschincariol/instagram-agent-skill",
+      "sourceType": "github",
+      "skillPath": "skills/ig-plan/SKILL.md",
+      "computedHash": "7f3d0472480e553a908c4d624d899c66bb4188852c6f793f3e9fbb1a7743e76d"
+    },
+    "ig-profile": {
+      "source": "Jakeschincariol/instagram-agent-skill",
+      "sourceType": "github",
+      "skillPath": "skills/ig-profile/SKILL.md",
+      "computedHash": "6182f07343269b3d81c9b5fc2ee86341af6f86abc954ffd29668e47954886c0b"
+    },
+    "ig-reel": {
+      "source": "Jakeschincariol/instagram-agent-skill",
+      "sourceType": "github",
+      "skillPath": "skills/ig-reel/SKILL.md",
+      "computedHash": "9e32045b0e8bf6c4d663aec6c12116639c746de3b7951bb94ebc5dd4318c3b10"
+    },
+    "ig-reply": {
+      "source": "Jakeschincariol/instagram-agent-skill",
+      "sourceType": "github",
+      "skillPath": "skills/ig-reply/SKILL.md",
+      "computedHash": "1dfff3c0a0a2a4e1054cf65335cb00ee9d7db29a834d3be83829c1650c8d8590"
+    },
+    "ig-repurpose": {
+      "source": "Jakeschincariol/instagram-agent-skill",
+      "sourceType": "github",
+      "skillPath": "skills/ig-repurpose/SKILL.md",
+      "computedHash": "ab22298daecc842de07ce9334fd98ed11ced41692e0923f18b70b9c168d55ec8"
+    },
+    "ig-story": {
+      "source": "Jakeschincariol/instagram-agent-skill",
+      "sourceType": "github",
+      "skillPath": "skills/ig-story/SKILL.md",
+      "computedHash": "c3fce47b3bb585a896275ef9db096bf44658e1c7b93041823d313f5bd9d32524"
+    },
+    "ig-viral": {
+      "source": "Jakeschincariol/instagram-agent-skill",
+      "sourceType": "github",
+      "skillPath": "skills/ig-viral/SKILL.md",
+      "computedHash": "7ba57f5ddaaff8d8d58008e233f2f0d354eea848bb68d6d2fbe2ee0bf1f2f332"
+    },
     "image": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
