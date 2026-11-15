@@ -1,0 +1,109 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#111}
+body{font-family:Inter,Helvetica,Arial,sans-serif;color:#f2ede4;position:relative}
+.layer{position:absolute;inset:0;overflow:hidden;opacity:0}
+.layer .blur{position:absolute;inset:-60px;background-size:cover;background-position:center;filter:blur(40px) brightness(.55)}
+.layer img{position:absolute;left:50%;top:50%;transform-origin:center}
+.shade{position:absolute;inset:0;pointer-events:none;z-index:50}
+.t{position:absolute;z-index:60;opacity:0;text-shadow:0 2px 24px rgba(0,0,0,.5);left:90px;right:90px}
+.serif{font-family:'Cormorant Garamond',Georgia,serif}
+.k{font-size:30px;letter-spacing:.32em;text-transform:uppercase;font-weight:600;color:#e9c99a}
+.h{font-family:'Cormorant Garamond',Georgia,serif;font-size:118px;font-weight:600;line-height:1.02}
+.h i{font-weight:500}
+.s{font-size:46px;font-weight:600;line-height:1.3}
+.s2{font-size:40px;line-height:1.35;opacity:.92}
+#cr{position:absolute;z-index:60;left:90px;top:1600px;font-size:19px;letter-spacing:.03em;opacity:.7}
+#grain{position:absolute;z-index:70;inset:0;opacity:.05;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>")}
+</style></head><body>
+<div id="stage"></div>
+<div class="shade" id="dim" style="background:#000;opacity:0;z-index:45"></div>
+<div class="shade" style="background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,0) 30%)"></div>
+<div class="shade" style="background:linear-gradient(rgba(0,0,0,0) 45%,rgba(0,0,0,.8))"></div>
+<div id="texts"></div>
+<div id="cr">Images: Frieze Abu Dhabi via My Modern Met, Fact, Khaleej Times, The National, Visit Abu Dhabi</div>
+<div id="grain"></div>
+<script>
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)), oc=x=>1-Math.pow(1-cl(x),3), seg=(t,a,b)=>cl((t-a)/(b-a)), lerp=(a,b,k)=>a+(b-a)*k;
+const DROP=5.78, BEAT=0.6, END=54.3;
+const sn=x=> x<=DROP? x : DROP+Math.round((x-DROP)/BEAT)*BEAT;
+// [src, start, end, mode, z0, z1, py, dim]
+const RAW=[
+ ['dala.jpg',0,5.78,'cover',1.25,1.08,0,.25],
+ ['a1.jpg',5.78,7.88,'cover',1.0,1.12,0,.3],
+ ['a12.jpg',7.88,10.2,'contain',1.0,1.06,-260,0],
+ ['a5.jpg',10.2,10.8,'contain',1.06,1.0,-260,.35],
+ ['a9.jpg',10.8,11.4,'contain',1.06,1.0,-260,.35],
+ ['a7.jpg',11.4,12.3,'contain',1.06,1.0,-260,.35],
+ ['a11.jpg',12.3,15.0,'contain',1.0,1.06,-260,0],
+ ['a13.jpg',15.0,18.5,'contain',1.0,1.06,-260,.15],
+ ['manarat.jpg',18.5,24.2,'cover',1.0,1.18,0,.15],
+ ['a18.jpg',24.2,28.2,'contain',1.0,1.06,-260,0],
+ ['a6.jpg',28.2,29.7,'contain',1.0,1.06,-260,0],
+ ['a2.jpg',29.7,34.6,'cover',1.15,1.0,0,.5],
+ ['a17.jpg',34.6,37.5,'cover',1.18,1.05,0,.45],
+ ['a14.jpg',37.5,42.8,'contain',1.0,1.05,-330,.35],
+ ['bien2.jpg',42.8,46.2,'cover',1.0,1.12,0,.25],
+ ['bien1.jpg',46.2,51.1,'cover',1.12,1.0,0,.3],
+ ['a15.jpg',51.1,END+1,'cover',1.0,1.08,0,.45],
+];
+const SH=RAW.map(r=>[r[0],sn(r[1]),r[2]>50?r[2]:sn(r[2]),r[3],r[4],r[5],r[6],r[7]]);
+// [html, class, top, start, end]
+const TX=[
+ ['UAE art news','k',250,0,5.6],
+ ['Frieze Abu Dhabi<br><i>starts this week.</i>','h',1150,0.1,5.6],
+ ['Save this: where to be, and when.','s',1430,2.26,5.6],
+ ['Abu Dhabi Art<br><i>has a new name.</i>','h',1200,5.85,7.85],
+ ['Last edition: 2025','s',1270,7.95,10.1],
+ ['FRIEZE','h" style="font-size:230px;text-align:center;letter-spacing:.05em',1180,10.25,12.25],
+ ['The first Frieze fair<br><i>in the Middle East</i>','h" style="font-size:96px',1260,12.35,14.95],
+ ['19–22','h" style="font-size:210px',1150,15.05,18.45],
+ ['November','h" style="font-size:96px;font-style:italic;color:#e9c99a',1370,15.4,18.45],
+ ['Manarat Al Saadiyat','h" style="font-size:96px',1160,18.55,24.1],
+ ['19 Nov: by invitation','s',1300,20.1,24.1],
+ ['Public days from 20 Nov','s',1370,22.2,24.1],
+ ['Director','k',1250,24.3,28.1],
+ ['Dyala Nusseibeh','h" style="font-size:96px',1300,24.4,28.1],
+ ['Don’t wait<br><i>for Thursday.</i>','h" style="font-size:96px',1250,28.25,29.6],
+ ['Also open now','k',250,29.75,34.5],
+ ['Frieze<br><i>Sculpture</i>','h',1150,29.8,34.5],
+ ['From 16 Nov · Mamsha Beach, Saadiyat','s',1420,30.9,34.5],
+ ['Outdoors<br><i>until 16 December</i>','h" style="font-size:104px',1200,34.65,37.4],
+ ['With works by','k',1150,37.55,42.7],
+ ['Zeinab Alhashemi','s',1210,37.6,42.7],
+ ['Mohamed Ahmed Ibrahim','s',1280,38.98,42.7],
+ ['Imran Qureshi','s',1350,40.54,42.7],
+ ['Kamran Samimi','s',1420,41.6,42.7],
+ ['Also this week','k',250,42.85,51.0],
+ ['Public Art<br><i>Abu Dhabi Biennial</i>','h" style="font-size:104px',1180,43.0,46.1],
+ ['Theme: <i>Home</i>','h" style="font-size:104px',1180,46.25,51.0],
+ ['In the city from 15 Nov, after Al Ain','s',1330,47.3,51.0],
+ ['Fair-week updates,<br><i>day by day.</i>','h" style="font-size:104px',1130,51.2,99],
+ ['Save · Follow','k',1400,52.0,99],
+ ['@art_rada_dxb','s" style="text-align:center;font-weight:400;letter-spacing:.2em;font-size:34px',1490,52.3,99],
+];
+const stage=document.getElementById('stage'),L=[];
+SH.forEach(s=>{const d=document.createElement('div');d.className='layer';d.innerHTML=`<div class="blur" style="background-image:url(img/${s[0]})"></div><img src="img/${s[0]}">`;stage.appendChild(d);L.push(d);});
+const TE=TX.map(x=>{const d=document.createElement('div');d.innerHTML=`<div class="t ${x[1]}" style="top:${x[2]}px">${x[0]}</div>`.replace('class="t h" style="font','class="t h" style="font');document.getElementById('texts').appendChild(d.firstChild);return document.getElementById('texts').lastChild;});
+// fix: class strings containing style
+TE.forEach((e,i)=>{const c=TX[i][1];if(c.includes('style=')){const [cls,st]=c.split('" style="');e.className='t '+cls;e.setAttribute('style',`top:${TX[i][2]}px;`+st);}});
+function fit(img,mode){const W=1080,H=1920,r=img.naturalWidth/img.naturalHeight;let w,h;
+ if(mode==='cover'){if(r>W/H){h=H;w=H*r}else{w=W;h=W/r}}else{const mw=940,mh=1000;if(r>mw/mh){w=mw;h=mw/r}else{h=mh;w=mh*r}}
+ img.style.width=w+'px';img.style.height=h+'px';}
+window.render=function(t){
+ let dim=0;
+ SH.forEach((s,i)=>{const [src,a,b,mode,z0,z1,py,dm]=s;const d=L[i],img=d.querySelector('img');
+  if(!img._f&&img.naturalWidth){fit(img,mode);img._f=1}
+  const on=t>=a&&t<b; const fadeIn=i>0?cl((t-a)/0.18+1):1; // tiny 0.18s dissolve into each cut
+  d.style.opacity=on?1:(t>=a-0.18&&t<a?cl((t-(a-0.18))/0.18):0); d.style.zIndex=i;
+  const k=seg(t,a,b); const punch=1+0.04*(1-oc(seg(t,a,a+0.3)));
+  img.style.transform=`translate(-50%,-50%) translateY(${py}px) scale(${lerp(z0,z1,k)*punch})`;
+  d.querySelector('.blur').style.opacity=mode==='contain'?1:0;
+  if(on) dim=dm;
+ });
+ document.getElementById('dim').style.opacity=dim;
+ TE.forEach((e,i)=>{const [,,,a,b]=TX[i];const kin=oc(seg(t,a,a+.4));const o=Math.min(kin,1-seg(t,b-.2,b));e.style.opacity=t<a?0:o;e.style.transform=`translateY(${(1-kin)*36}px)`;});
+};
+</script></body></html>
