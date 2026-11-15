@@ -1,0 +1,122 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden}
+body{background:#f2ede4;font-family:Inter,Helvetica,Arial,sans-serif;color:#1a1814;position:relative}
+.abs{position:absolute}
+.serif{font-family:'Cormorant Garamond',Georgia,serif}
+#bg{inset:0;background:#f2ede4}
+#sea{left:0;right:0;bottom:0;height:0;background:linear-gradient(#2f4a52,#1d2f35)}
+#sun{width:900px;height:900px;border-radius:50%;left:90px;top:300px;background:radial-gradient(circle at 40% 35%,#e9c99a 0%,#d9a46a 45%,#c07a45 100%)}
+#form{left:470px;width:140px;height:290px;background:#1a1814;border-radius:70px 70px 0 0}
+.scene{inset:0;opacity:0}
+.kicker{font-size:30px;letter-spacing:.32em;text-transform:uppercase;font-weight:600}
+.w{display:inline-block}
+#grain{inset:0;opacity:.06;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");pointer-events:none}
+</style></head><body>
+<div id="bg" class="abs"></div>
+<div id="sun" class="abs"></div>
+<div id="sea" class="abs"></div>
+<div id="form" class="abs"></div>
+
+<!-- S1 hook 0-2 -->
+<div id="s1" class="scene abs">
+  <div class="abs kicker" style="left:90px;top:240px">UAE Art News</div>
+  <div class="abs serif" style="left:90px;top:620px;font-size:150px;line-height:1.0;font-weight:600">
+    <span class="w" id="s1a">Abu Dhabi Art</span><br>
+    <span class="w" id="s1b" style="font-style:italic;font-weight:500">has a new</span><br>
+    <span class="w" id="s1c">name.</span>
+  </div>
+</div>
+
+<!-- S2 reveal 2-6 -->
+<div id="s2" class="scene abs">
+  <div class="abs kicker" id="s2k" style="left:90px;top:240px;color:#1a1814">It's now</div>
+  <div class="abs serif" id="s2t" style="left:0;right:0;top:640px;text-align:center;font-size:240px;font-weight:600;letter-spacing:.04em;color:#1a1814"></div>
+  <div class="abs serif" id="s2u" style="left:0;right:0;top:900px;text-align:center;font-size:96px;font-style:italic;color:#1a1814">Abu Dhabi</div>
+  <div class="abs" id="s2s" style="left:90px;right:90px;top:1200px;text-align:center;font-size:44px;color:#f2ede4;line-height:1.35">The first Frieze fair<br>in the Middle East</div>
+</div>
+
+<!-- S3 dates 6-10 -->
+<div id="s3" class="scene abs">
+  <div class="abs kicker" style="left:90px;top:240px;color:#e9c99a">Fair dates</div>
+  <div class="abs serif" id="s3d" style="left:90px;top:540px;font-size:230px;font-weight:600;color:#f2ede4;line-height:1">19–22</div>
+  <div class="abs serif" id="s3m" style="left:90px;top:780px;font-size:110px;font-style:italic;color:#e9c99a">November</div>
+  <div class="abs" id="s3l" style="left:90px;top:960px;height:2px;width:0;background:#e9c99a"></div>
+  <div class="abs" id="s3p" style="left:90px;top:1010px;font-size:52px;color:#f2ede4;font-weight:600">Manarat Al Saadiyat</div>
+  <div class="abs" id="s3q" style="left:90px;top:1090px;font-size:42px;color:#f2ede4;opacity:.85">Public days from 20 Nov</div>
+</div>
+
+<!-- S4 sculpture 10-14 -->
+<div id="s4" class="scene abs">
+  <div class="abs kicker" id="s4k" style="left:90px;top:240px">Start early</div>
+  <div class="abs serif" id="s4t" style="left:90px;top:520px;font-size:150px;font-weight:600;line-height:1">Frieze<br><span style="font-style:italic;font-weight:500">Sculpture</span></div>
+  <div class="abs" id="s4a" style="left:90px;top:1210px;font-size:52px;color:#f2ede4;font-weight:600">Mamsha Beach, Saadiyat</div>
+  <div class="abs" id="s4b" style="left:90px;top:1290px;font-size:44px;color:#e9c99a">16 Nov – 16 Dec · outdoors</div>
+</div>
+
+<!-- S5 end 14-17 -->
+<div id="s5" class="scene abs">
+  <div class="abs kicker" style="left:90px;top:240px">Frieze Abu Dhabi · 19–22 Nov</div>
+  <div class="abs serif" id="s5t" style="left:90px;top:1180px;font-size:120px;font-weight:600;line-height:1.02;color:#f2ede4">Save this<br><span style="font-style:italic;font-weight:500">for fair week.</span></div>
+  <svg id="s5i" class="abs" style="left:870px;top:1200px" width="90" height="110" viewBox="0 0 24 30"><path d="M3 2h18v26l-9-7-9 7z" fill="none" stroke="#e9c99a" stroke-width="2" stroke-linejoin="round"/></svg>
+  <div class="abs" style="left:0;right:0;top:1560px;text-align:center;font-size:32px;letter-spacing:.2em;color:#f2ede4;opacity:.9">@art_rada_dxb</div>
+</div>
+<div id="grain" class="abs"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const io=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const oc=x=>1-Math.pow(1-cl(x),3);
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const lerp=(a,b,k)=>a+(b-a)*k;
+function vis(el,t,a,b,fi=.35,fo=.35){ // scene opacity
+  let o=Math.min(seg(t,a,a+fi), 1-seg(t,b-fo,b)); el.style.opacity=o;}
+function rise(el,k,dy=40){el.style.opacity=oc(k);el.style.transform=`translateY(${(1-oc(k))*dy}px)`}
+window.render=function(t){
+  // background layers
+  const teal = 0;
+  const seaH = t<2 ? 0 : t<6 ? lerp(0,720,io(seg(t,2.3,4.0))) : t<10 ? lerp(720,1920,io(seg(t,5.8,6.6))) : t<14 ? lerp(1920,820,io(seg(t,9.8,10.8))) : 770;
+  $('sea').style.height=seaH+'px';
+  // sun
+  let sunS = t<2 ? 0 : t<6 ? oc(seg(t,2.0,3.2)) : t<10 ? 1-io(seg(t,5.8,6.4)) : t<14 ? .55*oc(seg(t,10.2,11.2)) : lerp(.55,1,io(seg(t,13.8,14.8)));
+  const sunTop = t<10 ? 300 : t<14 ? 700 : lerp(700,300,io(seg(t,13.8,14.8)));
+  $('sun').style.transform=`scale(${sunS}) translateY(${t<14?0:0}px)`;
+  $('sun').style.top=sunTop+'px';
+  $('sun').style.opacity=sunS>0?1:0;
+  // form (black arch) sits on horizon
+  const horizon=1920-seaH;
+  const formOn = t<10 ? 0 : t<14 ? oc(seg(t,10.6,11.6)) : 1;
+  $('form').style.top=(horizon-290*formOn)+'px';
+  $('form').style.height=(290*formOn)+'px';
+  $('form').style.opacity=formOn>0?1:0;
+  // drift
+  document.body.style.transform=`scale(${1+0.015*Math.sin(t/17*Math.PI)})`;
+
+  // S1
+  vis($('s1'),t,-1,2.15,.01,.3);
+  rise($('s1a'),seg(t,0.0,0.45)); rise($('s1b'),seg(t,0.35,0.8)); rise($('s1c'),seg(t,0.7,1.15));
+  // S2
+  vis($('s2'),t,2.05,6.1,.2,.35);
+  const word='FRIEZE', n=Math.floor(cl(seg(t,2.25,3.1))*word.length+0.0001);
+  $('s2t').innerHTML=word.split('').map((c,i)=>`<span style="opacity:${i<n?1:(i==n?((seg(t,2.25,3.1)*word.length)%1):0)}">${c}</span>`).join('');
+  rise($('s2k'),seg(t,2.1,2.5)); rise($('s2u'),seg(t,3.0,3.5)); rise($('s2s'),seg(t,3.6,4.2));
+  // S3
+  vis($('s3'),t,6.1,10.05,.3,.3);
+  rise($('s3d'),seg(t,6.3,6.8)); rise($('s3m'),seg(t,6.7,7.2));
+  $('s3l').style.width=(900*io(seg(t,7.2,7.9)))+'px';
+  rise($('s3p'),seg(t,7.6,8.1)); rise($('s3q'),seg(t,8.1,8.6));
+  // S4
+  vis($('s4'),t,10.1,14.0,.3,.3);
+  rise($('s4k'),seg(t,10.3,10.7)); rise($('s4t'),seg(t,10.5,11.1)); rise($('s4a'),seg(t,11.4,11.9)); rise($('s4b'),seg(t,11.9,12.4));
+  // S5
+  vis($('s5'),t,14.0,99,.3,.3);
+  rise($('s5t'),seg(t,14.6,15.2));
+  const p=seg(t,15.3,15.7); $('s5i').style.opacity=oc(p);
+  $('s5i').style.transform=`scale(${1+0.15*Math.sin(Math.PI*seg(t,15.6,16.2))})`;
+  $('bg').style.background = `rgb(${lerp(242,29,teal)|0},${lerp(237,47,teal)|0},${lerp(228,53,teal)|0})`;
+};
+render(0);
+</script></body></html>
