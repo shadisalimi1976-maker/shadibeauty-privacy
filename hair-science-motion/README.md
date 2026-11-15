@@ -1,6 +1,7 @@
 # Hair Science: Water vs Bleach (Shadi Beauty)
 
 60-second vertical motion graphic (1080 x 1920, 30 fps, silent, 8 scenes).
+On-screen text is Persian by default; open `index.html?lang=en` for English.
 
 - `index.html` : the playable, editable animation. Open it in any browser.
   Text wording is in `TEXT`, colours in `COLOR`, one function per scene
