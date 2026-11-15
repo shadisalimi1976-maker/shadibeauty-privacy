@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hair Science: Water vs Bleach | Shadi Beauty</title>
+<style>
+  :root{--bg:#211c19;--panel:#2c2622;--fg:#f4ede5;--mut:#b7a899;--acc:#d9a441}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+       display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:10px 12px 16px}
+  #stage{position:relative;aspect-ratio:9/16;height:min(calc(100vh - 215px),calc((100vw - 24px)*16/9));min-height:320px;
+         background:#fbf8f3;border-radius:10px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.45)}
+  #stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  #safe{position:absolute;inset:0;pointer-events:none;display:none}
+  #safe i{position:absolute;background:rgba(220,60,60,.16);border:1px dashed rgba(220,60,60,.6)}
+  #controls{width:min(100%,640px);margin-top:10px;background:var(--panel);border-radius:12px;padding:10px 12px}
+  .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0}
+  button{background:#3a322d;color:var(--fg);border:1px solid #51463e;border-radius:8px;padding:7px 11px;font:inherit;font-size:14px;cursor:pointer}
+  button:hover{background:#463c35}
+  button.on{background:var(--acc);color:#2a1d08;border-color:var(--acc);font-weight:600}
+  #play{min-width:84px;font-weight:600}
+  #seek{flex:1;min-width:140px;accent-color:var(--acc)}
+  #time{font-variant-numeric:tabular-nums;font-size:14px;color:var(--mut);min-width:96px;text-align:right}
+  label{font-size:14px;color:var(--mut);display:flex;align-items:center;gap:5px;cursor:pointer}
+  #sceneName{font-size:13px;color:var(--mut);flex:1}
+</style>
+</head>
+<body>
+
+<!-- OUTPUT FRAME (1080 x 1920). Graphics and text are two separate layers. -->
+<div id="stage">
+  <canvas id="gfx" width="1080" height="1920"></canvas>
+  <canvas id="txt" width="1080" height="1920"></canvas>
+  <div id="safe">
+    <i style="left:0;top:0;width:100%;height:13%"></i>
+    <i style="left:0;bottom:0;width:100%;height:22%"></i>
+    <i style="right:0;bottom:22%;width:12%;height:28%"></i>
+  </div>
+</div>
+
+<!-- PLAYER CONTROLS (outside the output frame) -->
+<div id="controls">
+  <div class="row">
+    <button id="play">Play</button>
+    <input id="seek" type="range" min="0" max="60" step="0.01" value="0">
+    <span id="time">0.00 / 60.00</span>
+  </div>
+  <div class="row" id="sceneBtns"></div>
+  <div class="row">
+    <span id="sceneName"></span>
+    <label><input type="checkbox" id="optText" checked> Text</label>
+    <label><input type="checkbox" id="optSafe"> Reels safe zones</label>
+    <button id="still">Go to scene still</button>
+    <button id="save">Save PNG</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+/* =====================================================================
+   HAIR SCIENCE: WATER vs BLEACH  ·  Shadi Beauty
+   Vertical 9:16 (1080 x 1920), 60 s, 8 continuous scenes, silent.
+
+   HOW TO EDIT
+   1. All on-screen wording lives in TEXT below.
+   2. Colours live in COLOR.
+   3. Each scene is one function: scene1_IntoTheHair ... scene8_Comparison.
+      Scene timing and the still-frame time live in SCENES (end of script).
+   ===================================================================== */
+
+const W = 1080, H = 1920, DURATION = 60, FPS = 30;
+const FONT = '"Inter","Helvetica Neue",Arial,sans-serif';
+
+/* ---------- 1. EDITABLE TEXT (English, short, large) ---------- */
+const TEXT = {
+  s1_title:   'What is hair\nmade of?',
+  s1_cuticle: 'Cuticle',
+  s1_cortex:  'Cortex',
+  s1_cutaway: 'Cutaway view',
+  s2_title:   'Hair is mostly keratin',
+  s2_steps:   ['Fiber bundle', 'Filaments', 'Keratin helix'],
+  s3_gold:    'Disulfide bonds',
+  s3_goldSub: 'firm links',
+  s3_blue:    'Hydrogen bonds',
+  s3_blueSub: 'weak, temporary',
+  ss_tag:     'S–S',
+  s4_title:   'Water does not break\nS–S bonds',
+  s5_title1:  'Water rearranges\nhydrogen bonds',
+  s5_title2:  'More flexible\nwhen wet',
+  s6_title1:  'Drying sets a\ntemporary shape',
+  s6_title2:  'Humidity can\nchange it again',
+  s7_title:   'Bleach can oxidize\ndisulfide bonds',
+  s7_tag:     'Bleaching',
+  s7_ox:      'Oxidation',
+  s7_legend:  'oxidizing agent',
+  s7_after:   'Damage stays after drying',
+  s8_left:    'Water:\ntemporary changes',
+  s8_right:   'Bleach:\nchemical damage',
+  model_note: 'Simplified molecular model',
+  brand:      'Shadi Beauty',
+};
+
+/* ---------- 2. EDITABLE COLOURS ---------- */
+const COLOR = {
+  ink: '#3A2A20', inkSoft: '#7A675A',
+  bg0: '#FCFAF6', bg1: '#EEE8DF',
+  protLight: [240, 222, 194], protDark: [166, 128, 92], protEdge: [118, 88, 60],
+  gold: [226, 172, 52], goldDark: [150, 105, 20],
+  dull: [158, 148, 140], dullDark: [98, 90, 84],
+  blue: [52, 140, 220],
+  waterO: [222, 98, 84], waterH: [250, 250, 250],
+  oxid: [142, 106, 196], oxyDot: [214, 92, 70],
+};
+
+/* ---------- 3. SMALL HELPERS ---------- */
+const TAU = Math.PI * 2;
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const smooth = k => { k = clamp(k); return k * k * (3 - 2 * k); };
+const ramp = (t, a, b) => smooth((t - a) / (b - a));            // 0 -> 1 between a and b
+const band = (t, a, b, f = 0.5) => ramp(t, a, a + f) * (1 - ramp(t, b - f, b)); // on between a and b
+const stag = (G, ord) => smooth(G * 1.6 - ord * 0.6);           // staggered 0 -> 1
+const mix = (c1, c2, k) => [lerp(c1[0], c2[0], k), lerp(c1[1], c2[1], k), lerp(c1[2], c2[2], k)];
+const rgb = (c, a = 1) => `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${a})`;
+function rng(seed) { let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+/* offscreen layers (used for clean fades) */
+const layerPool = []; let layerDepth = 0;
+function layer(g, alpha, fn) {
+  if (alpha <= 0.003) return;
+  if (alpha >= 0.997) { fn(g); return; }
+  let c = layerPool[layerDepth];
+  if (!c) { c = layerPool[layerDepth] = document.createElement('canvas'); c.width = W; c.height = H; }
+  layerDepth++;
+  const o = c.getContext('2d'); o.setTransform(1, 0, 0, 1, 0, 0); o.clearRect(0, 0, W, H);
+  fn(o);
+  layerDepth--;
+  g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = alpha; g.drawImage(c, 0, 0); g.restore();
+}
+
+function drawBackground(g) {
+  const gr = g.createRadialGradient(540, 880, 120, 540, 960, 1300);
+  gr.addColorStop(0, COLOR.bg0); gr.addColorStop(1, COLOR.bg1);
+  g.fillStyle = gr; g.fillRect(0, 0, W, H);
+}
+function sphere(g, x, y, r, col, edgeA = 0.55) {
+  const gr = g.createRadialGradient(x - r * 0.35, y - r * 0.4, r * 0.08, x, y, r);
+  gr.addColorStop(0, rgb(mix(col, [255, 255, 255], 0.75)));
+  gr.addColorStop(0.45, rgb(col));
+  gr.addColorStop(1, rgb(mix(col, [40, 25, 15], 0.42)));
+  g.beginPath(); g.arc(x, y, r, 0, TAU); g.fillStyle = gr; g.fill();
+  g.lineWidth = Math.max(0.6, r * 0.09); g.strokeStyle = rgb(mix(col, [40, 25, 15], 0.6), edgeA); g.stroke();
+}
+function capsule(g, u0, u1, v, th, light, dark, edge) {
+  const gr = g.createLinearGradient(0, v - th / 2, 0, v + th / 2);
+  gr.addColorStop(0, rgb(dark)); gr.addColorStop(0.3, rgb(light)); gr.addColorStop(0.62, rgb(mix(light, dark, 0.45))); gr.addColorStop(1, rgb(mix(dark, [60, 40, 25], 0.25)));
+  g.beginPath(); g.roundRect(u0, v - th / 2, u1 - u0, th, th / 2); g.fillStyle = gr; g.fill();
+  if (edge) { g.lineWidth = th * 0.035; g.strokeStyle = edge; g.stroke(); }
+}
+
+/* ---------- 4. TEXT LAYER HELPERS (separate canvas, never baked into art) ---------- */
+let TA = 1; // global text alpha (used by scene cross-fades)
+function drawTitle(tx, str, alpha, o = {}) {
+  if (alpha <= 0.003) return;
+  const size = o.size || 68, x = o.x ?? 540, lh = size * 1.18;
+  const lines = str.split('\n'); const y0 = (o.y ?? 320) + (1 - alpha) * 16;
+  tx.save(); tx.globalAlpha = alpha * TA;
+  tx.font = `${o.weight || 700} ${size}px ${FONT}`; tx.textAlign = o.align || 'center'; tx.textBaseline = 'middle';
+  tx.lineJoin = 'round'; tx.strokeStyle = 'rgba(252,250,246,0.94)'; tx.lineWidth = size * 0.24;
+  if (o.spacing) tx.letterSpacing = o.spacing;
+  lines.forEach((l, i) => tx.strokeText(l, x, y0 + i * lh));
+  tx.fillStyle = o.color || COLOR.ink;
+  lines.forEach((l, i) => tx.fillText(l, x, y0 + i * lh));
+  tx.restore();
+}
+function drawPill(tx, str, x, y, alpha, o = {}) {
+  if (alpha <= 0.003) return;
+  const size = o.size || 34;
+  tx.save(); tx.globalAlpha = alpha * TA;
+  tx.font = `${o.weight || 600} ${size}px ${FONT}`; tx.textAlign = 'center'; tx.textBaseline = 'middle';
+  const w = tx.measureText(str).width + size * 1.1 + (o.dot ? size * 0.9 : 0), h = size * 1.7;
+  tx.beginPath(); tx.roundRect(x - w / 2, y - h / 2, w, h, h / 2);
+  tx.fillStyle = o.bg || 'rgba(255,253,249,0.94)'; tx.fill();
+  tx.lineWidth = 2; tx.strokeStyle = o.border || 'rgba(120,90,60,0.28)'; tx.stroke();
+  let cx = x;
+  if (o.dot) { tx.beginPath(); tx.arc(x - w / 2 + size * 0.85, y, size * 0.3, 0, TAU); tx.fillStyle = o.dot; tx.fill(); cx += size * 0.45; }
+  tx.fillStyle = o.color || COLOR.ink; tx.fillText(str, cx, y + 1);
+  tx.restore();
+}
+function modelNote(tx, alpha, y = 1474, x = 540, size = 28) {
+  drawTitle(tx, TEXT.model_note, alpha, { size, y, x, weight: 500, color: COLOR.inkSoft });
+}
+
+/* =====================================================================
+   5. THE SHARED MOLECULAR MODEL (same in scenes 2 to 8)
+   Four keratin helices, 6 gold disulfide bridges, 21 blue hydrogen bonds.
+   Counts are schematic, not measured values.
+   ===================================================================== */
+const NET = { spacing: 190, r: 34, pitch: 112, half: 470, tube: 20, ssLen: 44, z: [18, -26, 24, -18] };
+
+const BRIDGES = [[0, -320], [1, -275], [2, -300], [0, 285], [1, 310], [2, 300]].map(([g, y]) => ({ g, y }));
+const FOCUS_BRIDGE = 4;            // the bridge scene 4 zooms into
+const BLEACHED = [1, 3, 5];        // bridges oxidized by bleach (scenes 7 and 8)
+
+const HB = [];                     // protein-protein hydrogen bonds
+(() => {
+  const R = rng(7);
+  const ys = [[-430, -195, -110, -25, 70, 160, 415], [-410, -180, -90, 5, 95, 185, 430], [-435, -205, -120, -35, 55, 150, 405]];
+  ys.forEach((list, g) => list.forEach((y, j) => HB.push({
+    g, y, y2: y + (R() - 0.5) * 22, ord: R(),
+    brk: !((j + g) % 3 === 0),     // bonds that water can swap out
+    k2: (j + g) % 3 === 1,         // bonds that re-form in a NEW place after drying (scene 6)
+  })));
+})();
+const HB_ALT = [[0, -150, -95], [0, 30, -20], [0, 120, 170], [1, -140, -85], [1, 50, 0], [1, 140, 190], [2, -80, -130], [2, 100, 60]]
+  .map(([g, y, y2], j) => ({ g, y, y2, ord: (j * 0.37) % 1 }));
+
+const WATERS = [];
+(() => {
+  const R = rng(21);
+  const add = (g, y, fx, grp, keep) => WATERS.push({ g, y, fx, grp, keep, ord: R(), ph: R(), side: R() < 0.5 ? -1 : 1, dz: (R() - 0.5) * 30 });
+  // group F: the few molecules that drift around the S-S bridge in scene 4
+  add(1, 228, 0.3, 'F', true); add(1, 392, 0.68, 'F', false); add(0, 205, 0.5, 'F', false); add(2, 222, 0.45, 'F', true); add(1, 250, 0.72, 'F', false);
+  // group N: the rest of the water that enters in scene 5
+  [[0, -150, .4], [0, -65, .62], [0, 30, .35], [0, 125, .6], [0, 430, .5],
+   [1, -135, .6], [1, -45, .36], [1, 50, .62], [1, 140, .4], [1, -420, .5],
+   [2, -160, .42], [2, -75, .6], [2, 10, .4], [2, 105, .62], [2, 425, .5]]
+    .forEach(([g, y, fx], j) => add(g, y, fx, 'N', j === 2 || j === 7 || j === 11));
+})();
+
+const OXID = [];
+(() => {
+  const R = rng(5);
+  BLEACHED.forEach(b => { OXID.push({ b, dx: -16, dy: -42, ord: R(), ph: R() }); OXID.push({ b, dx: 18, dy: 44, ord: R(), ph: R() }); });
+  [[0, -60], [1, 60], [2, -40]].forEach(([g, y]) => OXID.push({ g, y, ord: R(), ph: R() }));
+})();
+
+function baseState(time) {
+  return {
+    time, open: 0, sway: 0.15, bend: 0, bondsIn: 1, hbDim: 1, blueGlow: 0, goldDim: 1,
+    goldGlow: BRIDGES.map(() => 0), damage: BRIDGES.map(() => 0),
+    hb: HB.map(() => 1), alt: HB_ALT.map(() => 0),
+    water: WATERS.map(() => 0), waterLinks: 0, waterAmpF: 1, ox: OXID.map(() => 0),
+  };
+}
+/* water swaps out part of the blue bonds; gold bridges are never touched here */
+function applyWet(st, w) { HB.forEach((h, k) => { if (h.brk) st.hb[k] = Math.min(st.hb[k], 1 - stag(w, h.ord)); }); }
+
+const openW = y => { const d = (Math.abs(y) - 300) / 150; return 1 - Math.exp(-d * d); }; // network opens only away from the S-S rows
+function axisX(i, y, st) {
+  return (i - 1.5) * NET.spacing * (1 + 0.17 * st.open * openW(y))
+    + st.sway * 20 * Math.sin(y / 250 + st.time * 1.3 + i * 0.12)
+    + st.bend * 70 * (y / NET.half) ** 2;
+}
+function proj(v, x, y, z) {
+  const c = Math.cos(v.yaw), s = Math.sin(v.yaw);
+  const X = x * c + z * s, Z = -x * s + z * c, p = 1600 / (1600 + Z);
+  return { x: v.cx + v.s * X * p, y: v.cy + v.s * y * p, z: Z, s: v.s * p };
+}
+function netView(scale, fx = 0, fy = 0, cx = 540, cy = 1000, yaw = 0) { return { s: scale, cx: cx - scale * fx, cy: cy - scale * fy, yaw }; }
+
+function waterPos(wt, p, st) {
+  const xl = axisX(wt.g, wt.y, st) + NET.r, xr = axisX(wt.g + 1, wt.y, st) - NET.r;
+  const amp = wt.grp === 'F' ? st.waterAmpF : 1;
+  const tx = lerp(xl, xr, wt.fx) + 6 * amp * Math.sin(st.time * 1.1 + wt.ph * 7) + 3 * (amp - 1) * Math.sin(st.time * 0.47 + wt.ph * 3);
+  const ty = wt.y + 9 * amp * Math.sin(st.time * 0.8 + wt.ph * 13);
+  let x = tx, y = ty;
+  if (p < 1) { const k = smooth(p); x = lerp(tx + wt.side * 520, tx, k); y = lerp(ty - 240 + wt.ph * 220, ty, k) - Math.sin(k * Math.PI) * 60; }
+  else if (p > 1) { const k = smooth(p - 1); x = lerp(tx, tx + 430 + wt.ph * 160, k); y = lerp(ty, ty - 560, k); }
+  return [x, y, (NET.z[wt.g] + NET.z[wt.g + 1]) / 2 + wt.dz, xl, xr];
+}
+
+function drawWater(g, P, ang, alpha) {
+  if (alpha <= 0.01) return;
+  const s = P.s; g.globalAlpha = alpha;
+  for (const sg of [-1, 1]) {              // two H atoms, bent ~104.5 degrees
+    const a = ang + sg * 0.912;
+    sphere(g, P.x + Math.cos(a) * 14 * s, P.y + Math.sin(a) * 14 * s, 7.6 * s, COLOR.waterH, 0.5);
+  }
+  sphere(g, P.x, P.y, 12 * s, COLOR.waterO);   // one O atom
+  g.globalAlpha = 1;
+}
+function dashed(g, a, b, col, w, alpha, glow) {
+  if (alpha <= 0.01) return;
+  const s = (a.s + b.s) / 2;
+  g.save(); g.lineCap = 'butt';
+  if (glow > 0.01) { g.globalAlpha = alpha * 0.28 * glow; g.strokeStyle = rgb(col); g.lineWidth = w * 3.4 * s; g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke(); }
+  g.globalAlpha = alpha; g.strokeStyle = rgb(col); g.lineWidth = w * s * (1 + 0.45 * (glow || 0));
+  g.setLineDash([9 * s, 7.5 * s]); g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke();
+  g.setLineDash([]); g.fillStyle = rgb(col);
+  g.beginPath(); g.arc(a.x, a.y, w * 1.05 * s, 0, TAU); g.arc(b.x, b.y, w * 1.05 * s, 0, TAU); g.fill();
+  g.restore();
+}
+function tubeLine(g, a, b, w, fill, edge) {
+  g.lineCap = 'round';
+  g.strokeStyle = edge; g.lineWidth = w + 3.5 * a.s; g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke();
+  g.strokeStyle = fill; g.lineWidth = w; g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke();
+}
+function drawBridge(g, it, d, glow, alpha) {
+  if (alpha <= 0.01) return;
+  const { A, S1, S2, B } = it, s = S1.s;
+  g.save(); g.globalAlpha = alpha;
+  const mx = (S1.x + S2.x) / 2, my = (S1.y + S2.y) / 2;
+  if (glow > 0.01) {
+    const gr = g.createRadialGradient(mx, my, 4 * s, mx, my, 78 * s);
+    gr.addColorStop(0, rgb(COLOR.gold, 0.6 * glow)); gr.addColorStop(1, rgb(COLOR.gold, 0));
+    g.fillStyle = gr; g.beginPath(); g.arc(mx, my, 78 * s, 0, TAU); g.fill();
+  }
+  // short side-chain stubs that tie the bridge to the side of each protein
+  const stub = rgb(mix(COLOR.protLight, COLOR.protDark, 0.55)), edge = rgb(COLOR.protEdge);
+  tubeLine(g, A, S1, 8 * s, stub, edge); tubeLine(g, S2, B, 8 * s, stub, edge);
+  const col = mix(COLOR.gold, COLOR.dull, d), dark = mix(COLOR.goldDark, COLOR.dullDark, d);
+  const gap = 0.44 * smooth(d);
+  const pt = k => ({ x: lerp(S1.x, S2.x, k), y: lerp(S1.y, S2.y, k), s });
+  const seg = (p, q) => {
+    g.lineCap = 'butt';
+    g.strokeStyle = rgb(dark); g.lineWidth = 15 * s; g.beginPath(); g.moveTo(p.x, p.y); g.lineTo(q.x, q.y); g.stroke();
+    g.strokeStyle = rgb(col); g.lineWidth = 10.5 * s; g.beginPath(); g.moveTo(p.x, p.y); g.lineTo(q.x, q.y); g.stroke();
+    g.strokeStyle = 'rgba(255,255,255,0.45)'; g.lineWidth = 2.6 * s; g.beginPath(); g.moveTo(p.x, p.y - 2.6 * s); g.lineTo(q.x, q.y - 2.6 * s); g.stroke();
+  };
+  if (gap < 0.01) seg(S1, S2); else { seg(S1, pt(0.5 - gap / 2)); seg(pt(0.5 + gap / 2), S2); }
+  sphere(g, S1.x, S1.y, 15 * s, col); sphere(g, S2.x, S2.y, 15 * s, col);
+  if (d > 0.02) {                    // schematic oxidation marker: extra oxygen on each sulfur
+    const r = 6.4 * s * smooth(d);
+    for (const S of [S1, S2]) for (const a of [-2.2, -1.2, 2.0]) {
+      const sg = S === S1 ? Math.PI : 0;
+      sphere(g, S.x + Math.cos(a + sg) * 18 * s, S.y + Math.sin(a + sg) * 18 * s, r, COLOR.oxyDot, 0.5);
+    }
+  }
+  g.restore();
+}
+
+/* Draws the whole model. Returns screen positions (anchors) for the text layer. */
+function drawNetwork(g, v, st) {
+  const items = [];
+  // keratin helices (coiled tubes, no cross-rungs)
+  for (let i = 0; i < 4; i++) {
+    let prev = null;
+    for (let y = -NET.half; y <= NET.half; y += 6) {
+      const th = TAU * y / NET.pitch + i * 1.7;
+      const P = proj(v, axisX(i, y, st) + NET.r * Math.cos(th), y, NET.z[i] + NET.r * Math.sin(th));
+      if (prev) items.push({ z: (P.z + prev.z) / 2, k: 0, a: prev, b: P, sh: 0.5 - 0.5 * Math.sin(th) });
+      prev = P;
+    }
+  }
+  const anchors = { ss: [] };
+  // gold disulfide bridges: fixed length, always attached
+  BRIDGES.forEach((b, k) => {
+    const tilt = k % 2 ? 7 : -7;
+    const xa = axisX(b.g, b.y, st) + NET.r + 4, xb = axisX(b.g + 1, b.y, st) - NET.r - 4;
+    const za = NET.z[b.g], zb = NET.z[b.g + 1];
+    const mx = (xa + xb) / 2, mz = (za + zb) / 2, dx = xb - xa, dz = zb - za, L = Math.hypot(dx, dz), ux = dx / L, uz = dz / L, h = NET.ssLen / 2;
+    const it = { k: 1, idx: k, A: proj(v, xa, b.y - tilt, za), S1: proj(v, mx - ux * h, b.y - tilt * 0.3, mz - uz * h), S2: proj(v, mx + ux * h, b.y + tilt * 0.3, mz + uz * h), B: proj(v, xb, b.y + tilt, zb) };
+    it.z = (it.S1.z + it.S2.z) / 2 - 6; items.push(it);
+    anchors.ss[k] = { x: (it.S1.x + it.S2.x) / 2, y: (it.S1.y + it.S2.y) / 2, s: it.S1.s, S1: it.S1, S2: it.S2 };
+  });
+  // blue hydrogen bonds between proteins
+  const hbItem = (h, a, k) => {
+    if (a <= 0.01) return;
+    const A = proj(v, axisX(h.g, h.y, st) + NET.r + 3, h.y, NET.z[h.g]), B = proj(v, axisX(h.g + 1, h.y2, st) - NET.r - 3, h.y2, NET.z[h.g + 1]);
+    items.push({ z: (A.z + B.z) / 2, k: 2, A, B, a: a * (0.84 + 0.16 * Math.sin(st.time * 2.6 + k * 1.9)) });
+  };
+  HB.forEach((h, k) => hbItem(h, st.hb[k] * st.hbDim * st.bondsIn, k));
+  HB_ALT.forEach((h, k) => hbItem(h, st.alt[k] * st.hbDim * st.bondsIn, k + 40));
+  // water molecules and their temporary bonds to the protein
+  WATERS.forEach((wt, k) => {
+    const p = st.water[k]; if (p <= 0.001 || p >= 1.999) return;
+    const [x, y, z, xl, xr] = waterPos(wt, p, st);
+    const P = proj(v, x, y, z);
+    const alpha = p < 1 ? ramp(p, 0, 0.25) : 1 - ramp(p, 1.65, 2);
+    items.push({ z: P.z - 2, k: 3, P, ang: wt.ph * TAU + 0.9 * Math.sin(st.time * 0.9 + wt.ph * 5), a: alpha });
+    const la = st.waterLinks * ramp(p, 0.9, 1) * (1 - ramp(p, 1, 1.12));
+    if (la > 0.01) {
+      const left = wt.fx < 0.5;
+      const Q = proj(v, left ? xl + 3 : xr - 3, y + (left ? -6 : 6), z);
+      items.push({ z: P.z + 1, k: 2, A: P, B: Q, a: la * 0.95, thin: true });
+    }
+  });
+  // oxidizing-agent particles (bleach scenes only)
+  OXID.forEach((o, k) => {
+    const p = st.ox[k]; if (p <= 0.001 || p >= 1.999) return;
+    let tx, ty;
+    if (o.b !== undefined) { const b = BRIDGES[o.b]; tx = (axisX(b.g, b.y, st) + axisX(b.g + 1, b.y, st)) / 2 + o.dx; ty = b.y + o.dy; }
+    else { tx = (axisX(o.g, o.y, st) + axisX(o.g + 1, o.y, st)) / 2; ty = o.y; }
+    tx += 7 * Math.sin(st.time * 1.7 + o.ph * 9); ty += 8 * Math.sin(st.time * 1.3 + o.ph * 5);
+    let x = tx, y = ty;
+    if (p < 1) { const q = smooth(p); x = lerp(tx + (o.ph - 0.5) * 500, tx, q); y = lerp(ty - 760, ty, q); }
+    else if (p > 1) { const q = smooth(p - 1); x = lerp(tx, tx + 300 + o.ph * 300, q); y = lerp(ty, ty + 700, q); }
+    const P = proj(v, x, y, 0);
+    items.push({ z: P.z - 3, k: 4, P, a: p < 1 ? ramp(p, 0, 0.2) : 1 - ramp(p, 1.7, 2) });
+  });
+
+  items.sort((a, b) => b.z - a.z);
+  g.save(); g.lineJoin = 'round';
+  for (const it of items) {
+    if (it.k === 0) {
+      const w = NET.tube * it.a.s, sh = it.sh;
+      g.lineCap = 'butt'; g.strokeStyle = rgb(mix(COLOR.protEdge, [60, 42, 28], 1 - sh)); g.lineWidth = w + 4 * it.a.s;
+      const ex = (it.b.x - it.a.x) * 0.45, ey = (it.b.y - it.a.y) * 0.45;
+      g.beginPath(); g.moveTo(it.a.x - ex, it.a.y - ey); g.lineTo(it.b.x + ex, it.b.y + ey); g.stroke();
+      g.lineCap = 'round'; g.strokeStyle = rgb(mix(COLOR.protDark, COLOR.protLight, 0.15 + 0.85 * sh)); g.lineWidth = w;
+      g.beginPath(); g.moveTo(it.a.x, it.a.y); g.lineTo(it.b.x, it.b.y); g.stroke();
+      if (sh > 0.35) {                 // soft highlight for a rounded, 3D read
+        const dx = it.b.x - it.a.x, dy = it.b.y - it.a.y, L = Math.hypot(dx, dy) || 1, nx = -dy / L, ny = dx / L, sg = ny > 0 ? -1 : 1, o = w * 0.22 * sg;
+        g.strokeStyle = `rgba(255,250,240,${0.42 * (sh - 0.35)})`; g.lineWidth = w * 0.3;
+        g.beginPath(); g.moveTo(it.a.x + nx * o, it.a.y + ny * o); g.lineTo(it.b.x + nx * o, it.b.y + ny * o); g.stroke();
+      }
+    } else if (it.k === 1) drawBridge(g, it, st.damage[it.idx], st.goldGlow[it.idx], st.bondsIn * st.goldDim);
+    else if (it.k === 2) dashed(g, it.A, it.B, COLOR.blue, it.thin ? 2.8 : 3.6, it.a, it.thin ? 0 : st.blueGlow);
+    else if (it.k === 3) drawWater(g, it.P, it.ang, it.a);
+    else if (it.k === 4) { g.globalAlpha = it.a; sphere(g, it.P.x, it.P.y, 11.5 * it.P.s, COLOR.oxid); g.globalAlpha = 1; }
+  }
+  g.restore();
+  return anchors;
+}
+
+/* =====================================================================
+   6. SCENES
+   Every scene function takes (g = graphics layer, tx = text layer, t = time in seconds).
+   ===================================================================== */
+
+/* ---------- SCENE 1 (0-6 s): into a single hair ---------- */
+const HAIR = { R: 95, ang: -58 * Math.PI / 180, cut: 330 };
+const HAIR_SCALES = (() => {
+  const R = rng(11), out = [];
+  for (let u = -1500, row = 0; u <= 1500; u += 44, row++) {
+    let p = -1.75 + (row % 2) * 0.3 + R() * 0.15;
+    while (p < 1.6) { const p2 = p + 0.5 + R() * 0.28; out.push({ u: u + (R() - 0.5) * 8, p1: Math.max(p, -1.57), p2: Math.min(p2, 1.57), b: 15 + R() * 12 }); p = p2; }
+  }
+  return out;
+})();
+const CORTEX_FIBERS = (() => {
+  const R = rng(3), out = [];
+  for (let v = -HAIR.R + 21; v <= HAIR.R - 20; v += 15.5) { let u = -HAIR.cut - 60 - R() * 120; while (u < HAIR.cut + 60) { const len = 120 + R() * 130; out.push({ u, len, v, tone: R() }); u += len + 5; } }
+  return out;
+})();
+function drawHairShaft(g, cutK) {
+  const R = HAIR.R;
+  g.save(); g.shadowColor = 'rgba(80,50,25,0.30)'; g.shadowBlur = 46; g.shadowOffsetY = 26;
+  const body = g.createLinearGradient(0, -R, 0, R);
+  body.addColorStop(0, '#3A2416'); body.addColorStop(0.16, '#6E4529'); body.addColorStop(0.33, '#B68550'); body.addColorStop(0.44, '#96683C'); body.addColorStop(0.72, '#6A4226'); body.addColorStop(1, '#2C1A10');
+  g.fillStyle = body; g.fillRect(-1600, -R, 3200, 2 * R); g.restore();
+  // overlapping cuticle scales, edges pointing to the tip
+  g.save(); g.beginPath(); g.rect(-1600, -R, 3200, 2 * R); g.clip(); g.lineCap = 'round';
+  for (const sc of HAIR_SCALES) {
+    const v1 = R * Math.sin(sc.p1), v2 = R * Math.sin(sc.p2), vm = (v1 + v2) / 2;
+    const path = off => { g.beginPath(); g.moveTo(sc.u + off, v1); g.quadraticCurveTo(sc.u + off + sc.b * 2, vm, sc.u + off, v2); };
+    path(4); g.strokeStyle = 'rgba(30,15,6,0.13)'; g.lineWidth = 8; g.stroke();
+    path(0); g.strokeStyle = 'rgba(38,20,9,0.55)'; g.lineWidth = 2; g.stroke();
+    path(-3); g.strokeStyle = 'rgba(255,226,180,0.20)'; g.lineWidth = 2; g.stroke();
+  }
+  g.restore();
+  // clean longitudinal teaching cut that shows the inside
+  const uc = HAIR.cut * cutK;
+  if (uc > 2) {
+    g.save(); g.beginPath(); g.rect(-uc, -R, 2 * uc, 2 * R); g.clip();
+    g.fillStyle = '#5B3B23'; g.fillRect(-uc, -R, 2 * uc, 2 * R);
+    g.strokeStyle = 'rgba(255,220,170,0.25)'; g.lineWidth = 1.5;
+    for (const vv of [-R + 4.5, -R + 8.5, R - 4.5, R - 8.5]) { g.beginPath(); g.moveTo(-uc, vv); g.lineTo(uc, vv); g.stroke(); }
+    const cx = g.createLinearGradient(0, -R + 12, 0, R - 12);
+    cx.addColorStop(0, '#C9A57C'); cx.addColorStop(0.45, '#E6CDA8'); cx.addColorStop(1, '#C19C72');
+    g.fillStyle = cx; g.fillRect(-uc, -R + 12, 2 * uc, 2 * R - 24);
+    for (const f of CORTEX_FIBERS) {
+      const light = mix([238, 219, 188], [224, 198, 160], f.tone), dark = mix([186, 150, 110], [170, 134, 96], f.tone);
+      capsule(g, f.u, f.u + f.len, f.v, 13, light, dark, 'rgba(110,80,50,0.5)');
+    }
+    for (const sg of [-1, 1]) {
+      const sh = g.createLinearGradient(sg * uc, 0, sg * (uc - 46), 0);
+      sh.addColorStop(0, 'rgba(40,22,10,0.42)'); sh.addColorStop(1, 'rgba(40,22,10,0)');
+      g.fillStyle = sh; g.fillRect(sg > 0 ? uc - 46 : -uc, -R, 46, 2 * R);
+    }
+    g.restore();
+    g.save(); g.globalAlpha = clamp(cutK * 4);
+    for (const sg of [-1, 1]) { g.beginPath(); g.ellipse(sg * uc, 0, 11, R, 0, 0, TAU); g.fillStyle = '#4A2E1B'; g.fill(); g.beginPath(); g.ellipse(sg * uc, 0, 6.5, R - 11, 0, 0, TAU); g.fillStyle = '#B8946C'; g.fill(); }
+    g.strokeStyle = 'rgba(255,255,255,0.75)'; g.lineWidth = 2.2; g.setLineDash([10, 8]);
+    g.strokeRect(-uc - 16, -R - 16, 2 * uc + 32, 2 * R + 32); g.restore();
+  }
+}
+function scene1_IntoTheHair(g, tx, t) {
+  drawBackground(g);
+  const s = lerp(0.82, 1.28, ramp(t, 0, 2.6)) * Math.pow(4.3, ramp(t, 4.3, 6.5));
+  const cutK = ramp(t, 1.8, 3.3);
+  g.save(); g.translate(540, 985); g.scale(s, s); g.rotate(HAIR.ang); drawHairShaft(g, cutK); g.restore();
+
+  drawTitle(tx, TEXT.s1_title, band(t, 0.3, 4.9), { x: 84, y: 300, align: 'left', size: 74 });
+  const la = band(t, 3.1, 4.7, 0.4);
+  if (la > 0.003) {
+    const toScreen = (u, v) => { const c = Math.cos(HAIR.ang), sn = Math.sin(HAIR.ang); return [540 + s * (u * c - v * sn), 985 + s * (u * sn + v * c)]; };
+    const lead = (p, q) => { tx.save(); tx.globalAlpha = la * TA; tx.strokeStyle = COLOR.ink; tx.lineWidth = 3; tx.beginPath(); tx.moveTo(p[0], p[1]); tx.lineTo(q[0], q[1]); tx.stroke(); tx.fillStyle = COLOR.ink; tx.beginPath(); tx.arc(p[0], p[1], 6, 0, TAU); tx.fill(); tx.restore(); };
+    const pc = toScreen(-430, -HAIR.R + 20), px = toScreen(120, 20);
+    lead(pc, [250, 1090]); drawPill(tx, TEXT.s1_cuticle, 220, 1052, la, { size: 38 });
+    lead(px, [760, 1180]); drawPill(tx, TEXT.s1_cortex, 772, 1218, la, { size: 38 });
+    drawPill(tx, TEXT.s1_cutaway, 290, 830, la, { size: 30, color: COLOR.inkSoft });
+  }
+}
+
+/* ---------- SCENE 2 (6-13 s): keratin, one zoom through three scales ---------- */
+function logKeys(t, keys) {
+  for (let i = 0; i < keys.length - 1; i++) if (t <= keys[i + 1][0]) return Math.exp(lerp(Math.log(keys[i][1]), Math.log(keys[i + 1][1]), ramp(t, keys[i][0], keys[i + 1][0])));
+  return keys[keys.length - 1][1];
+}
+const S2_ROWS = (() => { const R = rng(9); return Array.from({ length: 41 }, () => R()); })();
+function drawFiberField(g, th, gap, len, light, dark, bgCol, glow, markBundle) {
+  g.fillStyle = bgCol; g.fillRect(-2600, -2600, 5200, 5200);
+  const pitch = th + gap;
+  for (let k = -20; k <= 20; k++) {
+    const off = k === 0 ? -len / 2 : -len * S2_ROWS[k + 20];
+    for (let u = off - len * 4; u < 2600; u += len + gap * 1.3) {
+      if (u + len < -2600) continue;
+      const tone = S2_ROWS[(k * 7 + 140 + Math.round(u / len)) % 41] * 0.5;
+      capsule(g, u, u + len, k * pitch, th, mix(light, dark, tone * 0.35), mix(dark, [120, 90, 60], tone * 0.3), 'rgba(100,72,46,0.55)');
+    }
+  }
+  if (markBundle) { g.fillStyle = 'rgba(96,66,40,0.5)'; for (const sg of [-1, 1]) g.fillRect(-2600, sg * 3.5 * pitch - gap * 0.9, 5200, gap * 1.8); }
+  if (glow > 0.01) {
+    g.save(); g.globalAlpha = glow; g.shadowColor = 'rgba(255,214,120,0.95)'; g.shadowBlur = 40;
+    g.strokeStyle = '#FFE7A8'; g.lineWidth = th * 0.07; g.beginPath(); g.roundRect(-len / 2, -th / 2, len, th, th / 2); g.stroke(); g.stroke(); g.restore();
+  }
+}
+function scene2_KeratinHelix(g, tx, t) {
+  drawBackground(g);
+  const Z = logKeys(t, [[6, 0.62], [7.3, 0.8], [8.7, 4], [9.5, 4.6], [11.7, 44], [13, 44]]);
+  const ang = lerp(HAIR.ang, -Math.PI / 2, ramp(t, 7.2, 8.8));
+  const stage = (alpha, scale, fn) => layer(g, alpha, o => { o.save(); o.translate(540, 950); o.rotate(ang); o.scale(scale, scale); fn(o); o.restore(); });
+  // stage A: bundles of fibres inside the cortex
+  stage(1 - ramp(Z, 2.2, 4.0), Z, o => drawFiberField(o, 120, 12, 900, [238, 219, 188], [178, 142, 104], '#B99468', band(t, 6.5, 8.3, 0.5), false));
+  // stage B: finer filaments inside one bundle
+  stage(ramp(Z, 1.5, 3.4) * (1 - ramp(Z, 9, 20)), Z / 4, o => drawFiberField(o, 56, 12, 1500, [241, 225, 198], [190, 156, 118], '#C4A27A', band(t, 8.6, 10.2, 0.5), true));
+  // stage C: the helical keratin chains (the same model used in every later scene)
+  const st = baseState(t); st.bondsIn = 0;
+  layer(g, ramp(Z, 5.5, 14), o => drawNetwork(o, coreView(t, Z / 50), st));
+  const veil = 1 - ramp(Z, 9, 20);   // soft veil so the title stays readable over the fibres
+  if (veil > 0.01) { const vg = g.createLinearGradient(0, 0, 0, 600); vg.addColorStop(0, `rgba(250,247,242,${veil})`); vg.addColorStop(0.62, `rgba(250,247,242,${0.93 * veil})`); vg.addColorStop(1, 'rgba(250,247,242,0)'); g.fillStyle = vg; g.fillRect(0, 0, W, 600); }
+
+  drawTitle(tx, TEXT.s2_title, band(t, 6.5, 13.4), { y: 330, size: 70 });
+  // breadcrumb that keeps the three scales connected
+  const a = band(t, 6.6, 13.4), idx = t < 8.1 ? 0 : t < 10.5 ? 1 : 2;
+  if (a > 0.003) {
+    tx.save(); tx.font = `600 30px ${FONT}`; const ws = TEXT.s2_steps.map(sx => tx.measureText(sx).width + 34 + 30); tx.restore();
+    let x = 540 - (ws.reduce((p, c) => p + c, 0) + 2 * 34) / 2;
+    TEXT.s2_steps.forEach((sx, i) => {
+      const on = i === idx;
+      drawPill(tx, sx, x + ws[i] / 2, 1420, a * (on ? 1 : 0.55), { size: 30, bg: on ? 'rgba(74,52,36,0.95)' : 'rgba(255,253,249,0.9)', color: on ? '#FFF6E8' : COLOR.inkSoft });
+      x += ws[i]; if (i < 2) { drawTitle(tx, '›', a * 0.7, { x: x + 17, y: 1418, size: 36, weight: 600, color: COLOR.inkSoft }); x += 34; }
+    });
+  }
+  modelNote(tx, ramp(t, 11.4, 12.2));
+}
+
+/* ---------- SCENES 3, 4, 5 (13-35 s): one continuous shot of the model ---------- */
+function coreZoom(t) { return ramp(t, 19.7, 21.3) * (1 - ramp(t, 26.2, 27.5)); }
+function coreView(t, scale) {
+  const zk = coreZoom(t), fb = BRIDGES[FOCUS_BRIDGE];
+  const s = scale ?? lerp(0.88, 2.5, zk);
+  return netView(s, 0, fb.y * zk, 540, lerp(950, 1060, zk), 0.11 * Math.sin(t * 0.55) * (1 - 0.6 * zk));
+}
+function coreState(t) {
+  const st = baseState(t), zk = coreZoom(t);
+  st.bondsIn = ramp(t, 13.0, 14.2);
+  // scene 3: gold first (one by one), then blue, then both
+  BRIDGES.forEach((b, k) => st.goldGlow[k] = band(t, 14.3 + k * 0.33, 15.7 + k * 0.33, 0.45));
+  st.blueGlow = band(t, 16.7, 18.8, 0.5);
+  st.goldDim = 1 - 0.55 * band(t, 16.8, 18.7, 0.4);
+  st.hbDim = (1 - 0.72 * band(t, 14.1, 16.6, 0.4)) * (1 - 0.68 * zk);
+  // scene 4: water drifts around one S-S bridge, which stays intact
+  st.goldGlow[FOCUS_BRIDGE] = Math.max(st.goldGlow[FOCUS_BRIDGE], 0.45 * zk);
+  st.waterAmpF = 1 + 1.7 * ramp(t, 20, 21) * (1 - ramp(t, 26, 28));
+  const gF = ramp(t, 20.6, 23.6), gN = ramp(t, 27.6, 31.0);
+  WATERS.forEach((w, k) => st.water[k] = stag(w.grp === 'F' ? gF : gN, w.ord));
+  // scene 5: water swaps blue bonds, network loosens; gold bridges untouched
+  applyWet(st, ramp(t, 28.6, 32.2));
+  st.waterLinks = ramp(t, 28.8, 31.2);
+  st.open = ramp(t, 29.6, 33.2); st.sway = 0.15 + 0.85 * st.open;
+  return st;
+}
+function ssTags(tx, anchors, alpha, size, list) {
+  (list || BRIDGES.map((b, k) => k)).forEach(k => { const a = anchors.ss[k]; drawTitle(tx, TEXT.ss_tag, alpha, { x: a.x, y: a.y - 40 * a.s - size * 0.4, size, color: '#8A5E08' }); });
+}
+function scene3_TwoBonds(g, tx, t) {
+  drawBackground(g);
+  const anchors = drawNetwork(g, coreView(t), coreState(t));
+  const aG = band(t, 14.4, 19.9, 0.5), aB = band(t, 16.9, 19.9, 0.5);
+  const legend = (y, a, title, sub, col, isDash) => {
+    if (a <= 0.003) return;
+    tx.save(); tx.globalAlpha = a * TA; tx.strokeStyle = col; tx.lineCap = isDash ? 'butt' : 'round'; tx.lineWidth = isDash ? 8 : 16;
+    if (isDash) tx.setLineDash([18, 13]);
+    tx.beginPath(); tx.moveTo(150, y); tx.lineTo(262, y); tx.stroke(); tx.restore();
+    drawTitle(tx, title, a, { x: 296, y: y - 14, align: 'left', size: 62 });
+    drawTitle(tx, sub, a, { x: 298, y: y + 40, align: 'left', size: 32, weight: 500, color: COLOR.inkSoft });
+  };
+  legend(290, aG, TEXT.s3_gold, TEXT.s3_goldSub, rgb(COLOR.gold), false);
+  legend(430, aB, TEXT.s3_blue, TEXT.s3_blueSub, rgb(COLOR.blue), true);
+  ssTags(tx, anchors, band(t, 14.6, 19.7, 0.5), 26);
+  modelNote(tx, 1);
+}
+function scene4_WaterKeepsSS(g, tx, t) {
+  drawBackground(g);
+  const anchors = drawNetwork(g, coreView(t), coreState(t));
+  const zk = coreZoom(t), a = anchors.ss[FOCUS_BRIDGE];
+  if (zk > 0.01) {                   // soft veil so the title stays readable over the zoomed model
+    const vg = g.createLinearGradient(0, 0, 0, 640);
+    vg.addColorStop(0, `rgba(250,247,242,${zk})`); vg.addColorStop(0.62, `rgba(250,247,242,${0.94 * zk})`); vg.addColorStop(1, 'rgba(250,247,242,0)');
+    g.fillStyle = vg; g.fillRect(0, 0, W, 640);
+    const vb = g.createLinearGradient(0, 1400, 0, 1560);
+    vb.addColorStop(0, 'rgba(250,247,242,0)'); vb.addColorStop(1, `rgba(250,247,242,${0.95 * zk})`);
+    g.fillStyle = vb; g.fillRect(0, 1400, W, 520);
+  }
+  drawTitle(tx, TEXT.s4_title, band(t, 20.5, 26.8), { y: 300, size: 70 });
+  const la = band(t, 21.2, 26.3, 0.5);
+  drawPill(tx, TEXT.ss_tag, a.x, a.y - 122, la, { size: 46, weight: 700, color: '#7A5206', border: 'rgba(200,150,40,0.9)' });
+  for (const S of [a.S1, a.S2]) drawTitle(tx, 'S', la * zk, { x: S.x, y: S.y + 1, size: 15 * S.s, color: '#4A3204' });
+  modelNote(tx, 1);
+}
+function scene5_WaterMovesHBonds(g, tx, t) {
+  drawBackground(g);
+  drawNetwork(g, coreView(t), coreState(t));
+  drawTitle(tx, TEXT.s5_title1, band(t, 27.6, 31.5), { y: 300, size: 70 });
+  drawTitle(tx, TEXT.s5_title2, band(t, 31.7, 35.4), { y: 300, size: 70 });
+  modelNote(tx, 1);
+}
+
+/* ---------- SCENE 6 (35-46 s): drying sets a temporary shape, humidity loosens it ---------- */
+const TRESS = (() => { const R = rng(17); return Array.from({ length: 36 }, (_, i) => ({ d: -44 + 88 * (i / 35), tone: R(), ph: R() * 6, w: 3.6 + R() * 1.8 })).sort(() => R() - 0.5); })();
+function tressPoint(sN, d, P) {
+  const dist = sN * (P.Ls + P.Rc * P.A);
+  if (dist < P.Ls) return [P.x0 + d, P.y0 + dist];
+  const a = (dist - P.Ls) / P.Rc, rr = P.Rc - d;
+  return [P.x0 + P.Rc - rr * Math.cos(a), P.y0 + P.Ls + rr * Math.sin(a)];
+}
+function drawTress(g, P, dry, rollerA) {
+  const cx = P.x0 + P.Rc, cy = P.y0 + P.Ls;
+  if (rollerA > 0.01) {              // neutral styling roller that holds the bend while drying
+    g.save(); g.globalAlpha = rollerA; const r = P.Rc - 54;
+    const gr = g.createRadialGradient(cx - r * 0.3, cy - r * 0.35, r * 0.1, cx, cy, r);
+    gr.addColorStop(0, '#FBFAF8'); gr.addColorStop(1, '#CFC8C0');
+    g.beginPath(); g.arc(cx, cy, r, 0, TAU); g.fillStyle = gr; g.fill(); g.lineWidth = 3; g.strokeStyle = 'rgba(120,110,100,0.6)'; g.stroke();
+    g.beginPath(); g.arc(cx, cy, r * 0.5, 0, TAU); g.fillStyle = '#E4DED6'; g.fill(); g.stroke(); g.restore();
+  }
+  g.save(); g.lineCap = 'round'; g.lineJoin = 'round';
+  for (const sd of TRESS) {
+    const clump = Math.round(sd.d / 22) * 22 * 0.8 + (sd.d - Math.round(sd.d / 22) * 22) * 0.35;
+    const d0 = lerp(clump, sd.d, dry);
+    const col = mix(mix([84, 52, 30], [150, 104, 62], sd.tone), [30, 18, 10], 0.28 * (1 - dry));
+    g.beginPath();
+    for (let i = 0; i <= 90; i++) {
+      const sN = i / 90, d = (d0 + dry * 3 * Math.sin(sN * 14 + sd.ph)) * (1 - 0.55 * ramp(sN, 0.72, 1));
+      const [x, y] = tressPoint(sN, d, P); i ? g.lineTo(x, y) : g.moveTo(x, y);
+    }
+    g.strokeStyle = rgb(col); g.lineWidth = sd.w; g.stroke();
+    if (Math.abs(sd.d + 12) < 16) { g.strokeStyle = `rgba(255,226,180,${0.16 + 0.1 * dry})`; g.lineWidth = sd.w * 0.5; g.stroke(); }
+  }
+  g.restore();
+  // lab clamp at the top
+  const cg = g.createLinearGradient(0, P.y0 - 50, 0, P.y0 + 10);
+  cg.addColorStop(0, '#DAD2C8'); cg.addColorStop(1, '#A99F94');
+  g.beginPath(); g.roundRect(P.x0 - 74, P.y0 - 50, 148, 60, 14); g.fillStyle = cg; g.fill(); g.lineWidth = 2.5; g.strokeStyle = 'rgba(90,80,70,0.55)'; g.stroke();
+}
+function droplet(g, x, y, r, a) {
+  if (r < 0.5 || a < 0.01) return;
+  g.save(); g.globalAlpha = a; g.beginPath(); g.moveTo(x, y - r * 1.7); g.bezierCurveTo(x + r * 1.5, y - r * 0.1, x + r * 1.05, y + r, x, y + r); g.bezierCurveTo(x - r * 1.05, y + r, x - r * 1.5, y - r * 0.1, x, y - r * 1.7);
+  const gr = g.createRadialGradient(x - r * 0.3, y, r * 0.1, x, y, r * 1.4); gr.addColorStop(0, 'rgba(225,242,255,0.95)'); gr.addColorStop(1, 'rgba(96,165,222,0.78)');
+  g.fillStyle = gr; g.fill(); g.lineWidth = 1.5; g.strokeStyle = 'rgba(60,120,180,0.6)'; g.stroke(); g.restore();
+}
+function scene6State(t) {
+  const st = baseState(t), dry = ramp(t, 36.6, 41.2), hum = ramp(t, 42.6, 45.4);
+  applyWet(st, 1); st.waterLinks = 1;
+  WATERS.forEach((w, k) => st.water[k] = w.keep ? 1 : (hum > 0 && k % 4 === 1 ? stag(hum, w.ord) : 1 + stag(dry, w.ord)));
+  // blue bonds re-form as water leaves: some in their old place, some in a new one
+  HB.forEach((h, k) => { if (h.brk && !h.k2) st.hb[k] = smooth(dry * 1.5 - h.ord * 0.5 - 0.15); });
+  HB_ALT.forEach((h, k) => st.alt[k] = smooth(dry * 1.5 - h.ord * 0.5 - 0.15));
+  // humidity returns: part of the blue pattern changes again
+  HB_ALT.forEach((h, k) => { if (k % 3 === 0) st.alt[k] *= 1 - stag(hum, h.ord); });
+  HB.forEach((h, k) => { if (h.brk && !h.k2 && k % 4 === 0) st.hb[k] *= 1 - stag(hum, h.ord); if (h.k2 && k % 2 === 0) st.hb[k] = 0.9 * stag(hum, 0.8); });
+  st.open = 1 - 0.8 * dry + 0.3 * hum; st.sway = 0.15 + 0.55 * st.open; st.bend = 0.9 - 0.3 * hum;
+  return { st, dry, hum };
+}
+function scene6_DryingSetsShape(g, tx, t) {
+  drawBackground(g);
+  const { st, dry, hum } = scene6State(t);
+  const rel = t > 42 ? 0.06 * Math.sin((t - 42) * 9) * Math.exp(-(t - 42) * 3) : 0;
+  const Rc = lerp(125, 140, hum), P = { x0: 150, y0: 600, Ls: 400, Rc, A: 545 / Rc + rel };
+  // gentle air flow from the side
+  const air = band(t, 36.2, 41.6, 0.8);
+  if (air > 0.01) {
+    g.save(); g.lineCap = 'round';
+    for (let i = 0; i < 7; i++) {
+      const y = 640 + i * 78, x = ((t * (150 + i * 17) + i * 233) % 900) - 320;
+      const gr = g.createLinearGradient(x, 0, x + 260, 0); gr.addColorStop(0, 'rgba(140,165,185,0)'); gr.addColorStop(0.6, `rgba(120,150,175,${0.6 * air})`); gr.addColorStop(1, 'rgba(140,165,185,0)');
+      g.strokeStyle = gr; g.lineWidth = 6; g.beginPath();
+      for (let k = 0; k <= 26; k++) { const xx = x + k * 10, yy = y + 9 * Math.sin(xx / 46 + i); k ? g.lineTo(xx, yy) : g.moveTo(xx, yy); }
+      g.stroke();
+    }
+    g.restore();
+  }
+  drawTress(g, P, dry, 1 - ramp(t, 41.0, 42.0));
+  // water as droplets on the outside view; they shrink as the hair dries
+  [[0.12, -30, 11], [0.3, 26, 9], [0.45, -8, 12], [0.6, 30, 9], [0.74, -20, 10], [0.9, 0, 8]].forEach(([sN, d, r], i) => {
+    const [x, y] = tressPoint(sN, d, P); droplet(g, x, y + 6 * dry, r * (1 - stag(dry, i / 6)), 1 - 0.5 * dry);
+  });
+  // returning humidity as fine droplets
+  if (hum > 0.001 && hum < 1) for (let i = 0; i < 16; i++) {
+    const k = clamp(hum * 1.5 - (i / 16) * 0.5), [x1, y1] = tressPoint(0.25 + 0.045 * i, (i % 5 - 2) * 16, P);
+    droplet(g, lerp(430 + (i % 4) * 30, x1, smooth(k)), lerp(y1 - 220 - i * 6, y1, smooth(k)), 5.5, Math.sin(k * Math.PI) * 0.9);
+  }
+  // magnifier window with the same molecular model
+  const bx = 486, by = 800, bw = 450, bh = 620, src = tressPoint(0.33, 0, P);
+  g.save(); g.strokeStyle = 'rgba(120,95,70,0.55)'; g.lineWidth = 2.5;
+  g.beginPath(); g.arc(src[0], src[1], 30, 0, TAU); g.stroke();
+  g.beginPath(); g.moveTo(src[0] + 22, src[1] - 20); g.lineTo(bx, by + 30); g.moveTo(src[0] + 22, src[1] + 20); g.lineTo(bx, by + bh - 30); g.stroke();
+  g.shadowColor = 'rgba(80,55,30,0.22)'; g.shadowBlur = 34; g.shadowOffsetY = 12;
+  g.beginPath(); g.roundRect(bx, by, bw, bh, 30); g.fillStyle = '#FFFDFA'; g.fill(); g.restore();
+  g.save(); g.beginPath(); g.roundRect(bx, by, bw, bh, 30); g.clip();
+  drawNetwork(g, netView(0.56, 22, 0, bx + bw / 2, by + bh / 2 - 14, 0.1 * Math.sin(t * 0.55)), st);
+  g.restore();
+  g.save(); g.beginPath(); g.roundRect(bx, by, bw, bh, 30); g.lineWidth = 3.5; g.strokeStyle = '#C8B6A0'; g.stroke(); g.restore();
+
+  drawTitle(tx, TEXT.s6_title1, band(t, 35.3, 41.5), { y: 300, size: 70 });
+  drawTitle(tx, TEXT.s6_title2, band(t, 41.8, 46.4), { y: 300, size: 70 });
+  modelNote(tx, 1, by + bh - 30, bx + bw / 2, 24);
+}
+
+/* ---------- SCENE 7 (46-54 s): bleach is a different, chemical change ---------- */
+function bleachState(time, gIn, gOut, dmg, wet, dryOut) {
+  const st = baseState(time);
+  OXID.forEach((o, k) => st.ox[k] = stag(gIn, o.ord) + stag(gOut, o.ord));
+  BLEACHED.forEach((b, j) => st.damage[b] = dmg(j));
+  WATERS.forEach((w, k) => { if (w.grp === 'N' && k % 2 === 0) st.water[k] = w.keep ? stag(wet, w.ord) : stag(wet, w.ord) + stag(dryOut, w.ord); });
+  const w = wet * (1 - dryOut);
+  applyWet(st, 0.62 * w); st.waterLinks = w; st.open = 0.45 * w; st.sway = 0.15 + 0.4 * w;
+  return st;
+}
+function scene7_BleachOxidizes(g, tx, t) {
+  drawBackground(g);
+  const st = bleachState(t, ramp(t, 46.7, 49.0), ramp(t, 50.6, 52.4), j => ramp(t, 48.7 + j * 0.45, 50.0 + j * 0.45), ramp(t, 45.5, 46.2), ramp(t, 51.0, 53.2));
+  const v = netView(0.88, 0, 0, 540, 990, 0.1 * Math.sin(t * 0.55));
+  const anchors = drawNetwork(g, v, st);
+  drawTitle(tx, TEXT.s7_title, band(t, 46.3, 54.4), { y: 290, size: 70 });
+  drawPill(tx, TEXT.s7_tag, 540, 520, band(t, 46.2, 54.4), { size: 40, weight: 700, bg: 'rgba(74,52,36,0.95)', color: '#FFF6E8' });
+  BLEACHED.forEach(b => { const a = anchors.ss[b]; drawPill(tx, TEXT.s7_ox, a.x, a.y - 58, st.damage[b] * band(t, 46.2, 54.4), { size: 29, weight: 700, color: '#A2402E', border: 'rgba(190,80,60,0.75)' }); });
+  drawPill(tx, TEXT.s7_legend, 330, 1466, band(t, 46.8, 51.8), { size: 26, dot: rgb(COLOR.oxid), color: COLOR.inkSoft });
+  drawPill(tx, TEXT.s7_after, 540, 1466, band(t, 52.2, 54.4, 0.4), { size: 32, weight: 700 });
+  modelNote(tx, band(t, 46.2, 51.9), 1466, 720, 26);
+}
+
+/* ---------- SCENE 8 (54-60 s): side-by-side comparison, then hold ---------- */
+function scene8_Comparison(g, tx, t) {
+  drawBackground(g);
+  const tm = Math.min(t, 58.0);                    // everything freezes at 58 s so viewers can compare
+  const wIn = ramp(tm, 54.7, 55.9), wOut = ramp(tm, 56.3, 57.7), wet = wIn * (1 - wOut);
+  const mk = () => {
+    const st = baseState(tm);
+    WATERS.forEach((w, k) => { if (k % 2 === 1 || w.grp === 'N') st.water[k] = wOut > 0 ? (w.keep ? 1 : 1 + stag(wOut, w.ord)) : stag(wIn, w.ord); });
+    applyWet(st, wet); st.waterLinks = wIn * (1 - ramp(tm, 56.3, 57.0)); st.open = 0.6 * wet; st.sway = 0.15 + 0.5 * wet;
+    return st;
+  };
+  const left = mk(), right = mk();
+  OXID.forEach((o, k) => right.ox[k] = stag(ramp(tm, 54.6, 55.7), o.ord) + stag(ramp(tm, 56.2, 57.4), o.ord));
+  BLEACHED.forEach((b, j) => right.damage[b] = ramp(tm, 55.2 + j * 0.2, 56.2 + j * 0.2));
+  const yaw = 0.08 * Math.sin(tm * 0.55), sc = 0.6, cy = 940;
+  for (const [cx, st] of [[268, left], [740, right]]) {
+    g.save(); g.beginPath(); g.rect(cx - 228, 560, 456, 800); g.clip();
+    drawNetwork(g, netView(sc, 0, 0, cx, cy, yaw), st); g.restore();
+  }
+  g.save(); g.strokeStyle = 'rgba(120,95,70,0.4)'; g.lineWidth = 3; g.beginPath(); g.moveTo(508, 340); g.lineTo(508, 1300); g.stroke(); g.restore();
+
+  const a = ramp(t, 54.2, 54.9);
+  drawTitle(tx, TEXT.s8_left, a, { x: 268, y: 420, size: 44, color: '#1F5F9E' });
+  drawTitle(tx, TEXT.s8_right, a, { x: 740, y: 420, size: 44, color: '#A2402E' });
+  modelNote(tx, a, 1372, 540, 26);
+  drawTitle(tx, TEXT.brand, a, { y: 1446, size: 40, weight: 600, spacing: '5px', color: COLOR.ink });
+}
+
+/* =====================================================================
+   7. TIMELINE  (t0/t1 in seconds, still = time of the scene's still image)
+   ===================================================================== */
+const SCENES = [
+  { id: 'scene1_IntoTheHair',      name: '1 · Into a single hair',        t0: 0,  t1: 6,  still: 4.1,  draw: scene1_IntoTheHair,      fade: 0 },
+  { id: 'scene2_KeratinHelix',     name: '2 · Keratin and its helix',     t0: 6,  t1: 13, still: 12.6, draw: scene2_KeratinHelix,     fade: 0.7 },
+  { id: 'scene3_TwoBonds',         name: '3 · Two kinds of bonds',        t0: 13, t1: 20, still: 19.3, draw: scene3_TwoBonds,         fade: 0 },
+  { id: 'scene4_WaterKeepsSS',     name: '4 · Water keeps S–S intact',    t0: 20, t1: 27, still: 24.6, draw: scene4_WaterKeepsSS,     fade: 0 },
+  { id: 'scene5_WaterMovesHBonds', name: '5 · Water moves hydrogen bonds', t0: 27, t1: 35, still: 33.6, draw: scene5_WaterMovesHBonds, fade: 0 },
+  { id: 'scene6_DryingSetsShape',  name: '6 · Drying sets a temporary shape', t0: 35, t1: 46, still: 40.9, draw: scene6_DryingSetsShape, fade: 0.7 },
+  { id: 'scene7_BleachOxidizes',   name: '7 · Bleach oxidizes S–S',       t0: 46, t1: 54, still: 53.0, draw: scene7_BleachOxidizes,   fade: 0.7 },
+  { id: 'scene8_Comparison',       name: '8 · Water vs bleach',           t0: 54, t1: 60, still: 59.5, draw: scene8_Comparison,       fade: 0.7 },
+];
+
+/* =====================================================================
+   8. RENDERER + PLAYER
+   ===================================================================== */
+const gfx = document.getElementById('gfx'), txt = document.getElementById('txt');
+const G = gfx.getContext('2d'), T = txt.getContext('2d');
+let showText = true, current = 0;
+
+function sceneIndexAt(t) { for (let i = SCENES.length - 1; i >= 0; i--) if (t >= SCENES[i].t0) return i; return 0; }
+function renderAt(t) {
+  t = clamp(t, 0, DURATION); current = t;
+  const i = sceneIndexAt(t), sc = SCENES[i];
+  G.setTransform(1, 0, 0, 1, 0, 0); T.setTransform(1, 0, 0, 1, 0, 0); T.clearRect(0, 0, W, H);
+  const k = sc.fade && i > 0 ? clamp((t - sc.t0) / sc.fade) : 1;
+  if (k < 1) {                       // soft cross-fade from the previous scene
+    TA = 1 - smooth(k); SCENES[i - 1].draw(G, T, t);
+    TA = smooth(k); layer(G, smooth(k), o => sc.draw(o, T, t));
+  } else { TA = 1; sc.draw(G, T, t); }
+  TA = 1;
+}
+function composite(withText) {
+  const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
+  x.drawImage(gfx, 0, 0); if (withText) x.drawImage(txt, 0, 0); return c;
+}
+
+/* API used by the render script (render.js) and for checks */
+window.HairFilm = {
+  W, H, FPS, DURATION, SCENES, TEXT, renderAt,
+  frame(t, withText = true, type = 'image/jpeg', q = 0.95) { renderAt(t); return composite(withText).toDataURL(type, q); },
+  check() {   // gold bridges must stay intact in every water scene
+    const bad = [];
+    for (let t = 13; t <= 35; t += 0.05) { const s = coreState(t); if (Math.max(...s.damage) > 0) bad.push(t); }
+    for (let t = 35; t <= 46; t += 0.05) { const s = scene6State(t).st; if (Math.max(...s.damage) > 0) bad.push(t); }
+    return { waterScenesWithBrokenGold: bad.length, hydrogenBonds: HB.length, disulfideBridges: BRIDGES.length };
+  },
+};
+
+/* player UI */
+const $ = id => document.getElementById(id);
+let playing = false, startWall = 0, startT = 0;
+function ui() {
+  $('seek').value = current; $('time').textContent = current.toFixed(2) + ' / ' + DURATION.toFixed(2);
+  const i = sceneIndexAt(Math.min(current, DURATION - 0.001)); $('sceneName').textContent = 'Scene ' + SCENES[i].name;
+  [...$('sceneBtns').children].forEach((b, j) => b.classList.toggle('on', j === i));
+  $('play').textContent = playing ? 'Pause' : 'Play';
+}
+function tick(now) {
+  if (!playing) return;
+  let t = startT + (now - startWall) / 1000;
+  if (t >= DURATION) { t = DURATION; playing = false; }
+  renderAt(t); ui(); if (playing) requestAnimationFrame(tick);
+}
+function play() { if (current >= DURATION - 0.01) current = 0; playing = true; startT = current; startWall = performance.now(); requestAnimationFrame(tick); ui(); }
+function pause() { playing = false; ui(); }
+function seek(t) { pause(); renderAt(t); ui(); }
+$('play').onclick = () => playing ? pause() : play();
+$('seek').oninput = e => seek(+e.target.value);
+SCENES.forEach((s, i) => { const b = document.createElement('button'); b.textContent = i + 1; b.title = s.name; b.onclick = () => seek(s.t0 + (s.fade || 0)); $('sceneBtns').appendChild(b); });
+$('optText').onchange = e => { showText = e.target.checked; txt.style.display = showText ? '' : 'none'; };
+$('optSafe').onchange = e => { $('safe').style.display = e.target.checked ? 'block' : 'none'; };
+$('still').onclick = () => seek(SCENES[sceneIndexAt(Math.min(current, DURATION - 0.001))].still);
+$('save').onclick = () => {
+  const i = sceneIndexAt(Math.min(current, DURATION - 0.001)), a = document.createElement('a');
+  a.download = `${SCENES[i].id}_${current.toFixed(2)}s${showText ? '' : '_notext'}.png`; a.href = composite(showText).toDataURL('image/png'); a.click();
+};
+addEventListener('keydown', e => { if (e.code === 'Space') { e.preventDefault(); playing ? pause() : play(); } });
+
+window.HairFilm.ready = (document.fonts ? Promise.all([document.fonts.load(`700 60px ${FONT}`), document.fonts.load(`600 30px ${FONT}`), document.fonts.load(`500 30px ${FONT}`)]).catch(() => {}) : Promise.resolve())
+  .then(() => { renderAt(0); ui(); return true; });
+</script>
+</body>
+</html>
