@@ -31,6 +31,9 @@ content in skincare work.
 
 ## Video and reel production rules
 
+- Shadi films herself for every shot she is in. Never write AI prompts for her
+  shots: give plain filming directions instead (where, light, what to do, what to say).
+- AI prompts only for product, cream, texture and volume shots.
 - Images first (Higgsfield Soul), then video (Kling / Veo). Video prompts describe motion only.
 - Product shots use a real photo of the product.
 - 9:16, 15 to 18 seconds, hook in the first 2 seconds.
