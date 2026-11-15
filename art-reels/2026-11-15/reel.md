@@ -1,7 +1,7 @@
 # Art Rada DXB · Daily Art Reel · 15 November 2026 (Dubai)
 
 **Page:** @art_rada_dxb
-**Lead story:** Frieze Abu Dhabi, the first Frieze art fair in the Middle East, opens this week. Frieze Sculpture on Mamsha Beach opens first, tomorrow.
+**Lead story:** Frieze Abu Dhabi, the first Frieze art fair in the Middle East, opens this week. Frieze Sculpture on Mamsha Beach opens first, on 16 November.
 
 ---
 
@@ -76,7 +76,7 @@ Psychology (honest): curiosity gap, practical value (dates and place give a reas
 | 0-2s | Abu Dhabi Art has a new name. | Abu Dhabi Art has a new name. | ابوظبی آرت اسمش عوض شده. | **Shadi on camera** (directions below) | Soft gallery room tone, one heel step on stone |
 | 2-6s | FRIEZE ABU DHABI · first Frieze fair in the Middle East | It's Frieze. The first Frieze fair in the Middle East. | اسم جدیدش فریزه. اولین فریز در خاورمیانه. | Official Frieze Abu Dhabi press image (credit on screen), slow push-in in CapCut | Low cello note swells in, paper page turn |
 | 6-10s | 19-22 Nov · Manarat Al Saadiyat · Public days from 20 Nov | Nineteen to twenty-two November, Manarat Al Saadiyat. Public days start on the twentieth. | ۱۹ تا ۲۲ نوامبر، منارة السعدیات. روزهای عمومی از ۲۰ نوامبر. | AI b-roll A: empty white gallery, light moving across the floor | Quiet air conditioning hum, distant footsteps echo |
-| 10-14s | Opens tomorrow: Frieze Sculpture · Mamsha Beach · until 16 Dec | But start tomorrow. Frieze Sculpture opens on Mamsha Beach. | ولی از فردا شروع کن. فریز اسکالپچر در ساحل ممشا باز می‌شود. | Official press images of the sculptures (credit each artist), or Shadi's own phone shot of the Mamsha promenade at golden hour | Gentle waves, wind on fabric |
+| 10-14s | Opens 16 Nov: Frieze Sculpture · Mamsha Beach · until 16 Dec | Start early. Frieze Sculpture opens 16 November on Mamsha Beach. | زودتر شروع کن، از ۱۶ نوامبر. فریز اسکالپچر در ساحل ممشا باز می‌شود. | Official press images of the sculptures (credit each artist), or Shadi's own phone shot of the Mamsha promenade at golden hour | Gentle waves, wind on fabric |
 | 14-17s | Save this for fair week. @art_rada_dxb | Save this for fair week. | این را برای هفته نمایشگاه ذخیره کن. | AI b-roll B: sand-and-light abstract texture, end card with text | Waves fade, single soft piano note |
 
 ### فیلم‌برداری شادی / Shadi filming directions (0-2s)
@@ -149,13 +149,14 @@ Abu Dhabi Art has a new name. Its last edition was in 2025, and now it's Frieze 
 
 The Abu Dhabi art fair runs 19 to 22 November at Manarat Al Saadiyat. Day one is invite-only. Public days start on the 20th. Dyala Nusseibeh, who ran Abu Dhabi Art, stays on as director.
 
-Don't wait for Thursday. Frieze Sculpture opens tomorrow, 16 November, on Mamsha Beach, Saadiyat. It's outdoors until 16 December, with works by Zeinab Alhashemi, Mohamed Ahmed Ibrahim, Imran Qureshi and Kamran Samimi.
+Don't wait for Thursday. Frieze Sculpture opens 16 November on Mamsha Beach, Saadiyat. It's outdoors until 16 December, with works by Zeinab Alhashemi, Mohamed Ahmed Ibrahim, Imran Qureshi and Kamran Samimi.
 
 Also this week: the Public Art Abu Dhabi Biennial, themed "Home", moves into the city from 15 November after its Al Ain opening.
 
 I'll post fair-week updates here, day by day.
 
 Sources: Frieze, Khaleej Times, The National.
+Images: Frieze Abu Dhabi via My Modern Met, Fact, Khaleej Times, The National, Visit Abu Dhabi.
 
 #FriezeAbuDhabi #AbuDhabiArt #UAEart
 ```
@@ -168,13 +169,14 @@ Sources: Frieze, Khaleej Times, The National.
 
 نمایشگاه از ۱۹ تا ۲۲ نوامبر در منارة السعدیات برگزار می‌شود. روز اول فقط با دعوت‌نامه است و روزهای عمومی از ۲۰ نوامبر شروع می‌شوند. دیالا نسیبه، مدیر ابوظبی آرت، مدیر فریز ابوظبی هم هست.
 
-منتظر پنجشنبه نمان. «فریز اسکالپچر» فردا، ۱۶ نوامبر، در ساحل ممشا در سعدیات باز می‌شود و تا ۱۶ دسامبر در فضای باز می‌ماند، با آثاری از زینب الهاشمی، محمد احمد ابراهیم، عمران قریشی و کامران صمیمی.
+منتظر پنجشنبه نمان. «فریز اسکالپچر» از ۱۶ نوامبر در ساحل ممشا در سعدیات باز می‌شود و تا ۱۶ دسامبر در فضای باز می‌ماند، با آثاری از زینب الهاشمی، محمد احمد ابراهیم، عمران قریشی و کامران صمیمی.
 
 این هفته همچنین: بینال هنر عمومی ابوظبی با موضوع «خانه»، بعد از شروع در العین، از ۱۵ نوامبر به شهر ابوظبی می‌آید.
 
 اخبار هفته نمایشگاه را روز به روز همین‌جا می‌گذارم.
 
 منابع: Frieze، Khaleej Times، The National
+عکس‌ها: Frieze Abu Dhabi از My Modern Met، Fact، Khaleej Times، The National، Visit Abu Dhabi
 
 #FriezeAbuDhabi #AbuDhabiArt #UAEart
 ```
@@ -207,8 +209,8 @@ After generating, add the headline and @art_rada_dxb in CapCut or Canva on the l
 ## 6. زمان پست، استوری، کامنت پین / Posting time, stories, pinned comment
 
 ### بهترین زمان پست امروز / Best time to post today
-امروز یکشنبه، ساعت ۷:۳۰ تا ۸:۳۰ شب به وقت امارات. اول هفته کاری است و مردم بعد از کار گوشی را چک می‌کنند؛ و خبر «فردا» هنوز تازه است.
-Today, Sunday, 7:30-8:30 pm UAE time. It's the start of the work week, people check their phones after work, and the "tomorrow" news is still fresh.
+امروز یکشنبه، ساعت ۷:۳۰ تا ۸:۳۰ شب به وقت امارات. اول هفته کاری است و مردم بعد از کار گوشی را چک می‌کنند؛ و خبر نمایشگاه هنوز تازه است.
+Today, Sunday, 7:30-8:30 pm UAE time. It's the start of the work week, people check their phones after work, and the fair news is still fresh.
 اگر Insights اکانت ساعت دیگری را نشان می‌دهد، همان را انتخاب کن.
 If your account Insights show a different peak hour, use that one.
 
@@ -222,6 +224,6 @@ If your account Insights show a different peak hour, use that one.
 
 ### کامنت پین / Pinned comment
 ```
-Frieze Sculpture on Mamsha Beach opens tomorrow. Which artist are you most curious to see?
+Frieze Sculpture on Mamsha Beach opens 16 November. Which artist are you most curious to see?
 ```
-فارسی: «فریز اسکالپچر در ساحل ممشا فردا باز می‌شود. کنجکاو دیدن کار کدام هنرمند هستی؟»
+فارسی: «فریز اسکالپچر از ۱۶ نوامبر در ساحل ممشا باز می‌شود. کنجکاو دیدن کار کدام هنرمند هستی؟»

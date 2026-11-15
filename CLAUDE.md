@@ -43,6 +43,10 @@ content in skincare work.
 - Every video (skincare and art) comes with a voiceover script for ElevenLabs:
   timed line by line to the video's scenes, ready to paste (with <break time="0.5s" /> pauses),
   plus suggested ElevenLabs settings and how to lay it over the music in CapCut.
+- Never use relative dates (tomorrow, today, tonight, next week) in captions, voiceovers or on-screen
+  text: always write the date ("16 November"). Posts are often published a day later.
+- The voiceover script is short (about 2.5 words per second of video), separate from the caption,
+  and spells hard names phonetically so ElevenLabs says them right.
 - Background music must be engaging, with a beat the cuts follow (art reels: art-reels/tools/music.py).
 
 ## Skill routing (choose automatically, combine freely)
