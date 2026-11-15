@@ -40,6 +40,10 @@ content in skincare work.
 - Prompts in English. Persian text and the @shadibeautyy watermark are added in CapCut, never in prompts.
 - Write an English ASMR sound line for every shot.
 - Story: feel the problem, then the calm and pleasure of the product, then the invitation to order.
+- Every video (skincare and art) comes with a voiceover script for ElevenLabs:
+  timed line by line to the video's scenes, ready to paste (with <break time="0.5s" /> pauses),
+  plus suggested ElevenLabs settings and how to lay it over the music in CapCut.
+- Background music must be engaging, with a beat the cuts follow (art reels: art-reels/tools/music.py).
 
 ## Skill routing (choose automatically, combine freely)
 
