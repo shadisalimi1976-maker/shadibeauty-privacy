@@ -41,6 +41,17 @@ content in skincare work.
 - Write an English ASMR sound line for every shot.
 - Story: feel the problem, then the calm and pleasure of the product, then the invitation to order.
 
+## Where the video files are (her laptop)
+
+Her video work lives on the laptop Desktop in the folder `AI Video EDdit`.
+Inside it: `raw footage`, and inside that one folder per topic (for example `hair`).
+For a video job, go Desktop > `AI Video EDdit` > `raw footage` > topic folder and take
+both things from there: the raw clips to edit AND the reference video to copy the
+style from. Study the reference frame by frame first, then build her video in that
+style with enough changes that the two are not identical.
+A cloud session cannot open this folder; if it is not reachable, ask her to upload
+the clips and the reference into the chat.
+
 ## Skill routing (choose automatically, combine freely)
 
 | Request | Skills to use |
