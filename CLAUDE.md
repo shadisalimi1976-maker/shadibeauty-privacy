@@ -47,6 +47,12 @@ content in skincare work.
   text: always write the date ("16 November"). Posts are often published a day later.
 - The voiceover script is short (about 2.5 words per second of video), separate from the caption,
   and spells hard names phonetically so ElevenLabs says them right.
+- Art posts: tag every institution, gallery and artist mentioned with their real Instagram handle,
+  both in the caption (@handle next to the name) and with "Tag people" on the post. Verify each
+  handle from the institution's own website (look for its instagram.com link); never guess one.
+  Known: @louvreabudhabi, @abudhabicf (Cultural Foundation), @bassamfreihaartfoundation,
+  @sharjahart, @tashkeelstudio, @lawrieshabibi, @thenationalnews.
+- Hashtags: 5 max (Instagram limit): specific to the story (event, venue, city), 3 English + 2 Arabic for art posts.
 - Background music must be engaging, with a beat the cuts follow (art reels: art-reels/tools/music.py).
 
 ## Skill routing (choose automatically, combine freely)
