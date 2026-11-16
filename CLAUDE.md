@@ -7,7 +7,7 @@ skills yourself from the request and combine them. Do not ask which skill to use
 
 | | Skincare | Art |
 |---|---|---|
-| Brand | Instagram @shadibeautyy, sells skincare products | Instagram @artdxb1975 (Shadi Art): daily UAE art news reels, gallery work, Les Sens |
+| Brand | Instagram @shadibeautyy, sells skincare products | Instagram @art_rada_dxb (Shadi Art): daily UAE art news reels, gallery work, Les Sens |
 | Tone | warm, personal, emotional, her face on camera | professional, curatorial, art-world |
 | Audience | women who follow her for her face and her skin routine | collectors, buyers, gallerists, curators, art lovers |
 
@@ -58,7 +58,7 @@ content in skincare work.
 | Ads | `ads` + `ad-creative` |
 | Influencers / collabs | `influencer-marketing` + `co-marketing` |
 | Long content to cut into reels | `ig-repurpose` |
-| Art news reels (@artdxb1975) | `ig-reel` + `social` + `content-strategy` + `ig-caption` (art tone; skincare video rules above do not apply; no @shadibeautyy watermark) |
+| Art news reels (@art_rada_dxb) | `ig-reel` + `social` + `content-strategy` + `ig-caption` (art tone; skincare video rules above do not apply; no @shadibeautyy watermark) |
 | Art gallery work | `les-sens-art-scout`, `public-relations`, `events`, `competitor-profiling` (art tone, never skincare) |
 
 Always run final text through `ig-human` so it does not sound like AI.
