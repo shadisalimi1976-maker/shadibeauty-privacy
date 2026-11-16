@@ -28,6 +28,11 @@ content in skincare work.
    her, they don't replace her.
 4. Mix social media know-how (hooks, formats, posting) with the psychology, and
    think in series, not one-off posts.
+5. **Script style Shadi wants (her correction, Nov 2026):** teach, then sell. Name the
+   skin problem directly (e.g. open pores), explain in plain words what it is and why it
+   happens, name the ingredients that help (e.g. niacinamide, glycolic acid) and what each
+   does, then "if you want this, here is the product". Not poetic or self-love lines.
+   Keep claims true: say "looks smaller / cleaner", not "cures" or "closes".
 
 ## Video and reel production rules
 
