@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Magnesium claims reel</title>
+<style>
+@font-face{font-family:Vazir;font-weight:500;src:url(vazirmatn-arabic-500-normal.woff2)}
+@font-face{font-family:Vazir;font-weight:700;src:url(vazirmatn-arabic-700-normal.woff2)}
+@font-face{font-family:Vazir;font-weight:900;src:url(vazirmatn-arabic-900-normal.woff2)}
+html,body{margin:0;background:#000}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#ead9d6;font-family:Vazir,sans-serif}
+svg{position:absolute;left:0;top:0}
+text{font-family:Vazir,sans-serif;fill:#161616;direction:rtl}
+.ov{position:absolute;left:0;right:0;text-align:center;opacity:0}
+.pill{display:inline-block;padding:18px 40px 22px;border-radius:26px;font-weight:900;line-height:1.35}
+#hook .pill{background:#1f3fae;color:#fff;font-size:60px;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+#tag .pill{background:#ffe27a;color:#161616;font-size:38px;font-weight:700;padding:10px 30px 14px}
+#end1 .pill{background:#1f3fae;color:#fff;font-size:58px}
+#end2 .pill{background:#ffe27a;color:#161616;font-size:54px}
+#wm{position:absolute;left:0;right:0;bottom:44px;text-align:center;font:700 34px Arial,sans-serif;color:#161616;opacity:.45;direction:ltr}
+</style>
+</head>
+<body>
+<div id="stage">
+<svg id="world" width="1080" height="1920" viewBox="940 -40 720 1280">
+  <defs>
+    <filter id="sh" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="14" stdDeviation="18" flood-opacity=".18"/></filter>
+    <filter id="psh" x="-20%" y="-50%" width="140%" height="250%"><feDropShadow dx="-14" dy="22" stdDeviation="12" flood-opacity=".25"/></filter>
+  </defs>
+  <rect x="60" y="80" width="1680" height="2260" rx="6" fill="#fbfcfd" filter="url(#sh)"/>
+  <g id="content"></g>
+  <g id="ink" fill="none" stroke="#2747b8" stroke-linecap="round" stroke-linejoin="round" opacity=".93"></g>
+  <g id="pen" filter="url(#psh)">
+    <g transform="rotate(38)">
+      <polygon points="0,0 46,-13 46,13" fill="#1b3391"/>
+      <rect x="44" y="-19" width="90" height="38" rx="6" fill="#15171c"/>
+      <rect x="130" y="-30" width="560" height="60" rx="12" fill="#2f55cf"/>
+      <rect x="130" y="-22" width="560" height="12" rx="6" fill="#7f9bf0" opacity=".7"/>
+      <rect x="150" y="6" width="520" height="16" rx="6" fill="#1b3391" opacity=".55"/>
+      <rect x="680" y="-33" width="520" height="66" rx="12" fill="#15171c"/>
+      <rect x="680" y="-24" width="520" height="10" rx="5" fill="#555a66" opacity=".7"/>
+    </g>
+  </g>
+</svg>
+<div id="hook" class="ov" style="top:120px"><span class="pill">هر علامتی یعنی<br>باید منیزیم بخوری؟</span></div>
+<div id="tag" class="ov" style="top:110px"><span class="pill">ادعای یک ویدیوی پربازدید</span></div>
+<div id="end1" class="ov" style="top:150px"><span class="pill">این‌ها ادعای ویدیوست<br>نه تشخیص، نه نسخه</span></div>
+<div id="end2" class="ov" style="top:1610px"><span class="pill">قبل از هر مکملی<br>با پزشکت مشورت کن</span></div>
+<div id="wm">@shadibeautyy</div>
+</div>
+<script>
+const NS='http://www.w3.org/2000/svg';
+const $=id=>document.getElementById(id);
+const content=$('content'), ink=$('ink');
+function el(tag,attrs,parent,txt){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;(parent||content).appendChild(e);return e;}
+
+const ROWY=i=>620+i*300;
+const rows=[
+ {sym:['افتادگی سینه'],sub:'منیزیم سیترات'},
+ {sym:['بوی ناخوشایند','ناحیهٔ تناسلی'],sub:'زینک'},
+ {sym:['نفخ شکم'],sub:'منیزیم کربنات'},
+ {sym:['خواب ناآرام'],sub:'منیزیم گلیسینات'},
+ {sym:['کندی هضم'],sub:'منیزیم اکسید'},
+ {sym:['گرفتگی عضلات'],sub:'منیزیم مالات'},
+];
+const S='stroke="#161616" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"';
+const Y='#f7dc86';
+const icons=[
+ // bust
+ `<path d="M-62-95C-40-80-78-30-70 10C-66 40-60 60-64 95M62-95C40-80 78-30 70 10C66 40 60 60 64 95" fill="none" ${S}/>
+  <path d="M-58-22C-58-52-8-52-6-22C-6 4-58 6-58-22ZM58-22C58-52 8-52 6-22C6 4 58 6 58-22Z" fill="${Y}" ${S}/>`,
+ // flower + scent waves
+ `<path d="M0 30V96M0 70C-14 52-34 54-40 62C-30 76-12 78 0 70" fill="none" ${S}/>
+  <path d="M-46-22C-48 44 48 44 46-22L22 6L0-30L-22 6Z" fill="${Y}" ${S}/>
+  <path d="M-34-52c-10-10 10-18 0-28s10-18 0-26M0-58c-10-10 10-18 0-28s10-18 0-26M34-52c-10-10 10-18 0-28s10-18 0-26" fill="none" ${S}/>`,
+ // belly
+ `<path d="M-58-95C-50-60-84-10-80 30C-78 60-66 76-66 95M58-95C50-60 84-10 80 30C78 60 66 76 66 95" fill="none" ${S}/>
+  <ellipse cx="0" cy="18" rx="56" ry="50" fill="${Y}" ${S}/><path d="M0 26v12" ${S}/>`,
+ // sleep
+ `<path d="M-66 10C-90-80 50-90 46-6C70 20 66 78 40 88" fill="none" ${S}/>
+  <circle cx="-8" cy="22" r="58" fill="${Y}" ${S}/>
+  <path d="M-36 14q10 10 20 0M4 14q10 10 20 0M-16 50q8-8 18 0" fill="none" ${S}/>
+  <path d="M52-58h22l-22 26h22M84-96h16l-16 20h16" fill="none" ${S}/>`,
+ // digestion
+ `<path d="M-62-95C-54-60-80-10-76 30C-74 60-66 76-66 95M62-95C54-60 80-10 76 30C74 60 66 76 66 95" fill="none" ${S}/>
+  <path d="M-36-22H36V8H-36V38H36V66H0" fill="none" stroke="#161616" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M-36-22H36V8H-36V38H36V66H0" fill="none" stroke="${Y}" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>`,
+ // leg cramp
+ `<path d="M-30-98C-44-40-34 10-24 52L-58 80C-66 90-60 98-48 98H26C40 98 42 86 36 72L30 52C50 0 44-50 34-98" fill="#fff" ${S}/>
+  <ellipse cx="8" cy="-28" rx="17" ry="46" fill="${Y}" stroke="none"/>
+  <path d="M64-60l22-10M70-30h24M64 0l22 10" fill="none" ${S}/>`,
+];
+
+// headers
+el('text',{x:1640,y:300,'font-size':62,'font-weight':900},null,'اگر این علامت رو داری…');
+el('text',{x:450,y:255,'font-size':66,'font-weight':900,'text-anchor':'middle'},null,'ویدیو چه مکملی');
+el('text',{x:450,y:345,'font-size':66,'font-weight':900,'text-anchor':'middle'},null,'پیشنهاد می‌کنه؟');
+const subBox=[];
+rows.forEach((r,i)=>{
+  const y=ROWY(i);
+  const g=el('g',{transform:`translate(1520 ${y})`}); g.innerHTML=icons[i];
+  if(r.sym.length==1) el('text',{x:1370,y:y+20,'font-size':58,'font-weight':700},null,r.sym[0]);
+  else {el('text',{x:1370,y:y-18,'font-size':54,'font-weight':700},null,r.sym[0]);el('text',{x:1370,y:y+52,'font-size':54,'font-weight':700},null,r.sym[1]);}
+  el('path',{d:`M890 ${y}H800M826 ${y-20}L800 ${y}L826 ${y+20}`,fill:'none',stroke:'#f0c64a','stroke-width':7,'stroke-linecap':'round','stroke-linejoin':'round'});
+  const t=el('text',{x:450,y:y+20,'font-size':62,'font-weight':700,'text-anchor':'middle'},null,r.sub);
+  subBox.push(t);
+});
+
+// ---------- strokes ----------
+const strokes=[];
+function wob(i){return Math.sin(i*12.9898)*0.5+0.5;}
+function ellipse(cx,cy,rx,ry,seed){ // hand-drawn loop with overshoot
+  let d='';const n=70,a0=-2.2+wob(seed)*0.5,span=Math.PI*2+0.75;
+  for(let k=0;k<=n;k++){const u=k/n,a=a0+u*span,g=1+0.07*(u-0.5)+0.025*Math.sin(u*9+seed);
+    const x=cx+Math.cos(a)*rx*g,y=cy+Math.sin(a)*ry*g;d+=(k?'L':'M')+x.toFixed(1)+' '+y.toFixed(1);}
+  return d;}
+function uline(x1,x2,y,seed){ // drawn right-to-left (Persian)
+  const m=(x1+x2)/2,b=8*(wob(seed)-0.3);
+  return `M${x1} ${y}Q${m} ${y+b+10} ${x2} ${y+b-4}`;}
+function add(t0,t1,d,w){strokes.push({t0,t1,d,w:w||10});}
+
+let cam=[];
+const R=940,L=190,SC=1.5;
+const ry=i=>ROWY(i)-560;
+function setup(){
+  add(0.35,1.5,uline(1650,985,335,1));
+  add(2.65,3.7,uline(730,170,385,2));
+  cam.push([0,R,-40,SC],[2.0,R,-40,SC],[2.55,L,-40,SC],[3.72,L,-40,SC],[4.1,R,ry(0),SC]);
+  rows.forEach((r,i)=>{
+    const T=4+3.5*i,y=ROWY(i);
+    add(T+0.15,T+0.95,ellipse(1520,y,128,122,i+3));
+    const lb=content.querySelectorAll('text'); // label extents
+    const two=r.sym.length==2;
+    add(T+1.03,T+1.45,uline(1375,two?960:1010,y+(two?82:50),i+9));
+    const bb=subBox[i].getBBox();
+    if(i==0) add(T+2.12,T+2.95,uline(bb.x+bb.width+20,bb.x-20,y+52,i+20));
+    else if(i==1){add(T+2.12,T+2.7,ellipse(450,y,bb.width/2+55,62,i+20));add(T+2.75,T+3.0,`M${bb.x-110} ${y-5}L${bb.x-85} ${y+30}L${bb.x-45} ${y-55}`);}
+    else add(T+2.12,T+2.95,ellipse(450,y,bb.width/2+45,62,i+20));
+    cam.push([T+1.5,R,ry(i),SC],[T+2.05,L,ry(i),SC],[T+3.05,L,ry(i),SC]);
+    if(i<5) cam.push([T+3.5,R,ry(i+1),SC]);
+  });
+  cam.push([25.1,L,ry(5),SC],[26.3,-40,-380,1080/1800],[32,-10,-354,1080/1760]);
+  add(26.7,27.7,'M1030 1150C1030 980 730 980 730 1170C730 1330 880 1330 880 1520',22);
+  add(27.85,28.1,'M880 1650a10 10 0 1 0 .1 0',30);
+  strokes.forEach(s=>{s.p=el('path',{d:s.d,'stroke-width':s.w},ink);s.len=s.p.getTotalLength();s.p.setAttribute('stroke-dasharray',s.len+' '+s.len);});
+}
+const ease=u=>u<0?0:u>1?1:u*u*(3-2*u);
+function camAt(t){
+  let a=cam[0],b=cam[cam.length-1];
+  for(let k=0;k<cam.length-1;k++){if(t>=cam[k][0]&&t<=cam[k+1][0]){a=cam[k];b=cam[k+1];break;}}
+  if(t<=cam[0][0])b=a; if(t>=b[0])a=b;
+  const u=a===b?0:ease((t-a[0])/(b[0]-a[0]));
+  return [a[1]+(b[1]-a[1])*u,a[2]+(b[2]-a[2])*u,a[3]+(b[3]-a[3])*u];
+}
+function fade(t,a,b,d){d=d||0.25;return Math.max(0,Math.min(1,(t-a)/d,(b-t)/d));}
+function render(t){
+  let [x,y,s]=camAt(t);
+  x+=3*Math.sin(t*1.3)+1.5*Math.sin(t*3.1); y+=4*Math.sin(t*1.1+1)+1.5*Math.sin(t*2.7);
+  $('world').setAttribute('viewBox',`${x} ${y} ${1080/s} ${1920/s}`);
+  // ink + pen
+  let tip=null,prev=null,next=null;
+  for(const st of strokes){
+    const u=(t-st.t0)/(st.t1-st.t0),p=u<=0?0:u>=1?1:(u*(2-u)*0.6+u*0.4);
+    st.p.setAttribute('stroke-dashoffset',st.len*(1-p));
+    st.p.style.visibility=u<=0?'hidden':'visible';
+    if(u>0&&u<1) tip=st.p.getPointAtLength(st.len*p);
+    if(u>=1) prev=st; if(u<=0&&!next) next=st;
+  }
+  if(!tip){
+    const off=(pt)=>({x:pt.x+520,y:pt.y+620});
+    const pe=prev?prev.p.getPointAtLength(prev.len):null, ns=next?next.p.getPointAtLength(0):null;
+    if(pe&&ns){const u=ease((t-prev.t1)/(next.t0-prev.t1));const lift=Math.sin(u*Math.PI)*40;
+      tip={x:pe.x+(ns.x-pe.x)*u+lift,y:pe.y+(ns.y-pe.y)*u+lift*0.4};}
+    else if(ns){const u=ease((t-(next.t0-0.35))/0.35),o=off(ns);tip={x:o.x+(ns.x-o.x)*u,y:o.y+(ns.y-o.y)*u};}
+    else {const u=ease((t-prev.t1)/0.9),o={x:pe.x+1500,y:pe.y+1700};tip={x:pe.x+(o.x-pe.x)*u,y:pe.y+(o.y-pe.y)*u};}
+  }
+  $('pen').setAttribute('transform',`translate(${tip.x.toFixed(1)} ${tip.y.toFixed(1)})`);
+  $('hook').style.opacity=fade(t,0.0,4.0,0.2)*(t<0.2?1:1); if(t<0.25)$('hook').style.opacity=1;
+  $('tag').style.opacity=fade(t,4.2,25.2);
+  $('end1').style.opacity=fade(t,25.9,40,0.4);
+  $('end2').style.opacity=fade(t,28.3,40,0.4);
+}
+document.fonts.ready.then(()=>{setup();render(0);window.ready=true;});
+</script>
+</body>
+</html>
